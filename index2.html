@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+    <title>Login</title>
+</head>
+<body class="bg-gradient bg-dark">
+  <div class="loginform bg-gradient bg-dark">
+    <img src="assets\Black-bg-Gold-Logo_cropped1-removebg-preview.png" alt="ORCUS logo" srcset="">
+    <h1 class="mb-3">Login</h1>
+    <form class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="validationUser" style="color: #fbbe15;" class="form-label"> User ID/ e-mail</label>
+            <input type="text" id="validationUser" class="form-control" required>
+            <div class="invalid-feedback">
+                Invalid user!   
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="validationPassword" style="color: #fbbe15;" class="form-label">Password</label>
+            <input id="validationPassword" type="password" class="form-control" required>
+            <div class="invalid-feedback">
+                Incorrect password!   
+            </div>
+        </div>
+        <a class="forgotpassword" href="" data-bs-target="#forgot-password-req" data-bs-toggle="modal">Forgot password?</a>
+        <br><br>
+        <button type="button" class="btn loginbtn mb-3">Login</button>
+        <span>Don't have an account? <a href="" data-bs-toggle="modal" data-bs-target="#create-account"> Create account</a></span>
+        <br><br>
+     </form>
+  </div>  
+  <!-- Modal new user/ create account -->
+  <div class="modal fade" id="create-account" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog mdoal-lg modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title"><i class="fas fa-user-plus"></i> Create Account</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+              </div>
+              <div class="modal-body">
+                  <form class="needs-validation">
+                    <label for="" class="form-label">First Name</label>
+                    <input required class="form-control form-control-lg mb-3" type="text" placeholder="Shourya" aria-label="">
+                    <label for="" class="form-label">Last Name</label>
+                    <input required class="form-control form-control-lg mb-3" type="text" placeholder="Bairathi" aria-label="">
+                    <label for="" class="form-label"><i class="fas fa-birthday-cake"></i> Date of Birth</label>
+                    <input required class="form-control form-control-lg mb-3" type="text" placeholder="mm/dd/yyyy" onfocus="(this.type='date')" aria-label="">
+                    <label for="" class="form-label"><i class="fas fa-industry"></i> Workshop ID</label>
+                    <input required class="form-control form-control-lg mb-3" type="number" placeholder="1234 xxxx 5678" aria-label="">
+                    <label for="" class="form-label"><i class="fas fa-industry"></i> Employee ID</label>
+                    <input required class="form-control form-control-lg mb-3" type="number" placeholder="1234 xxxx 5678" aria-label="">
+                    <label for="" class="form-label"><i class="fas fa-mobile-alt"></i> Contact Number</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">+91</span>
+                        <input type="number" class="form-control" placeholder="9876543210" aria-label="" aria-describedby="">
+                    </div>
+                    <label for="" class="form-label"><i class="fas fa-envelope"></i> e-mail</label>
+                    <input required class="form-control form-control-lg mb-3" type="email" placeholder="user@example.com" aria-label="">
+                    <label for="" class="form-label"><i class="fas fa-key"></i> Password</label>
+                    <input required class="form-control form-control-lg mb-3" type="password" placeholder="****************" aria-label="">
+                    <label for="" class="form-label"><i class="fas fa-key"></i> Confirm Password</label>
+                    <input required class="form-control form-control-lg mb-3" type="password" placeholder="****************" aria-label="">
+                   <div class="itemdescription mb-3">
+                     <label for="message-text" class="col-form-label"><i class="fas fa-comment"></i> Message</label>
+                     <textarea class="form-control" id="message-text"></textarea>
+                   </div>
+                   <div>
+                    <input class="form-check-input" type="checkbox" value="" id="t&c-check">
+                    <label class="form-check-label" for="t&c-check">
+                      I agree to all the <a href="#">terms and conditions</a>
+                    </label>
+                 </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary submitbtn" data-bs-dismiss="modal">Submit</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="modal fade" id="forgot-password-req" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog mdoal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-unlock-alt"></i> Reset password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <span>You will recieve yoour password details on ypur registered e-mail ID</span>
+                <label for="" class="form-label"><i class="fas fa-envelope"></i> e-mail</label>
+                <input required class="form-control form-control-lg mb-3" type="email" placeholder="user@example.com" aria-label="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary submitbtn" data-bs-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- <script src="bootstrap-5.0.0-beta2-dist/js/bootstrap.bundle.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" 
+    integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" 
+    crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+     integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" 
+     crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <script src="bootstrap-5.0.0-beta2-dist/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+<style>
+    body{
+        width: 100%;
+        height: 100%;
+        background-size: 200% 200%;
+        animation: gradient 20s ease infinite;
+        overflow-y: hidden;
+    }
+    @keyframes gradient {
+        0%{
+            background-position: 0% 50%;
+        }       
+        50%{
+            background-position: 100% 0%;
+        }       
+        100%{
+            background-position: 0% 50%;
+        }      
+        150%{
+            background-position: 0% 50%;
+        }      
+        200%{
+            background-position: 100% 50%;
+        }       
+    }
+  </style>
+</html>
