@@ -1,0 +1,3819 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <!-- for production -->
+        <link rel="stylesheet" type="text/css" href="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Fcommonstyles.css?alt=media&token=d51867a1-9f00-4f5a-9c9e-630db97054ab"/>
+        <!-- for local -->
+        <!-- <link rel="stylesheet" type="text/css" href="./commonstyles.css"> -->
+
+        <!-- for local development -->
+        <script src="common.js"></script>
+        <!-- for production -->
+        <!-- <script src="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Fcommon.js?alt=media&token=6dc6c1af-e542-47bf-be33-a53dae858494"></script> -->
+        <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+        <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+        <!-- <script src="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Fservice-layer.js?alt=media&token=50818057-52fa-4c7e-b28b-efd29f03b991"></script> -->
+        <title>
+          TECHNICIAN
+        </title>
+    </head>
+    <div class="modal reportmodal modal-dialog-scrollable" id="alert-modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-dark bg-gradient">
+            <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i> Alert</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="alert-modal-text">
+    
+          </div>
+    
+      </div>
+    </div>
+    </div>
+    
+    <div id="loader"></div>
+ <!-- ########################## Top Navigation bar ##########################  -->
+       <div class="header">
+       <div class="topnav">
+          <nav class="navbar sticky-top navbar-expand-lg">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><img src="assets/logo.png" alt="ORCUS logo"></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i> 
+              </button>
+              <div class="collapse navbar-collapse tab-" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link"  aria-current="page" href="#"><i class="fas fa-user-alt"></i></a>
+                    <li class="nav-item">
+                      <a onclick="logout()" class="nav-link logoutr" href="#">LOGOUT</a>
+                      </li> 
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div> 
+
+
+<!-- ###################################### technician home ###################################### -->
+<br>
+<div class="technician_home" id="technician_home">
+  <div class="technicianboard bg-dark bg-gradient">
+    <div class="returncard">
+      <div class="returnhead">
+        <h3>Return Tools</h3>
+    </div>
+    <div class="returnbody">
+      <div class="srchreturn d-flex">
+        <input class="form-control sm-2 tsrch justify-content-start" type="search" placeholder="Search" aria-label="Search">
+        <button type="button" id="#returnalltoolsBtn" class="btn returnall justify-content-end"><i class="fas fa-hand-holding"></i> Return all</button>
+      </div>
+      <ul class="list-group returnlist " id="issued-table">
+        <li class="list-group-item returnitem">
+        tool #1
+        <button type="button" class="return btn" data-bs-toggle="modal" data-bs-target="#reportreturn" ><i class="fas fa-hand-holding"></i> Return</button>
+        </li>
+        <li class="list-group-item returnitem">
+         Tool #2 
+         <button type="button" class="return btn" data-bs-toggle="modal" data-bs-target="#reportreturn"><i class="fas fa-hand-holding"></i> Return</button>
+        </li>
+        <li class="list-group-item returnitem">
+          Material #1
+          <button type="button" class="return btn" data-bs-toggle="modal" data-bs-target="#reportandreturnmaterial"><i class="fas fa-hand-holding"></i> Return</button>
+        </li> 
+       </ul>
+       <div id="no-issued-div"
+        style="border-radius: 3vw;margin: 3vw; height: 6vh;background-color: darkgray;color: black; display: none;justify-content: center;align-items: center;">
+        <strong>You have returned all your issued tools.</strong> </div>
+      </div>
+     </div>
+    </div>
+    <div class="notificationcard">
+      <div class="notificationhead"><h3>Notifications</h3></div>
+      <div class="notificationbody">
+        <div class="srchnotification d-flex">
+          <input class="form-control sm-2 tsrch justify-content-start" type="search" placeholder="Search" aria-label="Search">
+          <button type="button" class="btn clearall justify-content-end">Clear all <i class="fas fa-trash"></i></button>
+        </div>
+        <ul class="list-group notificationlist">
+           <li class="list-group-item notificationitem">
+            your tool #1 was repaired
+            <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+            </button>
+           </li>
+            <li class="list-group-item notificationitem">
+            you reported Tool #2 missing
+            <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+              </button>
+            </li>
+              
+            <li class="list-group-item notificationitem">
+              return all the tools before closing
+              <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+              </li> 
+            <li class="list-group-item notificationitem">
+                Tool #5 
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+            </li>
+            <li class="list-group-item notificationitem">
+              your tool #1 was repaired
+              <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+              </button>
+             </li>
+              <li class="list-group-item notificationitem">
+              you reported Tool #2 missing
+              <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </button>
+              </li>
+                
+              <li class="list-group-item notificationitem">
+                return all the tools before closing
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </li> 
+              <li class="list-group-item notificationitem">
+                  Tool #5 
+                  <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+              </li>
+
+              <li class="list-group-item notificationitem">
+                your tool #1 was repaired
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </button>
+               </li>
+                <li class="list-group-item notificationitem">
+                you reported Tool #2 missing
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                  </button>
+                </li>
+                  
+                <li class="list-group-item notificationitem">
+                  return all the tools before closing
+                  <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                  </li> 
+                <li class="list-group-item notificationitem">
+                    Tool #5 
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </li>
+                <li class="list-group-item notificationitem">
+                  your tool #1 was repaired
+                  <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                  </button>
+                 </li>
+                  <li class="list-group-item notificationitem">
+                  you reported Tool #2 missing
+                  <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                    </button>
+                  </li>
+                    
+                  <li class="list-group-item notificationitem">
+                    return all the tools before closing
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                    </li> 
+                  <li class="list-group-item notificationitem">
+                      Tool #5 
+                      <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                  </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<hr>
+<div class="d-flex justify-content-around technicianbuttons bg-dark bg-gradient" role="group">
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#techinventory"><i class="fas fa-tools"></i> Inventory</button>
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#techmytoolbox"><i class="fas fa-toolbox"></i> My Toolbox</button>
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#techissuehist"><i class="fas fa-history"></i> Issue History</button>
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#techinspection"><i class="fas fa-clipboard-list"></i> Inspection</button>
+</div>
+</div>  
+<!-- ######################################## Modals ######################################## -->
+<!-- Modal Technician inventory -->
+<div class="modal fade" id="techinventory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen-xxl-down">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient bg-dark">
+        <h5 class="modal-title" id="staticBackdropLabel"><i class="fas fa-tools"></i> Inventory </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <!-- ########################## Secondary Nav ########################## -->
+         <br>
+         <div class="topnav2"> 
+           <div class="navbar navbar-expand-lg bg-dark">
+             <div class="container-fluid justify-content-around">
+               <ul class="nav nav-tabs">
+                 <li class="nav-item" role="presentation">
+                   <a class="nav-link active" data-bs-target="#alltoolstechnician" data-bs-toggle="tab" type="button" role="tab" aria-controls="alltoolstechnician" aria-selected="true" >All</a>
+                 </li>
+                 <li class="nav-item" role="presentation">
+                   <a class="nav-link" data-bs-target="#toolstechnician" data-bs-toggle="tab" type="button" role="tab" aria-controls="toolsstechnician" aria-selected="false" >Tools</a>
+                 </li>
+                 <li class="nav-item" role="presentation">
+                   <a class="nav-link" data-bs-target="#equipmenttechnician" data-bs-toggle="tab" type="button" role="tab" aria-controls="equipmenttechnician" aria-selected="false" >Equipment</a>
+                 </li>
+                 <li class="nav-item" role="presentation">
+                   <a class="nav-link" data-bs-target="#materialtechnician" data-bs-toggle="tab" type="button" role="tab" aria-controls="materialtechnician" aria-selected="false">Materials</a>
+                 </li>
+               </ul>
+           </div>
+         </div>
+         </div>
+         <br>        
+         
+         <!-- ########################## Inventory tables ########################## -->
+            <div class="tab-content" id="technicianinventorytables">
+              <!-- ############# All Tools and Equipment table ############# -->
+              <div class="tab-pane fade show active" id="alltoolstechnician">
+              <div class="bg-gradient bg-dark"><h3>Tools and Equipment</h3>
+              <h5 class="bg-dark bg-gradient">(Materials not included)</h5>
+              </div>
+              <div class="tsrch">
+              <form class="d-flex bg-dark bg-gradient">
+                <input id="alltools-search" onkeyup="executeSearchAllTools()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+                <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('all-tools-table', 1)">Export</button>
+              </form>
+              </div>
+              <div class="table-responsive ">  
+              <table class="table"  id="all-tools-table">
+              <thead class="table-dark align-middle">
+              <tr>
+              <!-- <th scope="col">#</th> -->
+              <th scope="col">Code</th>
+              <th scope="col">Name</th>
+              <th scope="col">Status</th>
+              <th scope="col">Location</th>
+              <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              <td>asdf</td>
+              <td>hfhfg</td>
+              <td>hfghfghf</td>
+              <td>hfghfghf</td>
+              <td>
+                <div class="btn-group mr-1 bgr" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn-secondary reportbtn" data-bs-toggle="modal" data-bs-target="#report" title="Report item"><i class="far fa-flag"></i><span class="btnref"> Report</span></button>
+                  <button type="button" class="btn btn-secondary recordsbtn" data-bs-toggle="modal" data-bs-target="#indivisiualrecords" title="Repair records" title="Repair records"><i class="fas fa-file-medical-alt"></i><span class="btnref"> Records</span></button>
+                  <button type="button" class="btn btn-secondary infobtn" title="info"><i class="fas fa-info-circle"></i></i><span class="btnref"> Info</span></button>
+                </div>
+              </td> 
+              </tr>
+              </tbody>
+              </table>
+              </div>    
+              </div>
+              <!-- ############# Tools table ############# -->
+              <div class="tab-pane fade" id="toolstechnician">
+              <h3 class="bg-dark bg-gradient">Tools</h3>
+              <div class="tsrch">
+              <form class="d-flex bg-dark bg-gradient">
+                <input id="tools-search" onkeyup="executeSearchTools()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+                <button type="button" class="xbtn bg-gradient bg-dark" onclick="exportAsPDF('only-tools-table' , 1)">Export</button>
+                </form>
+              </div>
+              <div class="table-responsive ">  
+              <table class="table" id="only-tools-table">
+              <thead class="table-dark align-middle">
+              <tr>
+                <!-- <th scope="col">#</th> -->
+                <th scope="col">Tool Code</th>
+                <th scope="col">Tool Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Location</th>
+                <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              <td>asdf</td>
+              <td>hfhfg</td>
+              <td>hfghfghf</td>
+              <td>hfghfghf</td>
+              <td>
+                <div class="btn-group mr-1 bgr" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn-secondary reportbtn" data-bs-toggle="modal" data-bs-target="#report" title="Report item"><i class="far fa-flag"></i><span class="btnref"> Report</span></button>
+                  <button type="button" class="btn btn-secondary recordsbtn" data-bs-toggle="modal" data-bs-target="#indivisiualrecords" title="Repair records" title="Repair records"><i class="fas fa-file-medical-alt"></i><span class="btnref"> Records</span></button>
+                  <button type="button" class="btn btn-secondary infobtn" title="info"><i class="fas fa-info-circle"></i></i><span class="btnref"> Info</span></button>
+                </div>
+              </td> 
+              </tr>
+              </tbody>
+              </table>
+              </div>
+              </div>   
+              <!-- Material ############# Equipment table ############# --> 
+              <div class="tab-pane fade" id="equipmenttechnician">
+              <h3 class="bg-gradient bg-dark">Equipment</h3>
+              <div class="tsrch">
+              <form class="d-flex bg-dark bg-gradient">
+                <input  id="equipment-search" onkeyup="executeSearchEquipment()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+                <button type="button" class="xbtn bg-gradient bg-dark" onclick="exportAsPDF('only-equipment-table',1)">Export</button>
+                </form>
+              </div>
+              <div class="table-responsive ">  
+              <table class="table" id="only-equipment-table">
+              <thead class="table-dark align-middle">
+              <tr>
+              <th scope="col">Equipment Code</th>
+              <th scope="col">Equipment Name</th>
+              <th scope="col">Status</th>
+              <th scope="col">Location</th>
+              <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              <td>2 POST/PRECESION/SF/ BAY03</td>
+              <td>2 POST LIFT</td>
+              <td><i class="fas fa-hourglass-half statusmaintenance"></i> Under Maintenance</td>
+              <td>Service Floor -SF</td>
+              <td>
+              <div class="btn-group mr-1 bgr" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-secondary reportbtn" data-bs-toggle="modal" data-bs-target="#report" title="Report item"><i class="far fa-flag"></i><span class="btnref"> Report</span></button>
+                <button type="button" class="btn btn-secondary recordsbtn" data-bs-toggle="modal" data-bs-target="#indivisiualrecords" title="Repair records" title="Repair records"><i class="fas fa-file-medical-alt"></i><span class="btnref"> Records</span></button>
+                <button type="button" class="btn btn-secondary infobtn" title="info"><i class="fas fa-info-circle"></i></i><span class="btnref"> Info</span></button>
+              </div>
+              </td> 
+              </tr>
+              </tbody>
+              </table>
+              </div>     
+              </div>
+              <!-- ############# Materials table ############# --> 
+              <div class="tab-pane fade" id="materialtechnician">
+              <h3 class="bg-dark bg-gradient">Materials</h3>
+              <div class="tsrch">
+                <form class="d-flex bg-dark bg-gradient">
+                  <input  id="material-search" onkeyup="executeSearchMaterials()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+                  <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('only-materials-table',1)">Export</button>
+                </form>
+              </div>
+              <div class="table-responsive ">  
+              <table class="table" id="only-materials-table">
+              <thead class="table-dark align-middle">
+              <tr>
+              <th scope="col">Material Code</th>
+              <th scope="col">Material Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Status</th>
+              <th scope="col">Location</th>
+              <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              <td>asdf</td>
+              <td>hfhfg</td>
+              <td>100</td>
+              <td>hfghfghf</td>
+              <td>hfghfghf</td>
+              <td>
+              <div class="btn-group mr-1 bgr" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-secondary reportbtn" data-bs-toggle="modal" data-bs-target="#report"  title="Report item"><i class="far fa-flag"></i><span class="btnref"> Report</span></button>
+                <button type="button" class="btn btn-secondary recordsbtn" data-bs-toggle="modal" data-bs-target="#indivisiualrecords" title="Repair records" title="Repair records"><i class="fas fa-file-medical-alt"></i><span class="btnref"> Records</span></button>
+                <button type="button" class="btn btn-secondary infobtn" title="info"><i class="fas fa-info-circle"></i></i><span class="btnref"> Info</span></button>
+              </div>
+              </td> 
+              </tr>
+              </tbody>
+              </table>
+              </div>     
+              </div>
+            </div> 
+         </div>  
+         <div class="modal-footer bg-dark bg-gradient">
+        <button type="button" class="btn cartbtn" data-bs-toggle="modal" data-bs-target="#cart"><i class="fas fa-shopping-cart"></i></button>
+      </div>
+    </div>
+  </div>
+  <!-- <script>
+    openTab('issuerrequestpage');
+    openTab2('allTools');
+  </script> -->
+</div>
+
+<!-- ################################################CART MODAL################################################# -->
+<div class="modal cart" id="cart" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient">
+        <h5 class="modal-title"><i class="fas fa-shopping-cart"></i> Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group cartlist">
+          <li class="list-group-item cartitem">
+           Tool #1
+           <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+           </button>
+          </li>
+           <li class="list-group-item cartitem">
+           Material #1            <span class="cartmaterialqty">30 ml</span>
+           <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+             </button>
+           </li>
+           <li class="list-group-item cartitem">
+             Tool #3
+             <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+             </li> 
+           <li class="list-group-item cartitem">
+               Tool #4
+               <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+           </li>
+        </ul>
+      </div>
+      <div class="modal-footer bg-gradient bg-dark">
+        <button type="button" class="btn clearall" data-bs-dismiss="modal">Clear All <i class="fas fa-trash"></i></button>
+        <button type="button" class="btn request"><i class="fas fa-bolt"></i> Request</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<!-- ####################################### Technician my toolbox ################################## -->
+<div class="modal fade" id="techmytoolbox" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient bg-dark">
+        <h5 class="modal-title" id="staticBackdropLabel"><i class="fas fa-toolbox"></i> My Toolbox</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <!-- ########################## My Toolbox technician tables ########################## -->
+         <div class="techn-mytoolbox">
+          <div class="tsrch">
+           <form class="d-flex bg-dark bg-gradient">
+            <input id="toolbox-search" onkeyup="executeSearchToolbox()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+           </form>
+          </div>
+          <div class="pgheading"><h5 id="employee-name-toolbox"></h5>
+          </div>
+          <div class="table-responsive ">  
+           <table class="table" id="toolbox-table">
+            <thead class="table-dark align-middle">
+              <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Status</th>
+                <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="toolbox-tbody">
+              
+            </tbody>
+            </table>
+         </div>    
+        </div> 
+        <div id="no-data-div-toolbox">Your Toolbox Is Empty</div>
+         </div>
+         <div class="modal-footer bg-dark bg-gradient">
+          <button type="button" class="btn surrenderbtns"><i class="fa fa-question"></i> <span class="btnref"> Toolbox missing</span></button>  
+          <button type="button" class="btn surrenderbtns"><i class="fas fa-undo-alt"></i><span class="btnref"> Surrender All</span></button>
+          <button type="button" class="btn surrenderbtns" onclick="exportAsPDF('toolbox-table',1)">Export</button>
+      </div>
+    </div>
+  </div>
+</div>  
+<!-- ####################################### Technician Issue Hostory ################################## -->
+<div class="modal fade" id="techissuehist" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient bg-dark">
+        <h5 class="modal-title" id="staticBackdropLabel"><i class="fas fa-history"></i> Issue History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="techn-issue-hist">
+          <div class="tsrch">
+           <form class="d-flex bg-dark bg-gradient">
+            <input id="issue-history-search" onkeyup="executeSearchIssueHistory()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+           </form>
+          </div>
+          <div class="pgheading"><h5  id="employee-name-history"></h5>
+          </div>
+          <div class="table-responsive ">  
+           <table class="table" id="issue-table">
+            <thead class="table-dark align-middle">
+              <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Approved By</th>
+                <th scope="col">Issued at</th>
+                <th scope="col">returned at</th>
+                <th scope="col">Return Status</th>
+              </tr>
+            </thead>
+            <tbody id="issue-history-tbody">
+              <tr>
+                <td>3337/2</td>
+                <td>Oper ring spanner set</td>
+                <td>Shourya Bairathi</td>
+                <td>3/5/2021, 1:18:31 AM</td>
+                <td>3/5/2021, 9:17:53 PM</td>
+                <td><i class="fas fa-times statusdamaged"></i> damaged</td>
+              </tr>
+            </tbody>
+            </table>
+         </div>    
+        </div> 
+      </div>
+      <div class="modal-footer bg-dark bg-gradient">
+        <button type="button" class="btn exportbutton" onclick="exportAsPDF('issue-table',1)">Export</button>
+       </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- ####################################### Technician Inspection ################################## -->
+<div class="modal fade technician_inspection" id="techinspection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen-xxl-down">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient bg-dark">
+        <h5 class="modal-title" id="staticBackdropLabel"><i class="fas fa-clipboard-list"></i> Inspection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="technicianinspboard">
+        <div class="insppanel">
+              <!-- ################## MONTH YEAR SELECTION ################## -->
+          <form action="" class="inspdtls bg-dark bg-gradient">
+            <div class="dtddm">
+            <select id="month" class="form-select form-select-sm" onchange="checklistDataModal()" aria-label=".form-select-sm" aria-placeholder="Month" onfocus="(this.type='select')" >
+                <optgroup class="filter-options bg-gradient bg-dark" label="Month:">
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                <optgroup>
+                </select>
+              <select id="year" onchange="checklistDataModal()" class="form-select form-select-sm filterIn" aria-label=".form-select-sm example"> 
+                <optgroup class="filter-options bg-gradient bg-dark" label="Year:">
+                  <option value="2020">2020</option>   
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                </optgroup>
+              </select>
+          </div>
+          </form>
+              <!-- ################## LEGEND TABLE ################## -->
+          <div class="table-responsive">
+            <table class="table bg-dark bg-gradient legend">
+              <thead class="table-dark align-middle">
+                <tr><th colspan="2">LEGEND</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><i class="fas fa-square" style="color:#00ff00 ;"></i> OK</td>
+                  <td><i class="fas fa-square" style="color: #ff0000;"></i> Damaged</td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-square" style="color:#ff9900;"></i> Partially Damaged</td>
+                  <td><i class="fas fa-square" style="color: #fbbe15;"></i> Missing</td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-square" style="color: #ff0066;"></i> Holiday</td>
+                  <td><i class="fas fa-square" style="color: #999966;"></i> NA</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>   
+        </div>  
+        <br>    
+<!-- ##########################Technician Details######################## -->
+    <div class="tchinspdetails">
+      <!-- ##########################Technician Details######################## -->
+    <div class="table-responsive">
+      <table class="table inspID">
+        <thead class="table-dark align-middle">
+          <tr><th colspan="2">Hand-tools Inspection Report</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name:</td>
+            <td><u><b> Pavan Chopra (24)</b></u></td>
+          </tr>
+          <tr>
+            <td>Company</td>
+            <td><u><b>Saisha Motors Pvt. Ltd.</b></u></td>
+          </tr>
+          <tr>
+            <td>Month-year</td>
+            <td id="month-year"><b><u>February 2021</u></b></td>
+          </tr>
+          <tr><td colspan="2"><b>Filters:</b> <strike>holidays</strike><strike> Reports</strike></td>
+          </tr>
+        </tbody>
+      </table>
+    </div> 
+        <!-- #################### Filter buttons vertical####################--> 
+        <div class="btngrpvertical justify-content-evenly" role="group" aria-label="Basic checkbox toggle button group">
+          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+          <label class="btn btn-outline-dark" for="btncheck1">Hide Holidays</label>
+        
+          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+          <label class="btn btn-outline-dark" for="btncheck2"> Show Reports</label>
+        </div>
+    </div>
+  </div>
+    <!-- #################### Inspection sheet ####################-->
+    <div class="table-responsive" id="inspectionsheet">  
+    <table class="table" id="checklist-data-table">
+      <thead class="table-dark align-middle">
+        <tr>
+          <th scope="col" class="insptool">Tools</th>
+          <th scope="col" class="inspDay">01</th>
+          <th scope="col" class="inspDay">02</th>
+          <th scope="col" class="inspDay">03</th>
+          <th scope="col" class="inspDay">04</th>
+          <th scope="col" class="inspDay">05</th>
+          <th scope="col" class="inspDay">06</th>
+          <th scope="col" class="inspDay">07</th>
+          <th scope="col" class="inspDay">08</th>
+          <th scope="col" class="inspDay">09</th>
+          <th scope="col" class="inspDay">10</th>
+          <th scope="col" class="inspDay">11</th>
+          <th scope="col" class="inspDay">12</th>
+          <th scope="col" class="inspDay">13</th>
+          <th scope="col" class="inspDay">14</th>
+          <th scope="col" class="inspDay">15</th>
+          <th scope="col" class="inspDay">16</th>
+          <th scope="col" class="inspDay">17</th>
+          <th scope="col" class="inspDay">18</th>
+          <th scope="col" class="inspDay">19</th>
+          <th scope="col" class="inspDay">20</th>
+          <th scope="col" class="inspDay">21</th>
+          <th scope="col" class="inspDay">22</th>
+          <th scope="col" class="inspDay">23</th>
+          <th scope="col" class="inspDay">24</th>
+          <th scope="col" class="inspDay">25</th>
+          <th scope="col" class="inspDay">26</th>
+          <th scope="col" class="inspDay">27</th>
+          <th scope="col" class="inspDay">28</th>
+          <th id="29" scope="col" class="inspDay">29</th>
+          <th id="30" scope="col" class="inspDay">30</th>
+          <th id="31" scope="col" class="inspDay">31</th>
+        </tr>
+      </thead>
+      <tbody id="checklist-data-tbody">
+        <tr>
+          <td class="insptoolname">Tool#1</td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td> 
+        </tr>
+        <tr>
+          <td class="insptoolname">Tool#2</td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+          <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td> </td> 
+      </tr>
+      </tbody>
+    </table>
+    </div>    
+    <br>
+    <!-- #################### Hand Tools (Reports INSPECTION PAGE) ####################-->
+    <div class="table-responsive">  
+  <table id="hand-tools-report" class="table">
+    <thead class="table table-dark">
+      <tr>
+        <th scope="col">Tool Name</th>
+        <th scope="col">Tool Code</th>
+        <th scope="col">Cause</th>
+        <th scope="col">Remarks</th>
+        <th scope="col">Report time</th>
+        <th scope="col">Resolve time</th>
+        <th scope="col">action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td>1</td>
+      <td>Thrust plate</td> 
+      <td>3074/1</td>
+      <td><i class="fas fa-skull-crossbones statusdamaged"></i> damaged</td>
+      <td>1/25/2021, 1:25:14 PM</td>
+      <td>1/25/2021, 2:16:55 PM</td>
+      <td><i class="fas fa-thumbs-up statusok"></i> OK</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Thrust plate</td> 
+        <td>3074/1</td>
+        <td><i class="fas fa-skull-crossbones statusdamaged"></i> damaged</td>
+        <td>1/25/2021, 1:25:14 PM</td>
+        <td>1/25/2021, 2:16:55 PM</td>
+        <td><i class="fas fa-thumbs-up statusok"></i> OK</td>
+        </tr>
+    </tbody>
+  </table>
+  </div>  
+      </div>
+      <div class="modal-footer bg-dark bg-gradient">
+        <button type="button" class="btn exportbutton" onclick="exportAsPDF('hand-tools-report',1)">Export</button>
+      </div>
+    </div>
+  </div>
+</div>  
+<!--######################## Report general #############################  -->
+<div class="modal reportmodal modal-dialog-scrollable" id="report-modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient">
+        <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i> Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- write command " checked " for default! -->
+        <div class="btn-group-vertical reportbtngrp" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="damaged-nf" autocomplete="off"> 
+          <label class="btn btn-outline-danger" for="damaged-nf"><i class="fas fa-times"></i> Damage</label>
+        
+          <input type="radio" class="btn-check" name="btnradio" id="damaged-functional" autocomplete="off">
+          <label class="btn btn-outline-danger" for="damaged-functional"><i class="fas fa-exclamation"></i> Partially damaged</label>
+        
+          <input type="radio" class="btn-check" name="btnradio" id="missing" autocomplete="off">
+          <label class="btn btn-outline-danger" for="missing"><i class="fas fa-question"></i> Missing</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="missing-bf" autocomplete="off">
+          <label class="btn btn-outline-danger" id="missing-bf-text" for="missing-bf"><i class="fas fa-question-circle"></i> incomplete kit</label>
+        </div>
+        <label id="child-text"> Select the parts of the kit that have been damaged : </label><br>
+        <table id="child-part-table" class="table is-bordered is-striped is-hoverable">
+          <thead>
+            <tr>
+
+              <th> Part Name </th>
+              <th> Missing </th>
+              <th> Damaged </th>
+              <th> Broken </th>
+            </tr>
+          </thead>
+
+          <tbody id="report-child-parts-tbody"></tbody>
+        </table>
+        <!-- <label> Write the report below (Please include the cause of action ) : </label><br>
+          <textarea id="report-text" name="txt_comments" rows="10" cols="70"></textarea>
+          <br> -->
+      </div>
+      <div class="reportcmt mb-3">
+        <label for="report-text" class="col-form-label"><i class="far fa-comment"></i> Comment: <span style="color:#ff0000; font-size:smaller">(optional)</label>
+        <textarea class="form-control" id="report-text"></textarea>
+      </div>
+      <div class="modal-footer bg-gradient bg-dark">
+        <button type="button" class="btn submitreportbtn" id="submit-report-button"><i class="far fa-flag"></i> Report</button>
+        <button type="button" class="btn cancelbtn" data-bs-dismiss="modal"> <i class="fa fa-times"></i> Cancel</button>
+        <button onclick="closeReportModal()">Dismiss</button>
+      </div>
+    </div>
+  </div>
+    </div>
+        <!-- #################### Report and return Modal ####################--> 
+        <div class="modal reportreturnmodal" id="reportorreturn">
+          <div class="modal-dialog modal-dialog-scrollable ">
+            <div class="modal-content">
+              <div class="modal-header bg-dark bg-gradient">
+                <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i> Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p style="font-weight: 700;">
+                  Are you sure?<br>
+                  Item will be ruturned with status "OK"<br>
+                  Press "Report and Return" to return with damage
+                </p>
+              </div>
+              <div class="modal-footer bg-gradient bg-dark justify-content-md-end">
+                <button id="modal-report-button" type="button" class="btn submitreportbtn" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportandreturn"><i class="far fa-flag"></i> Report and Return</button>
+                <button id="modal-return-button" type="button" data-bs-dismiss="modal" class="btn return"><i class="fas fa-hand-holding"></i> Return</button>
+                <button type="button" class="btn cancelbtn" data-bs-dismiss="modal"> <i class="fa fa-times"></i> Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+            <!-- #################### Report Modal for return tools ####################-->
+    <div class="modal reportmodal modal-dialog-scrollable" id="reportandreturn" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-dark bg-gradient">
+            <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i>Report</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- write command " checked " for default! -->
+            <div class="btn-group-vertical reportbtngrp" role="group" aria-label="Basic radio toggle button group">
+               <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" > 
+              <label class="btn btn-outline-danger" for="btnradio5"><i class="fas fa-skull-crossbones "></i> Damage</label>
+            
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+              <label class="btn btn-outline-danger" for="btnradio6"><i class="fas fa-exclamation-triangle"></i> Partially damaged</label>
+            
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+              <label class="btn btn-outline-danger" for="btnradio7"><i class="fas fa-question"></i> Missing</label>
+
+              <input type="radio" class="btn-check" name="btnradio" id="btnradio8" autocomplete="off">
+              <label class="btn btn-outline-danger" for="btnradio8"><i class="fas fa-question-circle"></i> incomplete kit</label>
+            </div>
+          </div>
+          <div class="reportcmt mb-3">
+            <label for="message-text" class="col-form-label"><i class="far fa-comment"></i> Comment: <span style="color:#ff0000; font-size:smaller">(optional)</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+          <div class="modal-footer bg-gradient bg-dark">
+            <button id="return-report-button" type="button" class="btn submitreportbtn"><i class="far fa-flag"></i> Report</button>
+            <button type="button" class="btn cancelbtn" data-bs-dismiss="modal"> <i class="fa fa-times"></i> Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #################### Report Modal for return Material ####################-->
+    <div class="modal reportmodal modal-dialog-scrollable" id="reportandreturnmaterial" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-dark bg-gradient">
+            <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i>Report</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="return-mtrl-qty">
+             <input required type="number" min="0" step="1" class="form-control" placeholder="enter Return Quantity" aria-label="Return quantity">
+             <span class="input-group-text bg-gradient bg-dark materialunit">(Unit)</span>
+            </div> 
+            <p><b>Enter '0' if issued quantity of the material is completely consumed.</b></p>
+          </div>
+          <div class="reportcmt mb-3">
+            <label for="message-text" class="col-form-label"><i class="far fa-comment"></i> Comment: <span style="color:#ff0000; font-size:smaller">(optional)</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+          <div class="modal-footer bg-gradient bg-dark">
+            <button type="button" class="btn return"><i class="fas fa-hand-holding"></i> Return</button>
+            <button type="button" class="btn cancelbtn" data-bs-dismiss="modal"> <i class="fa fa-times"></i> Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+  <!-- #######################Indivisiual records ##############################-->
+  <div class="modal fade indivisualrecords" id="indivisiualrecords" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header bg-gradient bg-dark">
+          <h5 class="modal-title" id="staticBackdropLabel"><i class="fas fa-file-medical-alt"></i> Repair Records</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+              <div class="repair-records">
+                <div class="pgheading"><h5>(3337/2) Oper ring spanner set</h5>
+                </div>
+                <div class="table-responsive ">  
+                 <table class="table">
+                  <thead class="table-dark align-middle">
+                    <tr>
+                      <th scope="col">Employee (ID)</th>
+                      <th scope="col">Cause</th>
+                      <th scope="col">Comments</th>
+                      <th scope="col">Report time</th>
+                      <th scope="col">Resolve time</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Naivedya Jain (46)</td>
+                      <td><i class="fas fa-skull-crossbones statusdamaged"></i> damaged</td>
+                      <td>Broken while using</td>
+                      <td>3/5/2021, 1:18:31 AM</td>
+                      <td>3/5/2021, 9:17:53 PM</td>
+                      <td><i class="fas fa-thumbs-up statusok"></i> OK</td>
+                    </tr>
+                  </tbody>
+                  </table>
+               </div>    
+              </div> 
+        </div>
+        <div class="modal-footer bg-dark bg-gradient">
+            <button type="button" class="btn exportbutton" onclick="exportAsPDF('record-table',1)">Export</button>
+        </div>
+      </div> 
+    </div>
+  </div>
+<!-- ######################################## Tool ptofile/ info ######################################## -->
+<div class="modal iteminfo" id="item-info" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient">
+        <h5><i class="fas fa-info-circle"></i></i> info </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <!-- item pictures -->
+          <div class="itempictures">
+          
+          </div>
+          <!-- item data -->
+          <div class="itemdata">
+            <div> <h6 id="info-tool"> Thurst Plate (VG 3074/1) </h6> 
+              <span class="badge badgeavailable"><i class="fas fa-check"></i><span class="btnref"> Available</span></span>
+              <button type="button" class="btn bg-dark bg-gradient downloadbtn" title="Download Inspection Sheet"><i class="fas fa-tasks"></i><span class="btnref"> Inspection checklist</span></button>
+            </div>
+            <p id="info-tooldescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley</p>
+            <div class="itemdatatables"> 
+              <div class="itemgeneralinfo">
+                <div class="table-responsive">
+                  <table class="table table-borderless table-striped">
+                    <thead class="table-dark bg-dark bg-gradient align-middle ">
+                      <tr>
+                        <th colspan="2" scope="col">General Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Item Name</th>
+                        <td id="info-toolname">NA</td>
+                      </tr>
+                      <tr>
+                        <th>Item Code</th>
+                        <td id="info-toolcode">NA</td>
+                      </tr>
+                      <tr>
+                        <th>Item Brand/Specification</th>
+                        <td id="info-toolspec">NA</td>
+                      </tr>
+                      <tr>
+                        <th>Item Type</th>
+                        <td id="info-tooltype">Hand Tool|Special Tool|Hand Toolkit|Special Toolkit|Equipment|Material</td>
+                      </tr>
+                      <tr>
+                        <th>Item Cost</th>
+                        <td id="info-toolcost">NA</td>
+                      </tr>
+                      <tr>
+                        <th>Date of Purchase</th>
+                        <td id="info-tooldop">NA</td>
+                      </tr>
+                      <tr>
+                        <th>Quantity Available</th>
+                        <td id="info-toolquantity">NA</td>
+                      </tr>
+                      <tr>
+                        <th>Location</th>
+                        <td id="info-toollocation"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="childpartstableinfo">
+                <div class="table-responsive childtablehide">
+                  <table class="table table-borderless table-striped">
+                    <thead class="table-dark bg-dark bg-gradient align-middle ">
+                      <tr>
+                        <th colspan="3" scope="col">Kit Parts</th>
+                      </tr>
+                      <tr>
+                        <th>#</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr>
+                     <td>1</td>
+                     <td>WD32/1</td>
+                     <td>NAME1</td>
+                    </tr>
+                     <tr>
+                       <td>2</td>
+                       <td>WD32/2</td>
+                       <td>NAME2</td>
+                    </tr>
+                     <tr>
+                       <td>3</td>
+                       <td>WD32/3</td>
+                       <td>NAME3</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class = "nochildrendiv"></div>
+              </div>
+              <div class="maintenanceinfo">
+                <div class="table-responsive maintenanceTableHide">
+                  <table class="table table-borderless table-striped">
+                    <thead class="table-dark bg-dark bg-gradient align-middle ">
+                      <tr>
+                        <th colspan="2" scope="col">Maintenance Details<button type="button" class="btn bg-dark bg-gradient newmtnplanbtn" title="New Maintenance-Plan"><i class="fas fa-file-alt"></i><span class="btnref"> New Plan</span></button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Company</th>
+                        <td id="maintenance-company">Firm 1</td>
+                      </tr>
+                      <tr>
+                        <th>Company Contact</th>
+                        <td id="maintenance-contact">0141-2552557</td>
+                      </tr>
+                      <tr>
+                        <th>Service person</th>
+                        <td id="maintenance-man">Thop Singh</td>
+                      </tr>
+                      <tr>
+                        <th>Service Person Contact</th>
+                        <td id="maintenance-mobile">9914173314</td>
+                      </tr>
+                      <tr>
+                        <th>Maintenance-Plan Cost</th>
+                        <td id="maintenance-cost">6000 $</td>
+                      </tr>
+                      <tr>
+                        <th>Last Maintenance Date</th>
+                        <td id="last-maintenance-date">6000 $</td>
+                      </tr>
+                      <tr>
+                        <th>Maintenance Frequency</th>
+                        <td id="maintenance-frequency">6000 $</td>
+                      </tr>
+                      <tr>
+                        <th>Maintenance Period</th>
+                        <td id="maintenance-period">16 Mar 2021<span> <b>to</b> </span>16 Mar 2022</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="maintenance-inspection-sheet">Tool Inspection Sheet: <b>Not Found</b></div>
+                <div class = "noMaintenanceDiv"></div>
+              </div>
+            </div>    
+          </div>
+      </div>
+      <div class="modal-footer bg-dark bg-gradient">
+
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- ############################################### Indivisual records ####################################### -->
+
+      <div class="modal fade individualrecord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="false">
+      <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+              <div class="modal-header bg-gradient bg-dark">
+                  <h5 class="modal-title" id="staticBackdropLabel">Repair Records</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+                <div class="modal-body">
+                <div class="table-responsive ">  
+                  <table class="table" id="record-table">
+                  <thead class="table-dark align-middle">
+                    <tr>
+                      <th scope="col">Employee (ID)</th>
+                      <th scope="col">Cause</th>
+                      <th scope="col">Comments</th>
+                      <th scope="col">Report time</th>
+                      <th scope="col">Resolve time</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="record-tbody">
+                  </tbody>
+                  </table>
+                </div>    
+                <div id="no-record-div" class="collapse in">No Records Found</div>
+              </div> 
+            </div>    
+              <div class="modal-footer bg-gradient bg-dark">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+<!-- ######################################## Alerts ######################################## -->
+<!-- Operation successful -->
+<!-- <div class="alert alert-success" role="alert">
+  <i class="fas fa-check"></i> Operation successful!
+</div> -->
+<!-- Report submitted -->
+<!-- <div class="alert alert-danger" role="alert">
+  <i class="fas fa-check"></i> Report Submitted!
+</div> -->
+<!-- Tool is already issued to <Name> <ID>-->
+<!-- <div class="alert alert-warning" role="alert">
+<i class="fa fa-exclamation"></i> Tool is already issued to Naivedya Jain (46)
+</div> -->
+<!-- Requested item unavailabel -->
+<!-- <div class="alert alert-danger" role="alert">
+  <i class="fa fa-times"></i> Requested item UNAVAILABLE
+  </div> -->
+<!-- already reported -->
+<!-- <div class="alert alert-warning" role="alert">
+  <i class="fa fa-exclamation"></i> Report invalid
+  </div> -->
+<!-- sure Prompt -->
+<!-- <div class="alert alert-warning align-self-sm" role="alert">
+  <i class="fa fa-exclamation"></i> Are you sure
+  <hr style="background-color: #fbbe15;">
+  <div class="alertbutton">
+    <button type="button" class="btn btn-outline-danger">No</button>
+    <button type="button" class="btn btn-outline-warning">Yes</button>
+  </div>
+  </div>
+  <div class="dropdown"> -->
+  <!-- return all issued tools -->
+  <!-- <div class="alert alert-success alert-dismissible center" id="returnalltoolsAlert" role="alert">
+    <h2 class="alert-heading"><i class="fa fa-exclamation"></i> return all issued tools</h2>
+    <hr>
+    <ul>
+      <li>Materials will NOT be returned.</li>
+      <li>Status will be logged OK by default</li>
+    </ul>
+    <hr style="background-color: #fbbe15;">
+    <div class="alertbutton">
+      <button type="button" class=" close btn btn-outline-secondary" data-bs-dismiss="alert">No</button>
+      <button type="button" class="close btn btn-outline-success" data-bs-dismiss="alert">Yes</button>
+    </div>
+    </div> -->
+
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" 
+    integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" 
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+     integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" 
+     crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="bootstrap-5.0.0-beta2-dist/js/bootstrap.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+<script>
+
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCUNP_dv1qbi2QuH7_pcZbGqZ4X1Y478bk",
+    authDomain: "orcus-fb184.firebaseapp.com",
+    projectId: "orcus-fb184",
+    storageBucket: "orcus-fb184.appspot.com",
+    messagingSenderId: "132406151963",
+    appId: "1:132406151963:web:e9ca6e55052fdaa8aba1be",
+    measurementId: "G-3NXM7BB3GL"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+</body>
+
+<script>
+  document.onkeydown = manageShortcuts;
+  const Store = require('electron-store');
+  const store = new Store();
+  // uncomment this for local service layer
+  const { ipcRenderer } = require('electron');
+  const { remote } = require('electron');
+  const electron = require('electron');
+  const BrowserWindow = electron.remote.BrowserWindow;
+  var connectorClass = require("./service-layer.js");
+  var cc = new connectorClass();
+  var emp_id = store.get('Emp ID');
+  var currentUser = null;
+  var toolAllotted = 0;
+  var mywindow = 0;
+  var moment = require('moment-timezone');
+  var workshop_id;
+  var workshopDetails;
+  // var company_id;
+  const { dialog } = require('electron').remote;
+
+
+  initiateSetup();
+
+  async function initiateSetup() {
+    var currentEmp = store.get('Emp ID');
+    var allTools;
+    try {
+      currentUser = await cc.getUserDetailsFromEmpID(currentEmp);
+      cc.closeConnection();
+      //console.log(currentUser);
+    }
+    catch {
+      alert1("Error in fetching your details! Please try again.");
+      console.log("Error in fetching your details! Please try again.");
+    }
+    workshop_id = currentUser[0]["Workshop ID"];
+    try {
+      workshopDetails = await cc.getWorkshopDetails(workshop_id);
+      cc.closeConnection();
+    }
+    catch{
+      alert1("Error in fetching the workshop details! Please try again.");
+      console.log("Error in getWorkshopDetails! Please try again.");
+    }
+
+    // company_id = workshopDetails[0]["Company ID"];
+    // document.getElementById("cid-display").innerHTML = company_id;      
+    // document.getElementById("wid-display").innerHTML = workshop_id;
+    store.set("email", currentUser[0]["Email"]);
+    // document.getElementById("welcome").innerHTML = "Welcome " + currentUser[0]["Last Name"] + ", " + currentUser[0]["First Name"];
+
+    var toolspending = await cc.getIssuedTools(emp_id, workshop_id);
+    // cc.closeConnection();
+    if (toolspending.length != 0) {
+      // document.getElementById("return-tools-button").classList.remove("is-dark");
+      // document.getElementById("return-tools-button").classList.add("is-danger");
+      // document.getElementById("isPendingReturn").innerHTML = toolspending.length;
+      // document.getElementById("isPendingReturn").hidden = false;
+      document.getElementById("issued-table").innerHTML = '';
+      document.getElementById("loader").hidden = true;
+    if (toolspending.length == 0) {
+      console.log("...");
+      document.getElementById("no-data-div").style.display = "flex";
+    }
+    var fname = currentUser[0]["First Name"];
+    var lname = currentUser[0]["Last Name"];
+    console.log(toolspending);
+    toolspending.forEach(dataRow => {
+      var createdElement = createRowForReturnTable(dataRow);
+      if (createdElement) {
+        //document.getElementsByTagName("tbody")[0].appendChild(createdElement);
+        document.getElementById("issued-table").appendChild(createRowForReturnTable(dataRow));
+      }
+    })
+    }
+    else {
+      document.getElementById("issued-table").innerHTML = '';
+      document.getElementById("no-issued-div").style.display = "flex";
+    }
+
+
+    try {
+      allTools = await cc.getAllTools(workshop_id);
+      cc.closeConnection();
+      allTechnicians = await cc.getAllTechnicians(workshop_id);
+      cc.closeConnection();
+    }
+    catch {
+      alert1("Error in fetching your details! Please try again.");
+      console.log("Error in getAllTools or getAllTechnicians! Please try again.");
+    }
+    document.getElementById("all-tools-table").getElementsByTagName("tbody")[0].innerHTML = '';
+    document.getElementById("only-tools-table").getElementsByTagName("tbody")[0].innerHTML = '';
+    document.getElementById("only-equipment-table").getElementsByTagName("tbody")[0].innerHTML = '';
+    document.getElementById("only-materials-table").getElementsByTagName("tbody")[0].innerHTML = '';
+    allTools.forEach(dataRow => {
+          var createdElement = createRowForAllToolsTable(dataRow);
+          if (createdElement) {
+            document.getElementById("all-tools-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+          }
+        })
+        allTools.forEach(dataRow => {
+          if (dataRow["Permanent"] == '0') {
+            var createdElement = createRowForToolsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("only-tools-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+          else if (dataRow["Permanent"] == '2' || dataRow["Permanent"] == '3') {
+            var createdElement = createRowForToolsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("only-equipment-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+          else if (dataRow["Permanent"] == '5' || dataRow["Permanent"] == '6') {
+            var createdElement = createRowForToolsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("only-materials-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+        })
+
+    // for (var i = 0; i < allTools.length; i++) {
+    //   if (allTools[i]["Permanent"] == 1 && allTools[i]["Part Of Kit"] == null && allTools[i]["Allocated To"] == currentEmp) {
+    //     var isKitItems = await cc.getChildParts(allTools[i]["Tool Code"], workshop_id);
+    //     // var x = await createRowForChecklist(allTools[i]);
+    //     if (isKitItems.length == 0) {
+    //       document.getElementById("checklist-tbody").appendChild(createRowForChecklist(allTools[i]));
+    //       toolAllotted = 1;
+    //       document.getElementById("checklist-table").removeAttribute("hidden");
+    //     }
+    //     else if (isKitItems.length != 0) {
+    //       document.getElementById("checklist-kit-tbody").appendChild(createRowForChecklistKit(allTools[i]));
+    //       toolAllotted = 1;
+    //       document.getElementById("checklist-kit-table").removeAttribute("hidden");
+    //     }
+    //   }
+    // }
+
+    var x = moment();
+    m = x.format("MM");
+    y = x.format("YYYY");
+    document.getElementById("month").value = m;
+    document.getElementById("year").value = y;
+    checklistDataModal();
+
+    // if (lastLogin == y || toolAllotted == 0) {
+    //   console.log("dont open Checklist");
+    // }
+    // else {
+    //   document.getElementById("checklist-modal").className = "modal is-active";
+    //   console.log("open checklist");
+    // }
+    try {
+      var myTools = await cc.getMyTools(emp_id, workshop_id);
+      cc.closeConnection();
+    }
+    catch {
+      alert1("Error in fetching your details! Please check your internet connection.");
+      console.log("Error in getMyTools ! Please try again.");
+    }
+    // console.log(myTools);
+    document.getElementById("toolbox-table").getElementsByTagName("tbody")[0].innerHTML = ''; 
+    document.getElementById("employee-name-toolbox").innerHTML = currentUser[0]["First Name"] + " " + currentUser[0]["Last Name"] + " (" + currentUser[0]["Emp ID"] + ")";
+    document.getElementById("employee-name-history").innerHTML = currentUser[0]["First Name"] + " " + currentUser[0]["Last Name"] + " (" + currentUser[0]["Emp ID"] + ")";
+    for (var i = 0; i < myTools.length; i++) {
+      try {
+        var penReq = await cc.checkPendingSurrenderRequest(myTools[i]["Tool Code"], workshop_id);
+      }
+      catch {
+        alert1("Error in fetching your details! Please check your internet connection.");
+        console.log("Error in checkPendingSurrenderRequest ! Please try again.");
+      }
+      
+      if (penReq.length > 0) {
+        var createdElement = await createRowForToolboxTable(myTools[i], '0');
+      }
+      else {
+        var createdElement = await createRowForToolboxTable(myTools[i], '1');
+      }
+      document.getElementById("no-data-div-toolbox").style.display = "none";
+      if (createdElement) {
+        //document.getElementsByTagName("tbody")[0].appendChild(createdElement);
+        document.getElementById("toolbox-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+      }
+    }
+    if (myTools.length == 0) {
+      document.getElementById("no-data-div-toolbox").style.display = "flex";
+    }
+
+    try {
+      myIssueHistory = await cc.getIssueHistory(emp_id, workshop_id);
+      cc.closeConnection();
+    }
+    catch {
+      alert1("Error in fetching your details! Please try again.");
+      console.log("Error in getIssueHistory ! Please try again.");
+    }
+    document.getElementById("issue-history-tbody").innerHTML = '';
+    myIssueHistory.forEach(dataRow => {
+      document.getElementById("issue-history-tbody").appendChild(createRowForIssueHistoryTable(dataRow));
+    })
+    // data.forEach(dataRow => {
+    //   //console.log(dataRow);
+    //   var createdElement = createRowForToolInspection(dataRow);
+    //   if (createdElement) {
+    //     document.getElementById("checklist-data-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+    //   }
+    // });
+
+    lastLoginUpdate();
+    document.getElementById("loader").hidden = true;
+  }
+
+
+  // updating date in the current date h1 tag.
+  window.onload = setInterval(clock, 1000);
+  function clock() {
+    var d = new Date();
+    // setting date
+    var date = d.getDate();
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var monthArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    month = monthArr[month];
+    var dateString = date + " " + month + ", " + year;
+
+    // setting time
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    // console.log(minutes.toString());
+    // if(minutes.toString()[0] != '0' && minutes>=0 && minutes<=9){
+    //   minutes = '0'+ minutes;
+    // }
+    var seconds = d.getSeconds();
+    if (seconds >= 0 && seconds <= 9) {
+      seconds = '0' + seconds.toString();
+    }
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var timeString = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+
+
+
+
+    // document.getElementById("current-date").innerHTML = dateString;
+    // document.getElementById("current-time").innerHTML = timeString;
+  }
+  // document.getElementById("checklist-button").addEventListener("click", checklistModal);
+  // async function checklistModal() {
+  //   document.getElementById("checklist-modal").className = "modal is-active";
+  // }
+
+  function createRowForReturnTable(dataRow) {
+
+// if(dataRow["Permanent"]== "1" || dataRow["Part Of Kit"]!= null){
+//    return "";
+// }
+
+// <li class="list-group-item returnitem">
+//         tool #1
+//         <button type="button" class="return btn" data-bs-toggle="modal" data-bs-target="#reportreturn" ><i class="fas fa-hand-holding"></i> Return</button>
+//         </li>
+
+    listItem = document.createElement("li");
+    listItem.className = "list-group-item returnitem";
+    // listItem.innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"]; + ")";
+    
+    issuedtColumn = document.createElement("td");
+    issuedtColumn.className = "issuetime"
+    if (dataRow["Issue DateTime"]) {
+      issuedtColumn.innerHTML = new Date(dataRow["Issue DateTime"]).toLocaleString();
+    }
+    else {
+      issuedtColumn.innerHTML = "<b style='color: red;'>Pending</b>"
+    }
+
+    listItem.innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ")" + " : " + new Date(dataRow["Issue DateTime"]).toLocaleString();
+    console.log(listItem.innerHTML);
+    actionsColumn = document.createElement("td");
+    actionsColumn.className = "actions";
+    returnButton = document.createElement("button");
+    returnButton.className = "return btn";
+    // returnButton.className = "fas fa-hand-holding";
+    // returnButton.title = "Return";
+    returnButton.innerHTML = '<i class="fas fa-hand-holding"></i> Return';
+
+    returnButton.onclick = function (event) {
+      // max_quantity = event.target.parentElement.parentElement.getElementsByTagName("td")[3].innerHTML- event.target.parentElement.parentElement.getElementsByTagName("td")[4].innerHTML;
+      // console.log(max_quantity);
+      tool = $(this).parents("li")[0].innerHTML;
+      // event.target.parentElement.getElementsByTagName("li")[0];
+      console.log(tool);
+      var n1 = tool.lastIndexOf("(");
+      var n2 = tool.lastIndexOf(")");
+      var n3 = tool.indexOf(":");
+      var n4 = tool.indexOf("<");
+      selectedToolCode = tool.substring(n1+1,n2);
+    
+      // selectedToolCode = toolcode;
+      toolname = tool.substring(0,n1);
+      
+      issuedt = tool.substring(n3+1, n4);
+      console.log(issuedt);
+      //document.getElementById("return-quantity").max= max_quantity;
+      // document.getElementById("modal").className = "modal is-active";
+      var options = { backdrop: "static", keyboard: true, focus: true };
+          var returnModal = new bootstrap.Modal(document.getElementById("reportorreturn"), options)
+          returnModal.show();
+    }
+
+    // actionsColumn.appendChild(returnButton);
+
+    // tableRow.appendChild(empidColumn);
+    // tableRow.appendChild(toolcodeColumn);
+    // tableRow.appendChild(toolnameColumn);
+    // //tableRow.appendChild(iqtyColumn);
+    // //tableRow.appendChild(rqtyColumn);
+
+
+    // tableRow.appendChild(issuedtColumn);
+    // tableRow.appendChild(actionsColumn);
+    listItem.appendChild(returnButton);
+    return listItem;
+}
+
+
+  // document.getElementById("submit-month-button").addEventListener("click", checklistDataModal);
+  async function checklistDataModal() {
+    document.getElementById("checklist-data-table").hidden = false;
+    // document.getElementById("inspection-legend").hidden = false;
+    document.getElementById("checklist-data-tbody").innerHTML = "";
+    var e = document.getElementById("month");
+    var m = e.options[e.selectedIndex].value;
+    document.getElementById("month-year").innerHTML = e.options[e.selectedIndex].innerHTML;
+    e = document.getElementById("year"); 
+    var y = e.options[e.selectedIndex].text;
+    document.getElementById("month-year").innerHTML += " " + y;
+    if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
+      var rd = 31;
+      document.getElementById("29").hidden = false;
+      document.getElementById("30").hidden = false;
+      document.getElementById("31").hidden = false;
+    }
+    else if (m == 4 || m == 6 || m == 9 || m == 11) {
+      var rd = 30;
+      document.getElementById("29").hidden = false;
+      document.getElementById("30").hidden = false;
+      document.getElementById("31").hidden = true;
+    }
+    else if (m == 2 && y % 4 == 0 && (y % 100 != 0 || y % 400 == 0)) {
+      var rd = 29;
+      document.getElementById("29").hidden = false;
+      document.getElementById("30").hidden = true;
+      document.getElementById("31").hidden = true;
+    }
+    else if (m == 2 && y % 4 != 0) {
+      var rd = 28;
+      document.getElementById("29").hidden = true;
+      document.getElementById("30").hidden = true;
+      document.getElementById("31").hidden = true;
+    }
+    console.log(emp_id);
+    try {
+      data = await cc.getMyTools(emp_id, workshop_id);
+      cc.closeConnection();
+    }
+    catch {
+      alert1("Error in fetching your details! Please check your internet connection.");
+      console.log("Error in getMyTools ! Please try again.");
+    }
+    // console.log(data);
+    document.getElementById("checklist-data-table").getElementsByTagName("tbody")[0].innerHTML = '';
+    data.forEach(dataRow => {
+      // console.log(dataRow);
+      var createdElement = createRowForToolInspection(dataRow, rd);
+      if (createdElement) {
+        document.getElementById("checklist-data-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+      }
+    });
+    try {
+      totalRepairHistory = await cc.getRepairHistory(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please n.");
+          // cons
+        }
+        // console.log(totalRepairHistory);
+        document.getElementById("hand-tools-report").getElementsByTagName("tbody")[0].innerHTML = '';
+        for(i=0; i< totalRepairHistory.length;i++) {
+        // totalRepairHistory.forEach(dataRow => {
+        // console.log(totalRepairHistory[i]["Tool Code"]);
+        var tooldetails = await cc.getToolProfile(totalRepairHistory[i]["Tool Code"], workshop_id);
+        var permanent = 0;
+        if(tooldetails[0])
+            permanent = tooldetails[0]["Permanent"];
+        if(totalRepairHistory[i]["Emp ID"] == emp_id && permanent == 1)
+          document.getElementById("hand-tools-report").getElementsByTagName("tbody")[0].appendChild(createRowForRepairHistoryTable(totalRepairHistory[i]));
+        }
+    var startDate = y + "-" + m + "-01";
+    var currentDate = y + "-" + m;
+    m = parseInt(m) + 1;
+    if (parseInt(m) <= 9)
+      m = "0" + m;
+    var endDate = y + "-" + m + "-01";
+    // console.log(endDate);
+    var moment = require('moment-timezone');
+    var x = moment();
+    d = x.format("DD");
+    x = x.format("YYYY-MM-DD").toString();
+    for (var i = 0; i < data.length; i++) {
+      var dofp = moment(new Date(data[i]["Date of Allotment"]));
+      z = dofp.format("DD");
+      dofp = dofp.format("YYYY-MM-DD");
+      // console.log(z);
+      // console.log(endDate);
+      // <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+      if (endDate <= dofp) {
+        // console.log(endDate + " " + dofp);
+        for (var k = 0; k < rd; k++) {
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';
+        }
+      }
+      else if (dofp >= startDate) {
+        for (var k = 0; k < z; k++) {
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';        
+        }
+      }
+      if (x > startDate && x < endDate) {
+        // console.log(d + " " + rd);
+        for (var k = d; k < rd;) {
+          k++;
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';
+        }
+      }
+    }
+
+    if (x < startDate) {
+      for (var i = 0; i < data.length; i++) {
+
+        for (var k = 0; k < rd; k++) {
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';
+        }
+      }
+      return;
+    }
+    var sd = "2020-01-01";
+    var ed = "2030-01-01";
+    for (var i = 0; i < data.length; i++) {
+      var repairHistory = null;
+      try {
+        repairHistory = await cc.getRepairHistoryOfATool(data[i]["Tool Code"], sd, ed, workshop_id);
+      }
+      catch {
+        console.log("error in getRepairHistoryOfATool");
+      }
+      // console.log(repairHistory);
+      for (var j = 0; j < repairHistory.length; j++) {
+
+        var repdt = moment(new Date(repairHistory[j]["Report Datetime"]));
+        var d = repdt.format("DD");
+        repdt = repdt.format("YYYY-MM-DD");
+        var resdt = moment(new Date(repairHistory[j]["Resolve Datetime"]));
+        var resd = resdt.format("DD");
+        resdt = resdt.format("YYYY-MM-DD");
+        // console.log(repdt + " " + resdt);
+        if ((repdt > endDate) || (resdt && resdt < startDate && resdt > sd)) {
+          // console.log("not this month" + repdt + " " + endDate + " " + resdt + repairHistory[j]["Tool Name"]);
+          continue;
+        }// if(repdt < startDate && !resdt)
+        // {
+        //     for (var k = d; k < rd;) {
+        //     k++;
+        //     document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k].style.background = "grey";
+        //     } 
+        // }
+        // var d = repairHistory[j]["Report Datetime"].getDate();
+        e = document.getElementById("month");
+        m = e.options[e.selectedIndex].value;
+
+        if (resdt && resdt < endDate && resdt > sd) {
+          endreport = resd;
+        }
+        else if(endDate > x)
+        {
+          endreport = x.lastIndexOf("-");
+          endreport = x.substring(endreport+1);
+        }
+        else {
+          endreport = rd;
+        }
+        // console.log(resdt + " " + sd + " " + endreport);
+        if ((repdt < startDate)) {
+          d = 0;
+        }
+        // console.log(d + " " + rd);
+        // console.log(endreport);
+        for (var k = d; k <= endreport;k++) {
+          var curDate = currentDate += "-" + k;
+          // k++;
+          if (document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k].innerHTML == '<i class="fas fa-square" style="color: #999966; ;"></i>')
+            break;
+          // if(x<curDate)
+          // {
+          // console.log("report");
+          //     document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1].style.background = "grey";
+          // }
+          if (repairHistory[j]["Cause"] == "Missing")
+          {
+            var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+            cell.className = "inspdata";
+            cell.innerHTML = '<i class="fas fa-square" style="color: yellow ;"></i>';
+          }
+          else if (repairHistory[j]["Cause"] == "damaged")
+          {
+            var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+            cell.className = "inspdata";
+            cell.innerHTML = '<i class="fas fa-square" style="color: red ;"></i>';
+          }          
+          else if (repairHistory[j]["Cause"] == "damaged but functional")
+          {
+            var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+            if(!cell)
+              console.log(i + " " + k)
+            cell.className = "inspdata";
+            cell.innerHTML = '<i class="fas fa-square" style="color: orange ;"></i>';
+          }        
+        }
+      }
+    }
+  }
+  function createRowForRepairHistoryTable(dataRow) {
+    tableRow = document.createElement("tr");
+    toolcodeColumn = document.createElement("td");
+    toolcodeColumn.innerHTML = dataRow["Tool Code"];
+    toolnameColumn = document.createElement("td");
+    toolnameColumn.innerHTML = dataRow["Tool Name"];
+    reportdtColumn = document.createElement("td");
+    reportdtColumn.innerHTML = new Date(dataRow["Report Datetime"]).toLocaleString();
+    resolvedtColumn = document.createElement("td");
+    if (dataRow["Resolve Datetime"]) {
+      resolvedtColumn.innerHTML = new Date(dataRow["Resolve Datetime"]).toLocaleString();
+    }
+    else {
+      resolvedtColumn.innerHTML = "<b style='color: red;'>Pending</b>"
+    }
+    empidColumn = document.createElement("td");
+    empidColumn.innerHTML = dataRow["Emp ID"];
+    nameColumn = document.createElement("td");
+    nameColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"] + " (" + dataRow["Emp ID"] + ")";
+    causeColumn = document.createElement("td");
+    causeColumn.innerHTML = dataRow["Cause"];
+    remarksColumn = document.createElement("td");
+    remarksColumn.innerHTML = dataRow["Additional Remarks"];
+    resultColumn = document.createElement("td");
+    resultColumn.innerHTML = dataRow["Action"];
+    tableRow.appendChild(toolnameColumn);
+    tableRow.appendChild(toolcodeColumn);
+    // tableRow.appendChild(empidColumn);
+    tableRow.appendChild(causeColumn);
+    tableRow.appendChild(remarksColumn);
+    tableRow.appendChild(reportdtColumn);
+    tableRow.appendChild(resolvedtColumn);
+    tableRow.appendChild(resultColumn);
+    return tableRow;
+  }
+  
+  function createRowForToolInspection(dataRow, rd) {
+    tableRow = document.createElement("tr");
+    toolnameColumn = document.createElement("td"); 
+    // toolnameColumn.className = "tname-inspection";
+    toolnameColumn.innerHTML = dataRow["Tool Code"];
+    tableRow.appendChild(toolnameColumn);
+
+    for (var i = 0; i < rd; i++) {
+      oneColumn = document.createElement("td");
+      oneColumn.className = "inspdata";
+      oneColumn.innerHTML = '<i class="fas fa-square" style="color: #00ff00 ;"></i>';
+      tableRow.appendChild(oneColumn);
+    }
+    return tableRow;
+  }
+  document.getElementById("modal-report-button").addEventListener("click", async function () {
+      try {
+        data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+        cc.closeConnection();
+      }
+      catch {
+        alert1("Error in fetching your details! Please try again.");
+        console.log("Error in getChildParts ! Please try again.");
+      }
+
+      if (data.length == 0) {
+        document.getElementById("child-part-table").hidden = true;
+        document.getElementById("child-text").hidden = true;
+      }
+      document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+      document.getElementById("damaged-functional").checked = false;
+      document.getElementById("damaged-nf").checked = false;
+      document.getElementById("missing").checked = false;
+      document.getElementById("report-text").value = "";
+      data.forEach(dataRow => {
+        //document.getElementsByTagName("tbody")[0].appendChild(createRowForChildParts(dataRow));
+        document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+      })
+
+      document.getElementById("report-modal").className = "modal is-active";
+
+    });
+    document.getElementById("modal-return-button").addEventListener("click", async function () {
+      // selectedQty = document.getElementById("return-quantity").value;
+      // if(selectedQty> document.getElementById("return-quantity").max){
+      //   alert1("Please select an appropriate quantity.");
+      //   return;
+      // }
+      //var response = await cc.returnTools(emp_id,selectedToolCode, selectedQty, issuedt);
+      try {
+        var response = await cc.returnTools(emp_id, selectedToolCode, issuedt, "Working", workshop_id);
+        cc.closeConnection();
+      }
+      catch {
+        alert1("Error in fetching your details! Please try again.");
+        console.log("Error in returnTools ! Please try again.");
+      }
+      if (response == 1) {
+        // document.getElementById("modal").className = "modal";
+        alertDisappearing("Returned successfully");
+        document.getElementById("issued-table").innerHTML = "";
+        document.getElementById("loader").hidden = false;
+        // document.getElementById("returnTools-entire-page").hidden = true;
+        document.getElementById("no-issued-div").style.display = "none";
+        try {
+          data = await cc.getIssuedTools(emp_id, workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please try again.");
+          console.log("Error in getIssuedTools ! Please try again.");
+        }
+        document.getElementById("loader").hidden = true;
+        // document.getElementById("returnTools-entire-page").hidden = false;
+        // document.getElementById("no-data-div").style.display = "none";
+        if (data.length == 0) {
+          document.getElementById("no-issued-div").style.display = "flex";
+        }
+        data.forEach(dataRow => {
+          //document.getElementsByTagName("tbody")[0].appendChild(createRowForTable(dataRow));
+          document.getElementById("issued-table").appendChild(createRowForReturnTable(dataRow));
+        })
+        return;
+      }
+      else {
+        alert1("Some error occurred. Please check your internet connection.");
+        return;
+      }
+    });
+    document.getElementById("submit-report-button").addEventListener("click", submitReport);
+    async function submitReport() {
+    var reportText = document.getElementById("report-text").value;
+    console.log(reportText);
+    var statusSelected = 0;
+    if (document.getElementById("damaged-functional").checked == true) {
+    var cause = "damaged but functional";
+    var status = 2;
+    var cstatus = 3;
+    statusSelected = 1;
+    }
+    else if (document.getElementById("damaged-nf").checked == true) {
+    var cause = "damaged";
+    var status = 3;
+    var cstatus = 3;
+    statusSelected = 1;
+    }
+    else if (document.getElementById("missing").checked == true) {
+    var cause = "Missing";
+    var status = 4;
+    var cstatus = 4;
+    statusSelected = 1;
+    }
+    else if (document.getElementById("missing-bf").checked == true) {
+    var cause = "Missing but functional";
+    var status = 5;
+    var cstatus = 4;
+    statusSelected = 1;
+    }
+
+    if (statusSelected != 1) {
+    alert1("Please select a status of the tool being returned.");
+    return;
+    }
+    if (reportText == '') {
+    alert1("Please write a report.");
+    return;
+    }
+
+    var childPartSelected = 0;
+    var childPartReport = [];
+    // rows = document.getElementById("child-parts-tbody").getElementsByTagName("tr");
+    // Object.keys(rows).forEach(async function (key) {
+    // if (rows[key].getElementsByTagName("td")[1].getElementsByTagName("input")[0].checked == true) {
+    //     childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 4 });
+    //     childPartSelected = 1;
+    // }
+    // else if (rows[key].getElementsByTagName("td")[2].getElementsByTagName("input")[0].checked == true) {
+    //     childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 3 });
+    //     childPartSelected = 1;
+    // }
+    // else if (rows[key].getElementsByTagName("td")[3].getElementsByTagName("input")[0].checked == true) {
+    //     childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 6 });
+    //     childPartSelected = 1;
+    // }
+    // });
+    console.log(childPartReport);
+    // console.log(damaged);
+    try {
+    var scp = await cc.setChildParts(childPartReport, selectedToolCode, workshop_id);
+
+    cc.closeConnection();
+    }
+    catch {
+    alert1("Error in fetching your details! Please check your internet connection.");
+    console.log("Error in setChildParts ! Please try again.");
+    }
+
+
+    if (childPartSelected != 1 && document.getElementById("child-part-table").hidden == false) {
+    alert1("Please select damaged part(s).");
+    return;
+    }
+
+
+    try {
+    var tooldetails = await cc.getToolProfile(selectedToolCode, workshop_id);
+    cc.closeConnection();
+    }
+    catch {
+    alert1("Error in fetching your details! Please check your internet connection.");
+    console.log("Error in getUserDetails ! Please try again.");
+    }
+    var toolname = tooldetails[0]["Tool Name"];
+    //console.log(toolname);
+    fname = currentUser[0]["First Name"];
+    lname = currentUser[0]["Last Name"];
+    try {
+    var resp2 = await cc.sendReport(selectedToolCode, emp_id, fname, lname, cause, reportText, status, toolname,workshop_id);
+    cc.closeConnection();
+    }
+    catch {
+    alert1("Error in fetching your details! Please check your internet connection.");
+    console.log("Error in sendReport ! Please try again.");
+    }
+    if (resp2 == 1) {
+    document.getElementById("report-modal").className = "modal";
+    alertDisappearing("Your report has been submitted.");
+    // document.getElementById("report-table").getElementsByTagName("tbody")[0].innerHTML = "";
+    document.getElementById("loader").hidden = false;
+    // document.getElementById("reportDM-entire-page").hidden = true;
+    document.getElementById("report-modal").style.display = "none";
+    document.getElementById("loader").hidden = true;
+    // document.getElementById("reportDM-entire-page").hidden = false;
+    document.getElementById("report-text").defaultValue = "";
+    document.getElementById("damaged-functional").checked == false;
+    document.getElementById("damaged-nf").checked == false;
+    document.getElementById("missing").checked == false;
+    document.getElementById("missing-bf").checked == false;
+    
+    initiateSetup();
+
+    return;
+    }
+    else {
+    alert1("Some error occurred. Please check your internet connection.");
+    return;
+    }
+
+    }
+
+    document.getElementById("return-report-button").addEventListener("click", async function () {
+
+      var reportText = document.getElementById("report-text").value;
+      var childPartSelected = 0;
+      var statusSelected = 0;
+      console.log(reportText);
+      if (document.getElementById("damaged-functional").checked == true) {
+        var cause = "damaged but functional";
+        var status = 2;
+        var cstatus = 3;
+        statusSelected = 1;
+      }
+      else if (document.getElementById("damaged-nf").checked == true) {
+        var cause = "damaged";
+        var status = 3;
+        var cstatus = 3;
+        statusSelected = 1;
+      }
+      else if (document.getElementById("missing").checked == true) {
+        var cause = "Missing";
+        var status = 4;
+        var cstatus = 4;
+        statusSelected = 1;
+      }
+      else if (document.getElementById("missing-bf").checked == true) {
+        var cause = "Missing but functional";
+        var status = 5;
+        var cstatus = 4;
+        statusSelected = 1;
+      }
+
+      if (statusSelected != 1) {
+        alert1("Please select a status of the tool being returned.");
+        return;
+      }
+      if (reportText == "") {
+        alert1("Please write a report.");
+        return;
+      }
+
+      rows = document.getElementById("report-child-parts-tbody").getElementsByTagName("tr");
+      Object.keys(rows).forEach(async function (key) {
+        if (rows[key].getElementsByTagName("td")[0].getElementsByTagName("input")[0].checked == true) {
+          var part = rows[key].getElementsByTagName("td")[1].textContent;
+          console.log(part);
+          childPartSelected = 1;
+          try {
+            var scp = await cc.setChildParts(part, cstatus, workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("Error in fetching your details! Please try again.");
+            console.log("Error in setChildParts ! Please try again.");
+          }
+        }
+      });
+
+      if (childPartSelected != 1 && document.getElementById("child-part-table").hidden == false) {
+        console.log()
+        alert1("Please select damaged part(s).");
+        return;
+      }
+
+      //var response = await cc.returnTools(emp_id,selectedToolCode, issuedt);
+      var moment = require('moment-timezone');
+      var x = moment();
+      x = x.format("YYYY-MM-DD HH:mm:ss").toString();
+      var y = moment(new Date(issuedt));
+      y = y.format("YYYY-MM-DD HH:mm:ss").toString();
+      console.log(x, y);
+
+      // console.log("issue datetime = " + issuedt);
+      //////////////////   resppppp  2222222222
+      // try {  
+      //   var resp2 = await cc.returnAndReport(selectedToolCode, emp_id, cause, reportText, status, x, y, workshop_id);  
+      //   cc.closeConnection();
+      // }
+      // catch {
+      //   alert1("Error in fetching your details! Please try again.");
+      //   console.log("Error in fetching your details! Please try again.");
+      // }
+      //console.log(document.getElementById("child-parts-tbody").getElementsByTagName.value); 
+      //console.log(scp);  
+      try {
+        var resp2 = await cc.sendReport(selectedToolCode, emp_id, fname, lname, cause, reportText, status, toolname, workshop_id);
+        try {
+          var resp1 = await cc.returnTools(emp_id, selectedToolCode, issuedt, cause, workshop_id);
+        }
+        catch {
+          await cc.deleteReport(workshop_id);
+        }
+      }
+      catch {
+        alert1("Error in submitting your report! Please try again.");
+        console.log("Error in fetching your details! Please try again.");
+      }
+
+      if (resp2 == 1 && resp1 == 1) {
+        document.getElementById("modal").className = "modal";
+        document.getElementById("report-modal").className = "modal";
+        alertDisappearing("Your report has been submitted.");
+        document.getElementById("issued-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        document.getElementById("loader").hidden = false;
+        document.getElementById("returnTools-entire-page").hidden = true;
+        document.getElementById("no-data-div").hidden = true;
+        try {
+          data = await cc.getIssuedTools(emp_id, workshop_id);
+          cc.closeConnection();
+        }
+        catch{
+          dialog.showErrorBox("Error Occured", "Please try again after you've checked your internet connection.")
+          window.close();
+        }
+        document.getElementById("loader").hidden = true;
+        document.getElementById("returnTools-entire-page").hidden = false;
+        document.getElementById("no-data-div").style.display = "none";
+        document.getElementById("report-text").defaultValue = "";
+        document.getElementById("damaged-functional").checked == false;
+        document.getElementById("damaged-nf").checked == false;
+        document.getElementById("missing").checked == false;
+        document.getElementById("missing-bf").checked == false;
+
+        if (data.length == 0) {
+          document.getElementById("no-data-div").style.display = "flex";
+        }
+        data.forEach(dataRow => {
+          //document.getElementsByTagName("tbody")[0].appendChild(createRowForTable(dataRow));
+          document.getElementById("issued-table").appendChild(createRowForReturnTable(dataRow));
+        })
+        return;
+      }
+      else {
+        alert1("Some error occurred. Please check your internet connection.");
+        console.log("Some error occurred. Please check your internet connection.");
+
+        return;
+      }
+
+
+    });
+
+    function createRowForToolsTable(dataRow) {
+        if (dataRow["Permanent"] == "1" || dataRow["Part Of Kit"] != null) {
+          return "";
+        }
+        tableRow = document.createElement("tr");
+        toolcodeColumn = document.createElement("td");
+        toolcodeColumn.innerHTML = dataRow["Tool Code"];
+
+        toolnameColumn = document.createElement("td");
+        toolnameColumn.innerHTML = dataRow["Tool Name"];
+        qtyColumn = document.createElement("td");
+        qtyColumn.innerHTML = dataRow["Quantity"];
+
+        // toolnamespan = document.createElement("span");
+        // toolnamespan.className = "icon is-small is-right right-icon";
+
+        informationbutton = document.createElement("button");
+        informationbutton.innerHTML="<i class='fas fa-info-circle'></i><span class='btnref'> info<span>";
+        informationbutton.className = "btn btn-grp btn-secondary infobtn";
+        informationbutton.title = "View Profile";
+
+        informationbutton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("info-toolcode").innerHTML = dataRow["Tool Code"];
+          document.getElementById("info-tool").innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ")";
+          document.getElementById("info-toolname").innerHTML = dataRow["Tool Name"];
+          if(dataRow["Brand"])
+            document.getElementById("info-toolspec").innerHTML = dataRow["Brand"];
+          document.getElementById("info-tooldescription").innerHTML = dataRow["Description"];
+          if(!dataRow["Description"])
+            document.getElementById("info-tooldescription").innerHTML = "";
+          // document.getElementById("info-image").src = dataRow["Photo"];
+          var dop = moment(new Date(dataRow["Date of Purchase"])).format("DD-MM-YYYY").toString();
+          if(dop != '01-01-1970')
+            document.getElementById("info-tooldop").innerHTML = dop;
+          
+          if (dataRow["Value"]) {
+            document.getElementById("info-toolcost").innerHTML = defaultCurrency["Default Currency Symbol"] + dataRow["Value"];
+          } else {
+            document.getElementById("info-toolcost").innerHTML = "NA";
+          }
+          document.getElementById("info-toollocation").innerHTML = dataRow["Location"];
+          if (dataRow["Permanent"] != 1) {
+            document.getElementById("info-toollocation").hidden = false;
+          }
+          else {
+            document.getElementById("info-toollocation").hidden = true;
+          }
+          if (dataRow["Permanent"] == 5 || dataRow["Permanent"] == 6) {
+            document.getElementById("info-toolquantity").innerHTML = dataRow["Quantity"];
+            document.getElementById("info-tooltype").innerHTML = "Material";
+          }
+          else if(dataRow["Permanent"] == 0)
+          document.getElementById("info-tooltype").innerHTML = "Special Tool";
+          else if(dataRow["Permanent"] == 1)
+          document.getElementById("info-tooltype").innerHTML = "Hand Tool";
+          else if(dataRow["Permanent"] == 4)
+          document.getElementById("info-tooltype").innerHTML = "Asset";
+          else if(dataRow["Permanent"] == 2 || dataRow["Permanent"] == 3)
+          document.getElementById("info-tooltype").innerHTML = "Equipment";
+          // document.getElementById("modal-toolchildren").innerHTML = "Child Parts: ";
+          try {
+            var children = await cc.getChildParts(dataRow["Tool Code"]);
+          }
+          catch {
+            alert1("Error in fetching details! Please try again.");
+            console.log("Error in getChildParts! Please try again.");
+          }
+          if (children.length) {
+            k = 0;
+            document.getElementById("child-parts-profile-table").hidden = false;
+            children.forEach(dataRow => {
+              document.getElementById("child-parts-profile-tbody").insertRow(0).innerHTML = '<tr><td id="k"></td><td id="child-profile-tcode"></td><td id="child-profile-tname"></td></tr>';
+              document.getElementById("k").innerHTML = children.length - k;
+              document.getElementById("child-profile-tcode").innerHTML = dataRow["Tool Code"];
+              document.getElementById("child-profile-tname").innerHTML = dataRow["Tool Name"];
+              k = k + 1;
+            });
+          }
+          else {
+            // document.getElementById("modal-toolchildren").innerHTML += "No Child Parts";
+            $(".childtablehide").hide();
+            $(".nochildrendiv").show();
+          }
+          var storage = firebase.storage();
+          document.getElementById("maintenance-inspection-sheet").innerHTML = "Tool Inspection Sheet: <b>Not Found</b>";
+          var pathReferencePDF = storage.ref(dataRow["Tool Code"] + '.pdf');
+          pathReferencePDF.getDownloadURL().then(function (url) {
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+            a = document.createElement("a");
+            a.href = url;
+            a.innerHTML = "DOWNLOAD";
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+          }).catch(function (error) {
+            var pathReferenceDOC = storage.ref(dataRow["Tool Code"] + '.doc');
+            pathReferenceDOC.getDownloadURL().then(function (url) {
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+              a = document.createElement("a");
+              a.href = url;
+              a.innerHTML = "DOWNLOAD";
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+            }).catch(function (error) {
+              var pathReferenceDOCX = storage.ref(dataRow["Tool Code"] + '.docx');
+              pathReferenceDOCX.getDownloadURL().then(function (url) {
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+                a = document.createElement("a");
+                a.href = url;
+                a.innerHTML = "DOWNLOAD";
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+              }).catch(function (error) {
+                console.log("Tool Inspection Sheet Not Found!");
+              });
+            });
+          });
+          if (dataRow["Maintenance"] != 0) {
+            document.getElementById("maintenance-company").innerHTML = dataRow["AMC"];
+            document.getElementById("maintenance-man").innerHTML = dataRow["AMC Provider"];
+            document.getElementById("maintenance-contact").innerHTML = dataRow["AMC Contact"];
+            document.getElementById("maintenance-period").innerHTML = dataRow["AMC Period"];
+            document.getElementById("last-maintenance-date").innerHTML = (new Date(dataRow["Date of Last Maintenance"])).toDateString();
+            document.getElementById("maintenance-frequency").innerHTML = dataRow["Inspection Frequency"] + " Days";
+          }
+          else {
+            $(".noMaintenanceDiv").show();
+            $(".maintenanceTableHide").hide();
+            document.getElementById("maintenance-company").innerHTML = "";
+            document.getElementById("maintenance-man").innerHTML = "";
+            document.getElementById("maintenance-contact").innerHTML = "";
+            document.getElementById("maintenance-period").innerHTML = "";
+            document.getElementById("maintenance-frequency").innerHTML = "";
+          }
+
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("iteminfo")[0], options)
+          myModal.show();
+        }
+
+        statusColumn = document.createElement("td");
+        statusspan = document.createElement("span");
+        statusspan.className = "icon is-small is-right right-icon";
+
+        statusicon = document.createElement("i");
+        if (dataRow["Allocated To"] != null) {
+
+          statusColumn.innerHTML = "Issued";
+          statusicon.className = "fas fa-id-card-alt";
+          statusicon.style.color = "blue";
+
+          statusicon.onclick = async function (event) {
+            console.log("issued icon pressed");
+            event.stopPropagation();
+            try {
+              var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+              cc.closeConnection();
+            }
+            catch {
+              alert1("Error in fetching details! Please try again.");
+              console.log("Error in getUserDetailsFromEmpID() ! Please try again.");
+            }
+            document.getElementById("issued-to-modal-content").innerHTML = "This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".";
+            document.getElementById("issued-to-modal").className = "modal is-active";
+            document.getElementById("issued-to-modal-close").onclick = function () {
+              document.getElementById("issued-to-modal").className = "modal";
+              var fname = dataRow["First Name"];
+              var lname = dataRow["Last Name"];
+
+            }
+          }
+
+        }
+        else if (dataRow["Status"] == "0") {
+          statusColumn.innerHTML = "Available";
+          statusicon.className = "fas fa-check-circle";
+          statusicon.style.color = "green";
+        }
+        else if (dataRow["Status"] == "2") {
+          statusColumn.innerHTML = "Reported";
+          statusicon.className = "fas fa-exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+
+          statusicon.onclick = async function (event) {
+            console.log("reported button pressed");
+            event.stopPropagation();
+            isKitItems = await cc.getChildParts(dataRow["Tool Code"], workshop_id);
+            console.log(isKitItems);
+            if (isKitItems.length == 0) {
+              isKit = 0;
+            }
+            else {
+              isKit = 1;
+            }
+
+            if (isKit == 1) {
+              alertMessage = "This Kit has been reported.The following are the kit items and their conditions.\n";
+              isKitItems.forEach(item => {
+                if (item["Status"] == "0") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Available \n";
+                }
+                else if (item["Status"] == "3") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged \n";
+                }
+                else if (item["Status"] == "4") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Missing \n";
+                }
+                else if (item["Status"] == "2") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged (functional) \n";
+                }
+              })
+              document.getElementById("issued-to-modal-content").innerText = alertMessage;
+              document.getElementById("issued-to-modal").className = "modal is-active";
+              document.getElementById("issued-to-modal-close").onclick = function () {
+                document.getElementById("issued-to-modal").className = "modal";
+              }
+            }
+          }
+        }
+        else if (dataRow["Status"] == "3") {
+          statusColumn.innerHTML = "NA (Damaged)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "red";
+        }
+        else if (dataRow["Status"] == "4") {
+          statusColumn.innerHTML = "NA (Missing)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "5") {
+          statusColumn.innerHTML = "Missing (Functional)";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "6") {
+          statusColumn.innerHTML = "Under Maintenance";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+
+        statusspan.appendChild(statusicon);
+
+        statusColumn.appendChild(statusspan);
+        locationColumn = document.createElement("td");
+        locationColumn.innerHTML = dataRow["Location"];
+        if(dataRow["Location"] == `null` || dataRow["Location"]== "")
+            locationColumn.innerHTML = "NA";
+
+        brandColumn = document.createElement("td");
+        brandColumn.innerHTML = dataRow["Brand"];
+        actionsColumn = document.createElement("td");
+        recordButton = document.createElement("button");
+        recordButton.innerHTML= "<i class='fas fa-file-medical-alt'></i><span class='btnref'> Records<span>";
+        recordButton.className = "btn btn-grp btn-secondary recordsbtn";
+        recordButton.title = "View Record";
+        recordButton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("loader").hidden = false;
+          // document.getElementById("no-record-div").innerHTML = "";
+          document.getElementById("record-table").hidden = false;
+          document.getElementById("record-tbody").innerHTML = "";
+          // document.getElementById("record-modal-content").innerHTML = '<div style="background-color: white;width: 20vw;margin-left: 30%;margin-bottom: 3vh;border-radius: 1vw;"><center> All Records </center></div>';
+          try {
+            records = await cc.getAllRecordsForAToolID(dataRow["Tool Code"], workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("Error in fetching your details! Please try again.");
+            console.log("Error in getAllRecordsForAToolID ! Please try again.");
+          }
+          if (records.length == 0) {
+            console.log("no records");
+            $(".collapse").show();
+            document.getElementById("record-table").hidden = true;
+          } 
+          else 
+          {
+            $(".collapse").hide();
+          }
+          records.forEach(dataRow => {
+            document.getElementById("record-table").getElementsByTagName("tbody")[0].appendChild(createRowForRecordTable(dataRow));
+          });
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var recordModal = new bootstrap.Modal(document.getElementsByClassName("individualrecord")[0], options)
+          recordModal.show();
+          document.getElementById("loader").hidden = true;
+          
+        }
+        reportButton = document.createElement("button");
+        reportButton.innerHTML= "<i class='far fa-flag'></i><span class='btnref'> Report<span>";
+        reportButton.className = "btn btn-grp btn-secondary reportbtn";
+        reportButton.title = "Report item";
+        reportButton.onclick = async function (event) {
+        selectedToolCode = $(this).parents("tr")[0].cells[0].innerHTML;
+        currentStatus = $(this).parents("tr")[0].cells[2].innerHTML;
+        var n = currentStatus.indexOf('<');
+        currentStatus = currentStatus.substring(0,n);
+        document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        document.getElementById("damaged-functional").checked = false;
+        document.getElementById("damaged-nf").checked = false;
+        document.getElementById("missing").checked = false;
+        document.getElementById("missing-bf").checked = false;
+        document.getElementById("report-text").value = "";
+
+        if (currentStatus.includes("NA (Damaged)") || currentStatus.includes("NA (Missing)")) {
+            alert1("This tool has already been reported!");
+            return "";
+        }
+        if(dataRow["Allocated To"] != null) {
+            try {
+                var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+                cc.closeConnection();
+                alert1("This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".");
+                return;
+            }
+            catch {
+                alert1("Error in fetching your details! Please check your internet connection.");
+                console.log("Error in getUserDetailsFromEmpID ! Please try again.");
+            }
+        }
+
+        try {
+            data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+            cc.closeConnection();
+        }
+        catch {
+            alert1("Error in fetching your details! Please check your internet connection.");
+            console.log("Error in getChildParts ! Please try again.");
+        }
+
+        if (data.length == 0) {
+            document.getElementById("child-part-table").hidden = true;
+            document.getElementById("missing-bf").hidden = true;
+            document.getElementById("missing-bf-text").hidden = true;
+            document.getElementById("child-text").hidden = true;
+        }
+        else {
+            document.getElementById("child-part-table").hidden = false;
+            document.getElementById("missing-bf").hidden = false;
+            document.getElementById("missing-bf-text").hidden = false;
+            document.getElementById("child-text").hidden = false;
+        }
+        data.forEach(dataRow => {
+            document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+        })
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var reportModal = new bootstrap.Modal(document.getElementById("report-modal"), options)
+          // console.log(myModal);
+          reportModal.show();
+          document.getElementById("loader").hidden = true;
+        }
+
+        actionsColumn.appendChild(informationbutton);
+        actionsColumn.appendChild(recordButton);
+        actionsColumn.appendChild(reportButton);
+        tableRow.appendChild(toolcodeColumn);
+        tableRow.appendChild(toolnameColumn);
+        if(dataRow["Permanent"] == '5' || dataRow["Permanent"] == '6')
+        {
+          // console.log("material quantity" + qtyColumn.innerHTML);
+          tableRow.appendChild(qtyColumn);
+        }
+        tableRow.appendChild(statusColumn);
+        tableRow.appendChild(locationColumn);
+        tableRow.appendChild(actionsColumn);
+
+        return tableRow;
+      }
+  
+    function createRowForAllToolsTable(dataRow) {
+        if (dataRow["Permanent"] == "1" || dataRow["Part Of Kit"] != null) {
+          return "";
+        }
+        tableRow = document.createElement("tr");
+        toolcodeColumn = document.createElement("td");
+        toolcodeColumn.innerHTML = dataRow["Tool Code"];
+
+        toolnameColumn = document.createElement("td");
+        toolnameColumn.innerHTML = dataRow["Tool Name"];
+        qtyColumn = document.createElement("td");
+        qtyColumn.innerHTML = dataRow["Quantity"];
+
+        // toolnamespan = document.createElement("span");
+        // toolnamespan.className = "icon is-small is-right right-icon";
+
+        informationbutton = document.createElement("button");
+        informationbutton.innerHTML="<i class='fas fa-info-circle'></i><span class='btnref'> info<span>";
+        informationbutton.className = "btn btn-grp btn-secondary infobtn";
+        informationbutton.title = "View Profile";
+
+        informationbutton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("info-toolcode").innerHTML = dataRow["Tool Code"];
+          document.getElementById("info-tool").innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ")";
+          document.getElementById("info-toolname").innerHTML = dataRow["Tool Name"];
+          if(dataRow["Brand"])
+            document.getElementById("info-toolspec").innerHTML = dataRow["Brand"];
+          document.getElementById("info-tooldescription").innerHTML = dataRow["Description"];
+          if(!dataRow["Description"])
+            document.getElementById("info-tooldescription").innerHTML = "";
+          // document.getElementById("info-image").src = dataRow["Photo"];
+          var dop = moment(new Date(dataRow["Date of Purchase"])).format("DD-MM-YYYY").toString();
+          if(dop != '01-01-1970')
+            document.getElementById("info-tooldop").innerHTML = dop;
+          
+          if (dataRow["Value"]) {
+            document.getElementById("info-toolcost").innerHTML = "Rs. " + dataRow["Value"];
+          } else {
+            document.getElementById("info-toolcost").innerHTML = "NA";
+          }
+          document.getElementById("info-toollocation").innerHTML = dataRow["Location"];
+          if (dataRow["Permanent"] != 1) {
+            document.getElementById("info-toollocation").hidden = false;
+          }
+          else {
+            document.getElementById("info-toollocation").hidden = true;
+          }
+          if (dataRow["Permanent"] == 5 || dataRow["Permanent"] == 6) {
+            document.getElementById("info-toolquantity").innerHTML = dataRow["Quantity"];
+            document.getElementById("info-tooltype").innerHTML = "Material";
+          }
+          else if(dataRow["Permanent"] == 0)
+          document.getElementById("info-tooltype").innerHTML = "Special Tool";
+          else if(dataRow["Permanent"] == 1)
+          document.getElementById("info-tooltype").innerHTML = "Hand Tool";
+          else if(dataRow["Permanent"] == 4)
+          document.getElementById("info-tooltype").innerHTML = "Asset";
+          else if(dataRow["Permanent"] == 2 || dataRow["Permanent"] == 3)
+          document.getElementById("info-tooltype").innerHTML = "Equipment";
+          // document.getElementById("modal-toolchildren").innerHTML = "Child Parts: ";
+          try {
+            var children = await cc.getChildParts(dataRow["Tool Code"]);
+          }
+          catch {
+            alert1("Error in fetching details! Please try again.");
+            console.log("Error in getChildParts! Please try again.");
+          }
+          if (children.length) {
+            k = 0;
+            document.getElementById("child-parts-profile-table").hidden = false;
+            children.forEach(dataRow => {
+              document.getElementById("child-parts-profile-tbody").insertRow(0).innerHTML = '<tr><td id="k"></td><td id="child-profile-tcode"></td><td id="child-profile-tname"></td></tr>';
+              document.getElementById("k").innerHTML = children.length - k;
+              document.getElementById("child-profile-tcode").innerHTML = dataRow["Tool Code"];
+              document.getElementById("child-profile-tname").innerHTML = dataRow["Tool Name"];
+              k = k + 1;
+            });
+          }
+          else {
+            // document.getElementById("modal-toolchildren").innerHTML += "No Child Parts";
+            $(".childtablehide").hide();
+            $(".nochildrendiv").show();
+          }
+          var storage = firebase.storage();
+          document.getElementById("maintenance-inspection-sheet").innerHTML = "Tool Inspection Sheet: <b>Not Found</b>";
+          var pathReferencePDF = storage.ref(dataRow["Tool Code"] + '.pdf');
+          pathReferencePDF.getDownloadURL().then(function (url) {
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+            a = document.createElement("a");
+            a.href = url;
+            a.innerHTML = "DOWNLOAD";
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+          }).catch(function (error) {
+            var pathReferenceDOC = storage.ref(dataRow["Tool Code"] + '.doc');
+            pathReferenceDOC.getDownloadURL().then(function (url) {
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+              a = document.createElement("a");
+              a.href = url;
+              a.innerHTML = "DOWNLOAD";
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+            }).catch(function (error) {
+              var pathReferenceDOCX = storage.ref(dataRow["Tool Code"] + '.docx');
+              pathReferenceDOCX.getDownloadURL().then(function (url) {
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+                a = document.createElement("a");
+                a.href = url;
+                a.innerHTML = "DOWNLOAD";
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+              }).catch(function (error) {
+                console.log("Tool Inspection Sheet Not Found!");
+              });
+            });
+          });
+          if (dataRow["Maintenance"] != 0) {
+            document.getElementById("maintenance-company").innerHTML = dataRow["AMC"];
+            document.getElementById("maintenance-man").innerHTML = dataRow["AMC Provider"];
+            document.getElementById("maintenance-contact").innerHTML = dataRow["AMC Contact"];
+            document.getElementById("maintenance-period").innerHTML = dataRow["AMC Period"];
+            document.getElementById("last-maintenance-date").innerHTML = (new Date(dataRow["Date of Last Maintenance"])).toDateString();
+            document.getElementById("maintenance-frequency").innerHTML = dataRow["Inspection Frequency"] + " Days";
+          }
+          else {
+            $(".noMaintenanceDiv").show();
+            $(".maintenanceTableHide").hide();
+            document.getElementById("maintenance-company").innerHTML = "";
+            document.getElementById("maintenance-man").innerHTML = "";
+            document.getElementById("maintenance-contact").innerHTML = "";
+            document.getElementById("maintenance-period").innerHTML = "";
+            document.getElementById("maintenance-frequency").innerHTML = "";
+          }
+
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("iteminfo")[0], options)
+          myModal.show();
+        }
+
+        statusColumn = document.createElement("td");
+        statusspan = document.createElement("span");
+        statusspan.className = "icon is-small is-right right-icon";
+
+        statusicon = document.createElement("i");
+        if (dataRow["Allocated To"] != null) {
+
+          statusColumn.innerHTML = "Issued";
+          statusicon.className = "fas fa-id-card-alt";
+          statusicon.style.color = "blue";
+
+          statusicon.onclick = async function (event) {
+            console.log("issued icon pressed");
+            event.stopPropagation();
+            try {
+              var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+              cc.closeConnection();
+            }
+            catch {
+              alert1("Error in fetching details! Please try again.");
+              console.log("Error in getUserDetailsFromEmpID() ! Please try again.");
+            }
+            document.getElementById("issued-to-modal-content").innerHTML = "This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".";
+            document.getElementById("issued-to-modal").className = "modal is-active";
+            document.getElementById("issued-to-modal-close").onclick = function () {
+              document.getElementById("issued-to-modal").className = "modal";
+              var fname = dataRow["First Name"];
+              var lname = dataRow["Last Name"];
+
+            }
+          }
+
+        }
+        else if (dataRow["Status"] == "0") {
+          statusColumn.innerHTML = "Available";
+          statusicon.className = "fas fa-check-circle";
+          statusicon.style.color = "green";
+        }
+        else if (dataRow["Status"] == "2") {
+          statusColumn.innerHTML = "Reported";
+          statusicon.className = "fas fa-exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+
+          statusicon.onclick = async function (event) {
+            console.log("reported button pressed");
+            event.stopPropagation();
+            isKitItems = await cc.getChildParts(dataRow["Tool Code"], workshop_id);
+            console.log(isKitItems);
+            if (isKitItems.length == 0) {
+              isKit = 0;
+            }
+            else {
+              isKit = 1;
+            }
+
+            if (isKit == 1) {
+              alertMessage = "This Kit has been reported.The following are the kit items and their conditions.\n";
+              isKitItems.forEach(item => {
+                if (item["Status"] == "0") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Available \n";
+                }
+                else if (item["Status"] == "3") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged \n";
+                }
+                else if (item["Status"] == "4") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Missing \n";
+                }
+                else if (item["Status"] == "2") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged (functional) \n";
+                }
+              })
+              document.getElementById("issued-to-modal-content").innerText = alertMessage;
+              document.getElementById("issued-to-modal").className = "modal is-active";
+              document.getElementById("issued-to-modal-close").onclick = function () {
+                document.getElementById("issued-to-modal").className = "modal";
+              }
+            }
+          }
+        }
+        else if (dataRow["Status"] == "3") {
+          statusColumn.innerHTML = "NA (Damaged)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "red";
+        }
+        else if (dataRow["Status"] == "4") {
+          statusColumn.innerHTML = "NA (Missing)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "5") {
+          statusColumn.innerHTML = "Missing (Functional)";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "6") {
+          statusColumn.innerHTML = "Under Maintenance";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+
+        statusspan.appendChild(statusicon);
+
+        statusColumn.appendChild(statusspan);
+        locationColumn = document.createElement("td");
+        locationColumn.innerHTML = dataRow["Location"];
+        if(dataRow["Location"] == `null` || dataRow["Location"]== "")
+            locationColumn.innerHTML = "NA";
+
+        brandColumn = document.createElement("td");
+        brandColumn.innerHTML = dataRow["Brand"];
+
+        actionsColumn = document.createElement("td");
+        recordButton = document.createElement("button");
+        recordButton.innerHTML= "<i class='fas fa-file-medical-alt'></i><span class='btnref'> Records<span>";
+        recordButton.className = "btn btn-grp btn-secondary recordsbtn";
+        recordButton.title = "View Record";
+        recordButton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("loader").hidden = false;
+          // document.getElementById("no-record-div").innerHTML = "";
+          document.getElementById("record-table").hidden = false;
+          document.getElementById("record-tbody").innerHTML = "";
+          // document.getElementById("record-modal-content").innerHTML = '<div style="background-color: white;width: 20vw;margin-left: 30%;margin-bottom: 3vh;border-radius: 1vw;"><center> All Records </center></div>';
+          try {
+            records = await cc.getAllRecordsForAToolID(dataRow["Tool Code"], workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("Error in fetching your details! Please try again.");
+            console.log("Error in getAllRecordsForAToolID ! Please try again.");
+          }
+          if (records.length == 0) {
+            console.log("no records");
+            $(".collapse").show();
+            document.getElementById("record-table").hidden = true;
+          } 
+          else 
+          {
+            $(".collapse").hide();
+          }
+          records.forEach(dataRow => {
+            document.getElementById("record-table").getElementsByTagName("tbody")[0].appendChild(createRowForRecordTable(dataRow));
+          });
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("individualrecord")[0], options)
+          myModal.show();
+          document.getElementById("loader").hidden = true;
+          
+        }
+        
+        reportButton = document.createElement("button");
+        reportButton.innerHTML= "<i class='far fa-flag'></i><span class='btnref'> Report<span>";
+        reportButton.className = "btn btn-grp btn-secondary reportbtn";
+        reportButton.title = "Report item";
+        reportButton.onclick = async function (event) {
+        selectedToolCode = $(this).parents("tr")[0].cells[0].innerHTML;
+        currentStatus = $(this).parents("tr")[0].cells[2].innerHTML;
+        var n = currentStatus.indexOf('<');
+        currentStatus = currentStatus.substring(0,n);
+        document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        document.getElementById("damaged-functional").checked = false;
+        document.getElementById("damaged-nf").checked = false;
+        document.getElementById("missing").checked = false;
+        document.getElementById("missing-bf").checked = false;
+        document.getElementById("report-text").value = "";
+
+        if (currentStatus.includes("NA (Damaged)") || currentStatus.includes("NA (Missing)")) {
+            alert1("This tool has already been reported!");
+            return "";
+        }
+        if(dataRow["Allocated To"] != null) {
+            try {
+                var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+                cc.closeConnection();
+                alert1("This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".");
+                return;
+            }
+            catch {
+                alert1("Error in fetching your details! Please check your internet connection.");
+                console.log("Error in getUserDetailsFromEmpID ! Please try again.");
+            }
+        }
+
+        try {
+            data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+            cc.closeConnection();
+        }
+        catch {
+            alert1("Error in fetching your details! Please check your internet connection.");
+            console.log("Error in getChildParts ! Please try again.");
+        }
+
+        if (data.length == 0) {
+            document.getElementById("child-part-table").hidden = true;
+            document.getElementById("missing-bf").hidden = true;
+            document.getElementById("missing-bf-text").hidden = true;
+            document.getElementById("child-text").hidden = true;
+        }
+        else {
+            document.getElementById("child-part-table").hidden = false;
+            document.getElementById("missing-bf").hidden = false;
+            document.getElementById("missing-bf-text").hidden = false;
+            document.getElementById("child-text").hidden = false;
+        }
+        data.forEach(dataRow => {
+            document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+        })
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var reportModal = new bootstrap.Modal(document.getElementById("report-modal"), options)
+          // console.log(myModal);
+          reportModal.show();
+          document.getElementById("loader").hidden = true;
+        }
+
+        actionsColumn.appendChild(informationbutton);
+        actionsColumn.appendChild(recordButton);
+        actionsColumn.appendChild(reportButton);
+        tableRow.appendChild(toolcodeColumn);
+        tableRow.appendChild(toolnameColumn);
+        if(dataRow["Permanent"] == '5' || dataRow["Permanent"] == '6')
+        {
+          if(!dataRow["Quantity"])
+            dataRow["Quantity"] = 0;
+          statusColumn.innerHTML += " (" + dataRow["Quantity"] + ")";
+        }
+        tableRow.appendChild(statusColumn);
+        tableRow.appendChild(locationColumn);
+        tableRow.appendChild(actionsColumn);
+
+        return tableRow;
+      }
+    async function createRowForToolboxTable(dataRow, temp) {
+      tableRow = document.createElement("tr");
+
+      statusColumn = document.createElement("td");
+      statusColumn.className = "status";
+      statusspan = document.createElement("span");
+      statusspan.className = "icon is-small is-right right-icon";
+      statusicon = document.createElement("i");
+
+      if (dataRow["Status"] == "2") {
+        statusColumn.innerHTML = "Reported";
+        statusicon.className = "fas fa-exclamation-triangle";
+        statusicon.style.color = "#c2a90f";
+      }
+      else if (dataRow["Status"] == "3") {
+        statusColumn.innerHTML = "NA (Damaged)";
+        statusicon.className = "fas fa-times-circle";
+        statusicon.style.color = "red";
+      }
+      else if (dataRow["Status"] == "4") {
+        statusColumn.innerHTML = "NA (Missing)";
+        statusicon.className = "fas fa-times-circle";
+        statusicon.style.color = "#c2a90f";
+      }
+      else if (dataRow["Status"] == "5") {
+        statusColumn.innerHTML = "Missing (Functional)";
+        statusicon.className = "fas fa-exclamation-triangle";
+        statusicon.style.color = "#c2a90f";
+      }
+      else if (dataRow["Status"] == "6") {
+        statusColumn.innerHTML = "Under Maintenance";
+        statusicon.className = "fas fa-exclamation-triangle";
+        statusicon.style.color = "#c2a90f";
+      }
+      else if (dataRow["Allocated To"] != null) {
+        statusColumn.innerHTML = "OK";
+        statusicon.className = "fas fa-check-circle";
+        statusicon.style.color = "green";
+      }
+      if(temp == 0)
+      {
+        statusColumn.innerHTML = "Surrendered";
+        statusicon.className = "fas fa-sync fa-spin";
+        statusicon.style.color = "#c2a90f";
+      }
+      toolcodeColumn = document.createElement("td");
+      toolcodeColumn.innerHTML = dataRow["Tool Code"];
+      toolcodeColumn.className = "tcode";
+      
+      //console.log(dataRow["Tool Code"]);
+
+      toolnameColumn = document.createElement("td");
+      toolnameColumn.innerHTML = dataRow["Tool Name"];
+      toolnameColumn.className = "tname";
+
+      brandColumn = document.createElement("td");
+      brandColumn.innerHTML = dataRow["Brand"];
+      brandColumn.className = "brand";
+      if(dataRow["Brand"] == null || dataRow["Brand"]== "")
+          brandColumn.innerHTML = "NA";
+
+      if(dataRow["Tool Code"] == "WD0/TOOL2/3")
+      {
+        console.log(toolcodeColumn.innerHTML);
+      }
+      statusspan.appendChild(statusicon);
+
+      statusColumn.appendChild(statusspan);
+
+      actionsColumn = document.createElement("td");
+      actionsColumn.className = "actions";
+      reportButton = document.createElement("button");
+      reportButton.innerHTML= "<i class='far fa-flag'></i><span class='btnref'> Report<span>";
+      reportButton.className = "btn btn-grp btn-secondary reportbtn";
+      reportButton.title = "Report item";
+
+      reportButton.onclick = async function (event) {
+        selectedToolCode = $(this).parents("tr")[0].cells[0].innerHTML;
+        currentStatus = $(this).parents("tr")[0].cells[2].innerHTML;
+        var n = currentStatus.indexOf('<');
+        currentStatus = currentStatus.substring(0,n);
+        document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        document.getElementById("damaged-functional").checked = false;
+        document.getElementById("damaged-nf").checked = false;
+        document.getElementById("missing").checked = false;
+        document.getElementById("missing-bf").checked = false;
+        document.getElementById("report-text").value = "";
+
+        if (currentStatus.includes("NA (Damaged)") || currentStatus.includes("NA (Missing)")) {
+            alert1("This tool has already been reported!");
+            return "";
+        }
+        if(dataRow["Allocated To"] != null && dataRow["Allocated To"] != emp_id) {
+            try {
+                var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+                cc.closeConnection();
+                alert1("This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".");
+                return;
+            }
+            catch {
+                alert1("Error in fetching your details! Please check your internet connection.");
+                console.log("Error in getUserDetailsFromEmpID ! Please try again.");
+            }
+        }
+
+        try {
+            data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+            cc.closeConnection();
+        }
+        catch {
+            alert1("Error in fetching your details! Please check your internet connection.");
+            console.log("Error in getChildParts ! Please try again.");
+        }
+
+        if (data.length == 0) {
+            document.getElementById("child-part-table").hidden = true;
+            document.getElementById("missing-bf").hidden = true;
+            document.getElementById("missing-bf-text").hidden = true;
+            document.getElementById("child-text").hidden = true;
+        }
+        else {
+            document.getElementById("child-part-table").hidden = false;
+            document.getElementById("missing-bf").hidden = false;
+            document.getElementById("missing-bf-text").hidden = false;
+            document.getElementById("child-text").hidden = false;
+        }
+        data.forEach(dataRow => {
+            document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+        })
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var reportModal = new bootstrap.Modal(document.getElementById("report-modal"), options)
+          // console.log(myModal);
+          reportModal.show();
+          document.getElementById("loader").hidden = true;
+        }
+        if(dataRow["Tool Code"] == "WD0/TOOL2/3")
+      {
+        console.log(toolcodeColumn.innerHTML);
+      }
+      actionsColumn.appendChild(reportButton);
+
+      surrenderButton = document.createElement("i");
+      surrenderButton.className = "fa fa-hands";
+      surrenderButton.title = "Surrender";
+      surrenderButton.onclick = async function (event) {
+        toolcode = event.target.parentElement.parentElement.getElementsByTagName("td")[0].innerHTML;
+        selectedToolCode = toolcode;
+        toolname = event.target.parentElement.parentElement.getElementsByTagName("td")[1].innerHTML;
+        try {
+          var penReq = await cc.checkPendingSurrenderRequest(selectedToolCode, workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please check your internet connection.");
+          console.log("Error in checkPendingSurrenderRequest ! Please try again.");
+        }
+        var moment = require('moment-timezone');
+        var x = moment();
+        x = x.format("YYYY-MM-DD HH:mm:ss").toString();
+        let options = {
+          defaultId: 0,
+          cancelId: 0,
+          type: "question",
+          title: "Please Confirm",
+          buttons: ["No", "Yes"],
+          message: "Are you sure you want to surrender " + toolname + " (" + toolcode + ") ?"
+        }
+        if (penReq.length > 0) {
+          alert1("This request has already been submitted");
+          return;
+        }
+        let responseObject = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), options);
+        if (responseObject.response === 1) {
+          // try {
+          //   var toolDetails = await cc.getToolProfile(selectedToolCode, workshop_id);
+          //   cc.closeConnection();
+          // }
+          // catch {
+          //   alert1("Error in fetching your details! Please check your internet connection.");
+          //   console.log("Error in getToolProfile ! Please try again.");
+          // }
+          var fname = currentUser[0]["First Name"];
+          var lname = currentUser[0]["Last Name"];
+          console.log(toolname + " " + emp_id + " " + fname + " " + lname + " " + x);
+          try {
+            var result = await cc.surrenderRequest(toolname, selectedToolCode, emp_id, x, fname, lname, workshop_id);
+            cc.closeConnection();
+            alertDisappearing("Your surrender request has been successfully submitted.");
+          }
+          catch {
+            alert1("Error in fetching your details! Please check your internet connection.");
+            console.log("Error in getToolProfile ! Please try again.");
+          }
+        }
+      }
+      if(dataRow["Tool Code"] == "WD0/TOOL2/3")
+      {
+        console.log(toolcodeColumn.innerHTML);
+      }
+      recordButton = document.createElement("i");
+      recordButton.className = "fa fa-eye";
+      recordButton.title = "View Record";
+      recordButton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("loader").hidden = false;
+          // document.getElementById("no-record-div").innerHTML = "";
+          document.getElementById("record-table").hidden = false;
+          document.getElementById("record-tbody").innerHTML = "";
+          // document.getElementById("record-modal-content").innerHTML = '<div style="background-color: white;width: 20vw;margin-left: 30%;margin-bottom: 3vh;border-radius: 1vw;"><center> All Records </center></div>';
+          try {
+            records = await cc.getAllRecordsForAToolID(dataRow["Tool Code"], workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("Error in fetching your details! Please try again.");
+            console.log("Error in getAllRecordsForAToolID ! Please try again.");
+          }
+          if (records.length == 0) {
+            console.log("no records");
+            $(".collapse").show();
+            document.getElementById("record-table").hidden = true;
+          } 
+          else 
+          {
+            $(".collapse").hide();
+          }
+          records.forEach(dataRow => {
+            document.getElementById("record-table").getElementsByTagName("tbody")[0].appendChild(createRowForRecordTable(dataRow));
+          });
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("individualrecord")[0], options)
+          myModal.show();
+          document.getElementById("loader").hidden = true;
+          
+        }
+        actionsColumn.appendChild(recordButton);
+      actionsColumn.appendChild(surrenderButton);
+      tableRow.appendChild(toolcodeColumn);
+      tableRow.appendChild(toolnameColumn);
+      tableRow.appendChild(brandColumn);
+      tableRow.appendChild(statusColumn);
+      tableRow.appendChild(actionsColumn);
+      if(dataRow["Tool Code"] == "WD0/TOOL2/3")
+      {
+        console.log(toolcodeColumn.innerHTML);
+      }
+      // console.log(tableRow);
+      
+      return tableRow;
+}
+function createRowForRecordTable(dataRow) {
+        tableRow = document.createElement("tr");
+        reportdtColumn = document.createElement("td");
+        reportdtColumn.innerHTML = moment(new Date(dataRow["Report Datetime"])).format("DD-MMYYYY HH:mm:ss").toString();
+        // reportdtColumn.className = "tcode";
+        reseolvedtColumn = document.createElement("td");
+        reseolvedtColumn.innerHTML = moment(new Date(dataRow["Resolve Datetime"])).format("DD-MM-YYYY HH:mm:ss").toString();
+        // reseolvedtColumn.className = "tcode";
+        empColumn = document.createElement("td");
+        empColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"] + " (" + dataRow["Emp ID"] + ")"; 
+        // empColumn.className = "tcode";
+        causeColumn = document.createElement("td");
+        causeColumn.innerHTML = dataRow["Cause"]; causeColumn.className = "tcode";
+        actionColumn = document.createElement("td");
+        actionColumn.innerHTML = dataRow["Action"]; actionColumn.className = "tcode";
+        remarksColumn = document.createElement("td");
+        remarksColumn.innerHTML = dataRow["Additional Remarks"]; remarksColumn.className = "tcode";
+        tableRow.appendChild(empColumn);
+        tableRow.appendChild(causeColumn);
+        tableRow.appendChild(remarksColumn);
+        tableRow.appendChild(reportdtColumn);
+        tableRow.appendChild(reseolvedtColumn);
+        tableRow.appendChild(actionColumn);
+        return tableRow;
+      }
+
+  async function lastLoginUpdate() {
+
+    // setting the last login date, to a mock date, will use api for actual data
+    var moment = require('moment-timezone');
+    var lastLogin = moment(new Date(currentUser[0]["Last Login Date"]));
+    lastLogin = lastLogin.format("YYYY-MM-DD").toString();
+    var y = moment();
+    y = y.format("YYYY-MM-DD").toString();
+    console.log(lastLogin + "  " + y);
+
+    //var lastLogin = getLastLogin(store.get('email'));
+
+    var curLogin = moment();
+    curLogin = curLogin.format("YYYY-MM-DD HH:mm:ss").toString();
+
+    //var curLogin = new Date();
+    console.log(curLogin);
+    try {
+      await cc.setCurrentLogin(curLogin, store.get('Emp ID'));
+      cc.closeConnection();
+    }
+    catch {
+      alert1("Error in updating your login! Please try again.");
+      console.log("Error in updating your login! Please try again.");
+    }
+    // if (lastLogin == '')
+    //   document.getElementById("last-login-date").innerHTML = "This is yout first login";
+    // else
+    //   document.getElementById("last-login-date").innerHTML = moment(new Date(currentUser[0]["Last Login Date"])).format("ddd, MMM Do YYYY,<br> hh:mm a");
+    // if (lastLogin == y || toolAllotted == 0) {
+    //   console.log("dont open Checklist");
+    // }
+    // else {
+    //   document.getElementById("checklist-modal").className = "modal is-active";
+    //   console.log("open checklist");
+    // }
+  }
+  async function submitChecklist() {
+    var toolsReport = [];
+    rows = document.getElementById("checklist-tbody").getElementsByTagName("tr");
+    // console.log(rows);
+    Object.keys(rows).forEach(async function (key) {
+      if (rows[key].getElementsByTagName("td")[3].getElementsByTagName("input")[0].checked == true) {   // MISSING
+        console.log("missingg");
+        toolsReport.push({ "code": rows[key].getElementsByTagName("td")[0].innerHTML, "name": rows[key].getElementsByTagName("td")[1].innerHTML, "status": 4, "report": rows[key].getElementsByTagName("td")[6].getElementsByTagName("input")[0].value });
+      }
+      else if (rows[key].getElementsByTagName("td")[4].getElementsByTagName("input")[0].checked == true) {   // DAMAGED
+        toolsReport.push({ "code": rows[key].getElementsByTagName("td")[0].innerHTML, "name": rows[key].getElementsByTagName("td")[1].textContent, "status": 3, "report": rows[key].getElementsByTagName("td")[6].getElementsByTagName("input")[0].value });
+      }
+      else if (rows[key].getElementsByTagName("td")[5].getElementsByTagName("input")[0].checked == true) {   // BROKEN
+        toolsReport.push({ "code": rows[key].getElementsByTagName("td")[0].innerHTML, "name": rows[key].getElementsByTagName("td")[1].textContent, "status": 2, "report": rows[key].getElementsByTagName("td")[6].getElementsByTagName("input")[0].value });
+      }
+    });
+    //console.log(toolsReport);
+    for (var i = 0; i < toolsReport.length; i++) {
+      //console.log(toolsReport[i].status);
+      if (toolsReport[i].status == 4)
+        var cause = "Missing";
+      else if (toolsReport[i].status == 3)
+        var cause = "damaged";
+      else if (toolsReport[i].status == 2)
+        var cause = "damaged but functional";
+      var fname = currentUser[0]["First Name"];
+      var lname = currentUser[0]["Last Name"];
+      //console.log(cause);
+      try {
+        var resp2 = await cc.sendReport(toolsReport[i].code, emp_id, fname, lname, cause, toolsReport[i].report, toolsReport[i].status, toolsReport[i].name, workshop_id);
+        cc.closeConnection();
+      }
+      catch {
+        alert1("Error in fetching your details! Please check your internet connection.");
+        console.log("Error in sendReport ! Please try again.");
+      }
+    }
+    document.getElementById("checklist-modal").className = "modal";
+  }
+  /////////// SUBMIT REPORTTT
+  // document.getElementById("submit-report-button").addEventListener("click", report);
+  // async function report() {
+
+  //   var reportText = document.getElementById("report-text").value;
+  //   console.log(reportText);
+  //   var statusSelected = 0;
+  //   if (document.getElementById("damaged-functional").checked == true) {
+  //     var cause = "damaged but functional";
+  //     var status = 2;
+  //     var cstatus = 3;
+  //     statusSelected = 1;
+  //   }
+  //   else if (document.getElementById("damaged-nf").checked == true) {
+  //     var cause = "damaged";
+  //     var status = 3;
+  //     var cstatus = 3;
+  //     statusSelected = 1;
+  //   }
+  //   else if (document.getElementById("missing").checked == true) {
+  //     var cause = "Missing";
+  //     var status = 4;
+  //     var cstatus = 4;
+  //     statusSelected = 1;
+  //   }
+  //   else if (document.getElementById("missing-bf").checked == true) {
+  //     var cause = "Missing but functional";
+  //     var status = 5;
+  //     var cstatus = 4;
+  //     statusSelected = 1;
+  //   }
+
+  //   if (statusSelected != 1) {
+  //     alert1("Please select a status of the tool being returned.");
+  //     return;
+  //   }
+  //   if (reportText == null) {
+  //     alert1("Please write a report.");
+  //     return;
+  //   }
+
+  //   var childPartSelected = 0;
+  //   var childPartReport = [];
+  //   rows = document.getElementById("report-child-parts-tbody").getElementsByTagName("tr");
+  //   Object.keys(rows).forEach(async function (key) {
+  //     if (rows[key].getElementsByTagName("td")[1].getElementsByTagName("input")[0].checked == true) {   // MISSING
+  //       childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 4 });
+  //       childPartSelected = 1;
+  //     }
+  //     else if (rows[key].getElementsByTagName("td")[2].getElementsByTagName("input")[0].checked == true) {   // DAMAGED
+  //       childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 3 });
+  //       childPartSelected = 1;
+  //     }
+  //     else if (rows[key].getElementsByTagName("td")[3].getElementsByTagName("input")[0].checked == true) {   // BROKEN
+  //       childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 6 });
+  //       childPartSelected = 1;
+  //     }
+  //   });
+  //   console.log(childPartReport);
+  //   // console.log(damaged);
+  //   try {
+  //     var scp = await cc.setChildParts(childPartReport, selectedToolCode, workshop_id);
+  //     cc.closeConnection();
+  //   }
+  //   catch {
+  //     alert1("Error in fetching your details! Please check your internet connection.");
+  //     console.log("Error in setChildParts ! Please try again.");
+  //   }
+
+
+  //   if (childPartSelected != 1 && document.getElementById("child-part-table").hidden == false) {
+  //     alert1("Please select damaged part(s).");
+  //     return;
+  //   }
+  //   try {
+  //     var tooldetails = await cc.getToolProfile(selectedToolCode, workshop_id);
+  //     cc.closeConnection();
+  //   }
+  //   catch {
+  //     alert1("Error in fetching your details! Please check your internet connection.");
+  //     console.log("Error in getUserDetails ! Please try again.");
+  //   }
+  //   var currentEmp = store.get('Emp ID');
+  //   try {
+  //     currentUser = await cc.getUserDetailsFromEmpID(currentEmp);
+  //     cc.closeConnection();
+  //     console.log(currentUser);
+  //   }
+  //   catch {
+  //     alert1("Error in fetching your details! Please try again.");
+  //     console.log("Error in fetching your details! Please try again.");
+  //   }
+  //   var toolname = tooldetails[0]["Tool Name"];
+
+  //   var fname = currentUser[0]["First Name"];
+  //   var lname = currentUser[0]["Last Name"];
+  //   console.log(fname);
+  //   // console.log(toolname + fname + lname);
+  //   try {
+  //     var resp2 = await cc.sendReport(selectedToolCode, emp_id, fname, lname, cause, reportText, status, toolname, workshop_id);
+  //     cc.closeConnection();
+  //   }
+  //   catch {
+  //     alert1("Error in fetching your details! Please check your internet connection.");
+  //     console.log("Error in sendReport ! Please try again.");
+  //   }
+  //   if (resp2 == 1) {
+  //     document.getElementById("report-modal").className = "modal";
+  //     alert1("Your report has been submitted.");
+  //     //document.getElementById("report-table").getElementsByTagName("tbody")[0].innerHTML=""; 
+  //   }
+  //   else {
+  //     alert1("Some error occurred. Please try again.");
+  //     return;
+  //   }
+  //   document.getElementById("damaged-functional").checked == false;
+  //   document.getElementById("damaged-nf").checked == false;
+  //   document.getElementById("missing").checked == false;
+  //   document.getElementById("missing-bf").checked == false;
+  // }
+  // //Adds row to the checklist table.
+  function createRowForChecklist(dataRow) {
+    tableRow = document.createElement("tr");
+    toolNameColumn = document.createElement("td");
+    toolNameColumn.innerHTML = dataRow["Tool Name"];
+    toolCodeColumn = document.createElement("td");
+    toolCodeColumn.innerHTML = dataRow["Tool Code"];
+    statusColumn = document.createElement("td"); statusColumn.className = "status";
+    statusspan = document.createElement("span");
+    statusspan.className = "icon is-small is-right right-icon";
+    statusicon = document.createElement("i");
+    if (dataRow["Status"] == "1") {
+      statusColumn.innerHTML = "OK";
+      statusicon.className = "fas fa-check-circle";
+      statusicon.style.color = "green";
+    }
+    else if (dataRow["Status"] == "0") {
+      statusColumn.innerHTML = "Available";
+      statusicon.className = "fas fa-check-circle";
+      statusicon.style.color = "green";
+    }
+    else if (dataRow["Status"] == "2") {
+      statusColumn.innerHTML = "Reported";
+      statusicon.className = "fas fa-exclamation-triangle";
+      statusicon.style.color = "#c2a90f";
+    }
+    else if (dataRow["Status"] == "3") {
+      statusColumn.innerHTML = "NA (Damaged)";
+      statusicon.className = "fas fa-times-circle";
+      statusicon.style.color = "red";
+    }
+    else if (dataRow["Status"] == "4") {
+      statusColumn.innerHTML = "NA (Missing)";
+      statusicon.className = "fas fa-times-circle";
+      statusicon.style.color = "#c2a90f";
+    }
+    else if (dataRow["Status"] == "5") {
+      statusColumn.innerHTML = "Missing (Functional)";
+      statusicon.className = "fas fa-exclamation-triangle";
+      statusicon.style.color = "#c2a90f";
+    }
+    // statusspan.appendChild(statusicon);
+    // statusColumn.appendChild(statusspan);
+    checkboxColumn1 = document.createElement("td");
+    checkbox1 = document.createElement('input');
+    checkbox1.type = 'checkbox';
+    checkboxColumn1.appendChild(checkbox1);
+    checkbox1.onclick = function () {
+      if (dataRow["Status"] == 4) {
+        event.target.parentElement.parentElement.getElementsByTagName("td")[3].getElementsByTagName("input")[0].checked = false;
+        alert1("This tool has already been reported Missing.");
+      }
+    }
+    checkboxColumn2 = document.createElement("td");
+    checkbox2 = document.createElement('input');
+    checkbox2.type = 'checkbox';
+    checkboxColumn2.appendChild(checkbox2);
+    checkbox2.onclick = function () {
+      if (dataRow["Status"] == 3 || dataRow["Status"] == 4) {
+        event.target.parentElement.parentElement.getElementsByTagName("td")[4].getElementsByTagName("input")[0].checked = false;
+        alert1("This tool has already been reported.");
+      }
+    }
+    checkboxColumn3 = document.createElement("td");
+    checkbox3 = document.createElement('input');
+    checkbox3.type = 'checkbox';
+    checkboxColumn3.appendChild(checkbox3);
+    checkbox3.onclick = function () {
+      if (dataRow["Status"] == 3 || dataRow["Status"] == 4 || dataRow["Status"] == 2) {
+        event.target.parentElement.parentElement.getElementsByTagName("td")[5].getElementsByTagName("input")[0].checked = false;
+        alert1("This tool has already been reported.");
+      }
+    }
+    reportColumn = document.createElement("td");
+    reportText = document.createElement('input');
+    reportText.type = 'text';
+    reportColumn.appendChild(reportText);
+
+    tableRow.appendChild(toolCodeColumn);
+    tableRow.appendChild(toolNameColumn);
+    tableRow.appendChild(statusColumn);
+    tableRow.appendChild(checkboxColumn1);
+    tableRow.appendChild(checkboxColumn2);
+    tableRow.appendChild(checkboxColumn3);
+    tableRow.appendChild(reportColumn);
+
+    return tableRow;
+  }
+  function createRowForChecklistKit(dataRow) {
+    tableRow = document.createElement("tr");
+    // var isKitItems = await cc.getChildParts(dataRow["Tool Code"]);
+    toolNameColumn = document.createElement("td");
+    toolNameColumn.innerHTML = dataRow["Tool Name"];
+    toolCodeColumn = document.createElement("td");
+    toolCodeColumn.innerHTML = dataRow["Tool Code"];
+    statusColumn = document.createElement("td"); statusColumn.className = "status";
+    statusspan = document.createElement("span");
+    statusspan.className = "icon is-small is-right right-icon";
+    statusicon = document.createElement("i");
+    if (dataRow["Status"] == "1") {
+      statusColumn.innerHTML = "Ok";
+      statusicon.className = "fas fa-check-circle";
+      statusicon.style.color = "green";
+    }
+    else if (dataRow["Status"] == "2") {
+      statusColumn.innerHTML = "Reported";
+      statusicon.className = "fas fa-exclamation-triangle";
+      statusicon.style.color = "#c2a90f";
+    }
+    else if (dataRow["Status"] == "3") {
+      statusColumn.innerHTML = "NA (Damaged)";
+      statusicon.className = "fas fa-times-circle";
+      statusicon.style.color = "red";
+    }
+    else if (dataRow["Status"] == "4") {
+      statusColumn.innerHTML = "NA (Missing)";
+      statusicon.className = "fas fa-times-circle";
+      statusicon.style.color = "#c2a90f";
+    }
+    else if (dataRow["Status"] == "5") {
+      statusColumn.innerHTML = "Missing (Functional)";
+      statusicon.className = "fas fa-exclamation-triangle";
+      statusicon.style.color = "#c2a90f";
+    }
+    actionsColumn = document.createElement("td");
+    reportButton = document.createElement("button");
+    reportButton.className = "button is-success";
+    reportButton.innerHTML = "Report";
+    actionsColumn.appendChild(reportButton);
+
+    reportButton.onclick = async function (event) {
+      toolcode = event.target.parentElement.parentElement.getElementsByTagName("td")[0].innerHTML; selectedToolCode = toolcode;
+      currentStatus = dataRow["Status"];
+      console.log(currentStatus);
+      document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+      document.getElementById("damaged-functional").checked = false;
+      document.getElementById("damaged-nf").checked = false;
+      document.getElementById("missing").checked = false;
+      document.getElementById("missing-bf").checked = false;
+      document.getElementById("report-text").value = "";
+
+      if (currentStatus > 1) {
+        alert1("This tool has already been reported!");
+        //event.target.parentElement.parentElement.getElementsByTagName("td")[0].innerHTML.checked=false;
+        return;
+      }
+
+      try {
+        data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+        cc.closeConnection();
+      }
+      catch {
+        alert1("Error in fetching your details! Please check your internet connection.");
+        console.log("Error in getChildParts ! Please try again.");
+      }
+
+      if (data.length == 0) {
+        document.getElementById("child-part-table").hidden = true;
+        document.getElementById("missing-bf").hidden = true;
+        document.getElementById("missing-bf-text").hidden = true;
+        document.getElementById("child-text").hidden = true;
+      }
+      else {
+        document.getElementById("child-part-table").hidden = false;
+        document.getElementById("missing-bf").hidden = false;
+        document.getElementById("missing-bf-text").hidden = false;
+        document.getElementById("child-text").hidden = false;
+
+        data.forEach(dataRow => {
+          //document.getElementsByTagName("tbody")[0].appendChild(createRowForChildParts(dataRow));
+          document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+        });
+      }
+
+      document.getElementById("report-modal").className = "modal is-active";
+
+    }
+
+    tableRow.appendChild(toolCodeColumn);
+    tableRow.appendChild(toolNameColumn);
+    tableRow.appendChild(statusColumn);
+    tableRow.appendChild(actionsColumn);
+    return tableRow;
+  }
+  function closeAlertModal() {
+    document.getElementById("alert-modal").classList.remove("is-active");
+  }
+  // Adds row to the table in Issue History Page
+  function createRowForIssueHistoryTable(dataRow) {
+        tableRow = document.createElement("tr");
+        approvedByColumn = document.createElement("td");
+        approvedByColumn.innerHTML = dataRow["Approved By"];
+        nameColumn = document.createElement("td");
+        nameColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"];
+        toolcodeColumn = document.createElement("td");
+        toolcodeColumn.innerHTML = dataRow["Tool Code"];
+        toolnameColumn = document.createElement("td");
+        toolnameColumn.innerHTML = dataRow["Tool Name"];
+        issuedtColumn = document.createElement("td");
+        idt = moment(new Date(dataRow["Issue DateTime"]));
+        idt = idt.format("YYYY-MM-DD HH:mm:ss");
+        issuedtColumn.innerHTML = idt;
+        returndtColumn = document.createElement("td");
+        if (dataRow["Return DateTime"]) {
+            returndtColumn.innerHTML = moment(new Date(dataRow["Return DateTime"])).format("YYYY-MM-DD HH:mm:ss");
+        }
+        else {
+            returndtColumn.innerHTML = "<b style='color: red;'>Pending</b>"
+        }
+        returnStatusColumn = document.createElement("td");
+        returnStatusColumn.innerHTML = dataRow["Return Status"];
+        returnStatusColumn.className = "tname";
+        if(!dataRow["Return Status"])
+            returnStatusColumn.innerHTML = "NA";
+        
+        // tableRow.appendChild(nameColumn);
+        tableRow.appendChild(toolcodeColumn);
+        tableRow.appendChild(toolnameColumn);
+        tableRow.appendChild(approvedByColumn);
+        tableRow.appendChild(issuedtColumn);
+        tableRow.appendChild(returndtColumn);
+        tableRow.appendChild(returnStatusColumn);
+        return tableRow;
+    }
+     
+  function createRowForChildParts(dataRow) {
+
+    tableRow = document.createElement("tr");
+    toolNameColumn = document.createElement("td");
+    toolNameColumn.innerHTML = dataRow["Tool Name"];
+    checkboxColumn1 = document.createElement("td");
+    checkbox1 = document.createElement('input');
+    checkbox1.type = 'checkbox';
+    checkboxColumn1.appendChild(checkbox1);
+    checkboxColumn2 = document.createElement("td");
+    checkbox2 = document.createElement('input');
+    checkbox2.type = 'checkbox';
+    checkboxColumn2.appendChild(checkbox2);
+    checkboxColumn3 = document.createElement("td");
+    checkbox3 = document.createElement('input');
+    checkbox3.type = 'checkbox';
+    checkboxColumn3.appendChild(checkbox3);
+
+    tableRow.appendChild(toolNameColumn);
+    tableRow.appendChild(checkboxColumn1);
+    tableRow.appendChild(checkboxColumn2);
+    tableRow.appendChild(checkboxColumn3);
+    return tableRow;
+  }
+  function executeSearchAllTools() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("alltools-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("all-tools-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+  function executeSearchTools() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("tools-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("only-tools-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+  function executeSearchIssueHistory() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("issue-history-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("issue-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchEquipment() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("equipment-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("only-equipment-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchMaterials() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("material-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("only-materials-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+  function executeSearchToolbox() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("toolbox-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("toolbox-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+  function exportAsPDF(x, y) {
+    document.getElementById("loader").removeAttribute("hidden");
+    generatePDF(x, y);
+  }
+
+  function closeReportModal() {
+    // document.getElementById("report-modal").className = "modal";
+    var options = { backdrop: "static", keyboard: true, focus: true };
+    var reportModal = new bootstrap.Modal(document.getElementById("report-modal"), options)
+          // console.log(myModal);
+          document.getElementById("report-modal").style.display = "none";
+          // reportModal.style.display = "none";
+  }
+  function logout() {
+    document.location = 'index.html';
+    // document.location = "https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Findex.html?alt=media&token=b1e83188-3026-48e0-a8ef-e99741f5c20f";
+  }
+  function closeModal() {
+    allModals = document.getElementsByClassName("modal");
+    for (var i = 0; i < allModals.length; i++) {
+      allModals[i].classList.remove("is-active");
+    }
+  }
+
+  function manageShortcuts(e){
+        var evtobj = window.event? event : e
+        if (evtobj.keyCode == 82 && evtobj.ctrlKey) {
+            e.preventDefault();
+            location.reload();
+        }
+  }
+  function alert1(alertMessage) {
+        document.getElementById("alert-modal-text").innerHTML = alertMessage;
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var alertModal = new bootstrap.Modal(document.getElementById("alert-modal"), options)
+          alertModal.show();
+    }
+    function alertDisappearing(alertMessage) {
+        if (alertMessage) {
+            document.getElementById("alert-modal-text").innerHTML = alertMessage;
+        }
+        var options = { backdrop: "static", keyboard: true, focus: true };
+        var alertModal = new bootstrap.Modal(document.getElementById("alert-modal"), options)
+        alertModal.show();
+        setTimeout(() => { alertModal.hide() }, 2000);
+    }
+  function closeWindow() {
+    window.close();
+  }
+  function minimiseWindow() {
+    remote.BrowserWindow.getFocusedWindow().minimize();
+  }
+
+</script>
+</html>
