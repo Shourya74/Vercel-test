@@ -1,151 +1,3023 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="main.css">
-    <title>Login</title>
-</head>
-<body class="bg-gradient bg-dark">
-  <div class="loginform bg-gradient bg-dark">
-    <img src="assets\Black-bg-Gold-Logo_cropped1-removebg-preview.png" alt="ORCUS logo" srcset="">
-    <h1 class="mb-3">Login</h1>
-    <form class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="validationUser" style="color: #fbbe15;" class="form-label"> User ID/ e-mail</label>
-            <input type="text" id="validationUser" class="form-control" required>
-            <div class="invalid-feedback">
-                Invalid user!   
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <title>Issuer Dashboard</title>
+          <!-- common JS for local development -->
+          <script src="common.js"></script>
+          <!-- for production -->
+          <!-- <script src="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Fcommon.js?alt=media&token=6dc6c1af-e542-47bf-be33-a53dae858494"></script> -->
+          
+          <!-- <script src="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Fservice-layer.js?alt=media&token=50818057-52fa-4c7e-b28b-efd29f03b991"></script> -->
+
+          <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+          <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+        <link rel="stylesheet" href="bootstrap-5.0.0-beta2-dist/css/bootstrap-grid.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">        <!-- <link rel="stylesheet" href="main.css"> -->
+         <!-- main CSS for local development -->
+         <link rel="stylesheet" href="main.css">
+                   <!-- for production -->
+        <!-- <link rel="stylesheet" type="text/css" href="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Fmain.css?alt=media&token=fb7c8441-403a-40a0-9071-09fe0df33859"> -->
+        <!-- <script src="script.js"></script> -->
+        <!-- <script src="bootstrap-5.0.0-beta2-dist/js/bootstrap.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" 
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" 
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" 
+         crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <title>
+
+        </title>
+    </head>
+<body>
+<div id="loader"></div>
+<div class="modal reportmodal modal-dialog-scrollable" id="alert-modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-dark bg-gradient">
+        <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i> Alert</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="alert-modal-text">
+
+      </div>
+
+  </div>
+</div>
+</div>
+ <!-- ########################## Top Navigation bar ########################## -->
+      <div class="header">
+       <div class="topnav">
+          <nav class="navbar sticky-top navbar-expand-lg">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#" onclick="reload()" title="click to REFRESH"><img src="https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Flogo-yellow-nobg.png?alt=media&token=94799321-75f8-4315-9cac-b4f007565bfb" alt="ORCUS logo"></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+              </button>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                      <ul class="navbar-nav nav nav-tabs" id="issuerNavTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link active" data-bs-target="#issuerrequestpage" data-bs-toggle="tab" type="button" role="tab" aria-controls="issuerrequestpage" aria-selected="true">Requests</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link" data-bs-target="#issuerregisterpage" data-bs-toggle="tab" type="button" role="tab" aria-controls="issuerregisterpage" aria-selected="false">Register</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link" data-bs-target="#issuerreportspage" data-bs-toggle="tab" type="button" role="tab" aria-controls="issuerreportspage" aria-selected="false">Reports</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link" data-bs-target="#issuerinspection" data-bs-toggle="tab" type="button" role="tab" aria-controls="issuerinspectionpage" aria-selected="false">Inspection</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <a class="nav-link" data-bs-target="#issuerinventory" data-bs-toggle="tab" type="button" role="tab" aria-controls="issuerinventory" aria-selected="false">Inventory</a></li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        info
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a id="workshop-id" class="dropdown-item" href="#">Workshop ID: xxxx 1234 ABCD</a></li>
+                        <li><a id="employee-id" class="dropdown-item" href="#">Employee ID: 404</a></li>
+                        <li><a id="issuer-name" class="dropdown-item" href="#">Issuer: *name*</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#issuerprofile">Profile</a></li>                        <li><a class="dropdown-item" href="#">Quit charge</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Help</a></li>
+                      </ul>
+                    <li class="nav-item">
+                      <a class="nav-link logoutr" href="#" onclick="logout()">LOGOUT <i class="fas fa-sign-out-alt"></i></a>
+                      </li> 
+                </ul>
+              </div>
             </div>
+          </nav>
         </div>
-        <div class="mb-3">
-            <label for="validationPassword" style="color: #fbbe15;" class="form-label">Password</label>
-            <input id="validationPassword" type="password" class="form-control" required>
-            <div class="invalid-feedback">
-                Incorrect password!   
+      </div>
+      <div class="tab-content" id="TabContentIssuer">
+            <div class="tab-pane fade show active"  id="issuerrequestpage" role="tabpanel">
+            <!-- ********************************REQUEST PAGE START*************************************** -->       
+          <!-- ############# Request slip ############# -->
+          <div class="row bg-gradient bg-dark" id="pending-request-div">
+            <!-- new card -->
+            <!-- <div class="card">
+              <div class="card-header">
+                Request </div>
+              <div class="card-body">
+              <div class="card-title">
+                <h5>Technician name</h5>
+                <p>Time Stamp 11:40:78 22/02/2021</p>
+              </div> 
+              <ul class="list-group requestlist" id="tool-request-list">
+                <li class="list-group-item requestitem">
+                Tool #1 
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                  </button>
+                </li>
+                </ul>
+                <div class="btn_grp">
+                  <button type="button" class="btn accept"><i class="fas fa-vote-yea"></i> Accept all</button>
+                  <button type="button" class="btn reject"><i class="fas fa-trash"></i> Reject all</button>
+                </div>
             </div>
-        </div>
-        <a class="forgotpassword" href="" data-bs-target="#forgot-password-req" data-bs-toggle="modal">Forgot password?</a>
-        <br><br>
-        <button type="button" class="btn loginbtn mb-3">Login</button>
-        <span>Don't have an account? <a href="" data-bs-toggle="modal" data-bs-target="#create-account"> Create account</a></span>
-        <br><br>
-     </form>
-  </div>  
-  <!-- Modal new user/ create account -->
-  <div class="modal fade" id="create-account" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-      <div class="modal-dialog mdoal-lg modal-dialog-scrollable" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title"><i class="fas fa-user-plus"></i> Create Account</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
+            </div>    -->
+          </div>    
+          <!-- ############################## Pending return div ########################### -->
+          <h3 style="font-weight: 650; color: #ff0000;">Pending returns</h3>
+          <!-- ############# Filter bar ############# -->
+          <form class="d-flex bg-dark bg-gradient">
+            <input id="pending-returns-search" onkeyup="executeSearchPendingReturns()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+            <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('pending-returns-table')">Export</button>
+           </form>  
+          <!-- ############# Pending returns table ############# -->
+          <div class="table-responsive pendingreturntable">
+          <table class="table" id="pending-returns-table">
+            <thead class="table-dark bg-dark bg-gradient align-middle ">
+              <tr>
+                <th scope="col">Employee (ID)</th>
+                <th scope="col">Name</th>
+                <th scope="col">Code</th>
+                <th scope="col">Issue time
+                  <button class="fltrddmbtn bg-transparent" id="issue-time-ddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                  <ul class="dropdown-menu bg-gradient bg-dark" aria-labelledby="issue-time-ddm">
+                    <li><input class="filterIn" type="text" name="fromtime" id="fromtime-issuerrequest" placeholder="From: hh-mm-AM/PM" onfocus="(this.type='time')"></li>
+                    <li><input class="filterIn" type="text" name="totime" id="totime-issuerrequest" placeholder="To: hh-mm-AM/PM" onfocus="(this.type='time')"></li>         
+                  </ul> 
+                </th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          </div> 
+          <div id="no-pending-div" style="display: none;">No Pending Returns</div>
+          <!-- ********************************REQUEST PAGE END*************************************** -->
+            </div>
+              <!-- ********************************REGISTER PAGE START*************************************** --> 
+              <div class="tab-pane fade"  id="issuerregisterpage" role="tabpanel">
+                <h1 class="bg-dark bg-gradient">Request Register</h1>      
+                <!-- ############# Filter bar ############# -->   
+                      <form class="d-flex bg-dark bg-gradient">
+                        <input id = "register-search" onkeyup="executeSearchRegister()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+                        <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('request-table')">Export</button>
+                       </form>  
+              
+                  <!-- ############# Request register table ############# -->
+                    <div class="table-responsive ">  
+                      <table class="table" id="request-table">
+                        <thead class="table-dark align-middle">
+                          <tr>
+                            <th scope="col">Employee (ID)</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Issued by</th>
+                            <th scope="col">Issue time
+                              <button class="fltrddmbtn bg-transparent" id="issue-time-ddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                              <ul class="dropdown-menu bg-gradient bg-dark" aria-labelledby="issue-time-ddm">
+                                <li><input class="filterddm" type="text" name="fromdate" id="issuedatefrom" placeholder="From: Date" onfocus="(this.type='date')"></li>   
+                                <li><input class="filterddm" type="text" name="todate" id="issueddateto" placeholder="To: Date" onfocus="(this.type='date')"></li>   
+                              </ul>
+                            </th>
+                            <th scope="col">Return Time 
+                              <button class="fltrddmbtn bg-transparent" id="return-time-ddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                              <ul class="dropdown-menu bg-gradient bg-dark" aria-labelledby="return-time-ddm">
+                                <li><input class="filterddm" type="text" name="fromdate" id="returndatefrom" placeholder="From: Date" onfocus="(this.type='date')"></li>   
+                                <li><input class="filterddm" type="text" name="todate" id="returndateto" placeholder="To: Date" onfocus="(this.type='date')"></li>   
+                                <li><a class="dropdown-divider"></a></li>
+                                <li><a class="dropdown-item"></a></li>
+                                <li><a class="dropdown-item" href="#">Not Issued</a></li>
+                                <li><a class="dropdown-item" href="#">Pending</a></li>
+                              </ul>
+                            </th>
+                            <th scope="col">Return Status
+                              <button class="fltrddmbtn bg-transparent" id="req-rgstr-rtrn-stts-ddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                              <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="req-rgstr-rtrn-stts-ddm">
+                                <li><a class="dropdown-item" href="#">OK</a></li>   
+                                <li><a class="dropdown-item" href="#">Damage</a></li>  
+                                <li><a class="dropdown-item" href="#">Partially Damage</a></li>   
+                                <li><a class="dropdown-item" href="#">Missing</a></li>
+                                <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                                <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                              </ul>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>  
+              </div>
+              <!-- ********************************REGISTER PAGE END*************************************** -->   
+              <!-- ********************************REPORTS PAGE START*************************************** --> 
+              <div class="tab-pane fade" id="issuerreportspage" role="tabpanel">
+                <h1 class="bg-dark bg-gradient">Reports Register</h1>
+                <!-- ########################## Filter bar ########################## -->
+                <form class="d-flex bg-dark bg-gradient">
+                  <input id = "reports-search" onkeyup="executeSearchReports()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+                  <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('repair-history-table')">Export</button>
+                 </form>  
+          <!-- ########################## Reports table ########################## -->
+          <div class="table-responsive">  
+          <table class="table" id="repair-history-table">
+            <thead class="table-dark align-middle">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Code</th>
+                <th scope="col">Employee (ID)</th>
+                <th scope="col">Cause
+                  <button class="fltrddmbtn bg-transparent" id="reportstatusddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                  <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="reportstatusddm">
+                    <li><a class="dropdown-item" href="#">Damage</a><li>   
+                    <li><a class="dropdown-item" href="#">Partially Damage</a><li>   
+                    <li><a class="dropdown-item" href="#">Missing</a></li>
+                    <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                    <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                  </ul>
+                </th>
+                <th class="longtext" scope="col">Remarks</th>
+                <th scope="col">Report time
+                  <button class="fltrddmbtn bg-transparent" id="repairreportddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                  <ul class="dropdown-menu bg-gradient bg-dark" aria-labelledby="repairreportddm">
+                    <li><input class="filterddm" type="text" name="fromdate" id="repairreportdatefrom" placeholder="Report From: Date" onfocus="(this.type='date')"></li>   
+                    <li><input class="filterddm" type="text" name="todate" id="repairreportdateto" placeholder="Report To: Date" onfocus="(this.type='date')"></li>   
+                  </ul> 
+                </th>
+                <th scope="col">Resolve time
+                  <button class="fltrddmbtn bg-transparent" id="repairresolveddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                  <ul class="dropdown-menu bg-gradient bg-dark" aria-labelledby="repairresolveddm">
+                    <li><input class="filterddm" type="text" name="fromdate" id="repairreportdatefrom" placeholder="Resolve From: Date" onfocus="(this.type='date')"></li>   
+                    <li><input class="filterddm" type="text" name="todate" id="repairreportdateto" placeholder="Resolve To: Date" onfocus="(this.type='date')"></li>   
+                  </ul>  
+                </th>
+                <th scope="col">Current Status
+                  <button class="fltrddmbtn bg-transparent" id="rprt-crrnt-statusddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                  <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="rprt-crrnt-statusddm">
+                    <li><a class="dropdown-item" href="#">OK</a><li>  
+                    <li><a class="dropdown-item" href="#">Damage</a><li>   
+                    <li><a class="dropdown-item" href="#">Partially Damage</a><li>   
+                    <li><a class="dropdown-item" href="#">Missing</a></li>
+                    <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                    <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                  </ul>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          </div>  
+              </div>
+            <!-- ********************************REPORTS PAGE END*************************************** -->
+            <!-- ********************************INSPECTION PAGE START*************************************** -->
+            <div class="tab-pane fade" id="issuerinspection" role="tabpanel">
+              <h1 class="bg-dark bg-gradient">Hand-tools Inspection</h1>
+                <div class="insppanel">
+                  <form action="" class="inspdtls bg-dark bg-gradient">
+                    <!-- <div class="d-flex tsrch">
+                      <input onkeyup="technicianChangeInspection(this.value)" id="technician1-input-inspection" class="form-control sm-2" list="datalistOptions" type="search" placeholder="Technician Name/ID" aria-label="Search">
+                    </div>
+                    <div id="technician-box2" class="dropdown tsrch">
+                      <div class="dropdown-trigger">
+                        <input onkeyup="technicianChangeInspection(this.value)" id="technician2-input-inspection" class="form-control sm-2"
+                          type="search" placeholder="Search Technicians by Name or ID" aria-label="Search">
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                          <div class="dropdown-content">
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                    <!-- <label for="exampleDataList" class="form-label">Datalist example</label> -->
+                    <!-- <input onkeyup="technicianChangeInspection(this.value)" type="text" list="datalistOptions" id="technician-input-inspection" placeholder="Type to search..."> -->
+                    <input id="technician-input-inspection" class="input"
+                  type="text" list="datalistOptions" placeholder="Search Technicians by Name or ID">
+                    <datalist id="datalistOptions">
+                      
+                    </datalist>
+                  </form>
+                    <div class="dtddm">
+                    <select class="form-select form-select-sm selectpicker" id="month" aria-label=".form-select-sm" aria-placeholder="Month" onfocus="(this.type='select')" onchange="checklistDataModal()">
+                        <optgroup class="filter-options bg-gradient bg-dark" label="Month:">
+                          <option value="01">January</option>   
+                          <option value="02">February</option>
+                          <option value="03">March</option>
+                          <option value="04">April</option>
+                          <option value="05">May</option>
+                          <option value="06">June</option>
+                          <option value="07">July</option>
+                          <option value="08">August</option>
+                          <option value="09">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        <optgroup>
+                        </select>
+                      <select class="form-select form-select-sm filterIn" id="year" aria-label=".form-select-sm example" onfocus="(this.type='select')" onchange="checklistDataModal()"> 
+                        <optgroup class="filter-options bg-gradient bg-dark" label="Year:">
+                          <option value="2020">2020</option>   
+                          <option value="2021">2021</option>
+                          <option value="2022">2022</option>
+                        </optgroup>
+                      </select>
+                  </div>
+                      <!-- ################## LEGEND TABLE ################## -->
+                  <div class="table-responsive">
+                    <table class="table bg-dark bg-gradient legend">
+                      <thead class="table-dark align-middle">
+                        <tr><th colspan="2">LEGEND</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><i class="fas fa-square" style="color:#00ff00 ;"></i> OK</td>
+                          <td><i class="fas fa-square" style="color: #ff0000;"></i> Damaged</td>
+                        </tr>
+                        <tr>
+                          <td><i class="fas fa-square" style="color:#ff9900;"></i> Partially Damaged</td>
+                          <td><i class="fas fa-square" style="color: #fbbe15;"></i> Missing</td>
+                        </tr>
+                        <tr>
+                          <td><i class="fas fa-square" style="color: #ff0066;"></i> Holiday</td>
+                          <td><i class="fas fa-square" style="color: #999966;"></i> NA</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>   
+                </div>  
+                <br>    
+            <div class="tchinspdetails">
+            <div class="table-responsive">
+              <table class="table inspID">
+                <thead class="table-dark align-middle">
+                  <tr><th colspan="2">Hand-tools Inspection Report</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name:</td>
+                    <td id="selected-technician-inspection"><u><b></b></u></td>
+                  </tr>
+                  <tr>
+                    <td>Company</td>
+                    <td id="selected-company-inspection"><u><b></b></u></td>
+                  </tr>
+                  <tr>
+                    <td>Month-year</td>
+                    <td><b><u id="month-year"></u></b></td>
+                  </tr>
+                  <tr><td colspan="2"><b>Filters:</b> <strike>holidays</strike><strike> Reports</strike></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+                <!-- #################### Filter buttons vertical####################--> 
+                <div class="btngrpvertical" role="group" aria-label="Basic checkbox toggle button group">
+                  <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+                  <label class="btn btn-outline-dark" for="btncheck1">Hide Holidays</label>
+                
+                  <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+                  <label class="btn btn-outline-dark" for="btncheck2">Reports</label>
+
+                  <button type="button" class="btn btn-dark" onclick="exportAsPDF('checklist-data-table')">Export</button>
+                </div>
+            </div>
+            <hr 1px>
+            <!-- #################### Inspection sheet ####################-->
+            <div class="table-responsive ">  
+            <table class="table" id="checklist-data-table">
+              <thead class="table-dark align-middle">
+                <tr>
+                  <th scope="col" class="insptool">Tools</th>
+                  <th scope="col" class="inspDay">01</th>
+                  <th scope="col" class="inspDay">02</th>
+                  <th scope="col" class="inspDay">03</th>
+                  <th scope="col" class="inspDay">04</th>
+                  <th scope="col" class="inspDay">05</th>
+                  <th scope="col" class="inspDay">06</th>
+                  <th scope="col" class="inspDay">07</th>
+                  <th scope="col" class="inspDay">08</th>
+                  <th scope="col" class="inspDay">09</th>
+                  <th scope="col" class="inspDay">10</th>
+                  <th scope="col" class="inspDay">11</th>
+                  <th scope="col" class="inspDay">12</th>
+                  <th scope="col" class="inspDay">13</th>
+                  <th scope="col" class="inspDay">14</th>
+                  <th scope="col" class="inspDay">15</th>
+                  <th scope="col" class="inspDay">16</th>
+                  <th scope="col" class="inspDay">17</th>
+                  <th scope="col" class="inspDay">18</th>
+                  <th scope="col" class="inspDay">19</th>
+                  <th scope="col" class="inspDay">20</th>
+                  <th scope="col" class="inspDay">21</th>
+                  <th scope="col" class="inspDay">22</th>
+                  <th scope="col" class="inspDay">23</th>
+                  <th scope="col" class="inspDay">24</th>
+                  <th scope="col" class="inspDay">25</th>
+                  <th scope="col" class="inspDay">26</th>
+                  <th scope="col" class="inspDay">27</th>
+                  <th scope="col" class="inspDay">28</th>
+                  <th scope="col" hidden id="29" class="inspDay">29</th>
+                  <th scope="col" hidden id="30" class="inspDay">30</th>
+                  <th scope="col" hidden id="31" class="inspDay">31</th>
+                </tr>
+              </thead>
+              <tbody id="checklist-data-tbody">
+                <tr>
+                  <td class="insptoolname">Tool#1</td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td> 
+                </tr>
+                <tr>
+                  <td class="insptoolname">Tool#2</td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0066;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #fbbe15;"></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #999966;"></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color: #ff0000;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td></td>
+                  <td class="inspdata"><i class="fas fa-square" style="color:#ff9900;"></i></td> </td> 
+              </tr>
+              </tbody>
+            </table>
+            </div>    
+            <br>
+            <!-- #################### Hand Tools Reports ####################-->
+            <div class="table-responsive">  
+          <table id="hand-tools-report" class="table">
+            <thead class="table table-dark">
+              <tr>
+                <th scope="col">Tool Name</th>
+                <th scope="col">Tool Code</th>
+                <th scope="col">Cause</th>
+                <th scope="col">Report time</th>
+                <th scope="col">Resolve time</th>
+                <th scope="col">status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              <td>asdf</td> 
+              <td>hfghfghf</td>
+              <td>hfghfghf</td>
+              <td>dsfsdf</td>
+              <td>fsasda</td>
+              <td>OK</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>  
+            </div>
+          <!-- ********************************INSPECTION PAGE END*************************************** --> 
+          <!-- ********************************INVENTORY PAGE START*************************************** -->
+          <div div class="tab-pane fade" id="issuerinventory" role="tabpanel">
+          <!-- ########################## Secondary Nav ########################## -->
+          <div class="topnav2"> 
+            <div class="navbar navbar-expand-lg bg-dark">
+              <div class="container-fluid justify-content-start">
+                <ul class=" nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" data-bs-target="#alltoolsissuer" data-bs-toggle="tab" type="button" role="tab" aria-controls="alltoolsissuer" aria-selected="true">All</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-target="#toolsissuer" data-bs-toggle="tab" type="button" role="tab" aria-controls="toolsissuer" aria-selected="false">Tools</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-target="#equipmentissuer" data-bs-toggle="tab" type="button" role="tab" aria-controls="equipmentissuer" aria-selected="false">Equipment</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" data-bs-target="#materialissuer" data-bs-toggle="tab" type="button" role="tab" aria-controls="materialissuer" aria-selected="false">Materials</a>
+                  </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+          <!-- ########################## Inventory tables ########################## -->
+            <div class="tab-content" id="issuerinventorytables">
+              <!-- ############# All Tools and Equipment table ############# -->
+              <div class="tab-pane fade show active"  id="alltoolsissuer" role="tabpanel">  
+              <h1 class="bg-dark bg-gradient">Tools and Equipment</h1>
+              <form class="d-flex bg-dark bg-gradient">
+              <input id="alltools-search" onkeyup="executeSearchAllTools()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('all-tools-table')">Export</button>
+              </form>
+              <div class="table-responsive ">  
+              <table class="table" id="all-tools-table">
+              <thead class="table-dark align-middle">
+              <tr>
+              <th scope="col" class="toolcode">Code</th>
+              <th scope="col">Name</th>
+              <th scope="col">Status
+                <button class="fltrddmbtn bg-transparent" id="alltools-statusddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="alltools-statusddm">
+                  <li><a class="dropdown-item" href="#">OK</a><li>  
+                  <li><a class="dropdown-item" href="#">Damage</a><li>   
+                  <li><a class="dropdown-item" href="#">Partially Damage</a><li>   
+                  <li><a class="dropdown-item" href="#">Missing</a></li>
+                  <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                  <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                </ul>
+              </th>
+              <th scope="col">Location</th>
+              <th scope="col" class="actionhead">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+              </table>
+              </div>    
+              </div>
+              <!-- ############# Tools table ############# -->
+              <div class="tab-pane fade"  id="toolsissuer" role="tabpanel">
+                <h1 class="bg-gradient bg-dark">Tools</h1>
+              <form class="d-flex bg-dark bg-gradient">
+              <input id="tools-search" onkeyup="executeSearchTools()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="xbtn bg-gradient bg-dark" onclick="exportAsPDF('only-tools-table')">Export</button>
+              </form>
+              <div class="table-responsive ">  
+              <table class="table" id="only-tools-table">
+              <thead class="table-dark align-middle">
+              <tr>
+                <th scope="col">Tool Code</th>
+                <th scope="col">Tool Name</th>
+                <th scope="col">Status
+                  <button class="fltrddmbtn bg-transparent" id="tools-statusddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                  <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="tools-statusddm">
+                    <li><a class="dropdown-item" href="#">OK</a><li>  
+                    <li><a class="dropdown-item" href="#">Damage</a><li>   
+                    <li><a class="dropdown-item" href="#">Partially Damage</a><li>   
+                    <li><a class="dropdown-item" href="#">Missing</a></li>
+                    <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                    <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                  </ul>
+                </th>
+                <th scope="col">Location</th>
+                <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+              </table>
+              </div>
+              </div>   
+              <!-- Material ############# Equipment table ############# --> 
+              <div class="tab-pane fade"  id="equipmentissuer" role="tabpanel">
+                <h1 class="bg-gradient bg-dark">Equipment</h1>
+              <form class="d-flex bg-dark bg-gradient">
+              <input  id="equipment-search" onkeyup="executeSearchEquipment()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="xbtn bg-gradient bg-dark" onclick="exportAsPDF('only-equipment-table')">Export</button>
+              </form>
+              <div class="table-responsive ">  
+              <table class="table" id="only-equipment-table">
+              <thead class="table-dark align-middle">
+              <tr>
+              <th scope="col">Equipment Code</th>
+              <th scope="col">Equipment Name</th>
+              <th scope="col">Status
+                <button class="fltrddmbtn bg-transparent" id="equipment-statusddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="equipment-statusddm">
+                  <li><a class="dropdown-item" href="#">OK</a><li>  
+                  <li><a class="dropdown-item" href="#">Damage</a><li>   
+                  <li><a class="dropdown-item" href="#">Partially Damage</a><li>   
+                  <li><a class="dropdown-item" href="#">Missing</a></li>
+                  <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                  <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                </ul>
+              </th>
+              <th scope="col">Location</th>
+              <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <!-- <tr>
+              <td>1</td>
+              <td>2 POST/PRECESION/SF/ BAY03</td>
+              <td>2 POST LIFT</td>
+              <td>Under Maintenance</td>
+              <td>Service Floor -SF</td>
+              <td>
+              <div class="btn-group mr-1 bgr" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-secondary reportbtn" data-bs-toggle="modal" data-bs-target="#report" title="Report item"><i class="far fa-flag"></i><span class="btnref"> Report</span></button>
+                <button type="button" class="btn btn-secondary recordsbtn" data-bs-toggle="modal" data-bs-target="#indivisiualrecords" title="Repair records"><i class="fas fa-file-medical-alt"></i><span class="btnref"> Records</span></button>
+                <button type="button" class="btn btn-secondary infobtn" title="info"><i class="fas fa-info"></i><span class="btnref"> Info</span></button>
+              </div>
+              </td> 
+              </tr> -->
+              </tbody>
+              </table>
+              </div>     
+              </div>
+              <!-- ############# Materials table ############# --> 
+              <div class="tab-pane fade" id="materialissuer" role="tabpanel">
+                <h1 class="bg-dark bg-gradient">Materials</h1>
+              <form class="d-flex bg-dark bg-gradient">
+              <input  id="material-search" onkeyup="executeSearchMaterials()" class="form-control sm-2 tsrch" type="search" placeholder="Search" aria-label="Search">
+              <button type="button" class="xbtn bg-dark bg-gradient" onclick="exportAsPDF('only-materials-table')">Export</button>
+              </form>
+              <div class="table-responsive ">  
+              <table class="table" id="only-materials-table">
+              <thead class="table-dark align-middle">
+              <tr>
+              <th scope="col">Material Code</th>
+              <th scope="col">Material Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Status
+                <button class="fltrddmbtn bg-transparent" id="rprt-crrnt-statusddm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-caret-down"></i></button>
+                <ul class="dropdown-menu fltrddm bg-gradient bg-dark" aria-labelledby="rprt-crrnt-statusddm">
+                  <li><a class="dropdown-item" href="#">OK</a><li>  
+                  <li><a class="dropdown-item" href="#">EMPTY</a></li>
+                  <li><a class="dropdown-item" href="#">Damage</a><li>   
+                  <li><a class="dropdown-item" href="#">Partially Damage</a><li>   
+                  <li><a class="dropdown-item" href="#">Missing</a></li>
+                  <li><a class="dropdown-item" href="#">Incomplete Kit</a></li>
+                  <li><a class="dropdown-item" href="#">Under Maintenance </a></li>
+                </ul>
+              </th>
+              <th scope="col">Location</th>
+              <th scope="col" style="width: fit-content;">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+              </table>
+              </div>     
+              </div>
+            </div>
+          </div>
+          <!-- ********************************INVENTORY PAGE END*************************************** -->   
+
+          <!-- ##################################### Alerts and modals ###########################################  -->
+          <!-- <div class="modal" id="alert-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header style="background-color: #349cdc;" class="modal-card-head">
+                    <p style="color: white;" class="modal-card-title">Alert</p>
+                    <button onclick="closeAlertModal()" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body" id="alert-modal-text">
+    
+                </section>
+    
+            </div>
+        </div> -->
+        <div class="modal iteminfo" id="item-info" tabindex="-1">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header bg-dark bg-gradient">
+                <h5><i class="fas fa-info-circle"></i></i> info </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                  <form class="needs-validation">
-                    <label for="" class="form-label">First Name</label>
-                    <input required class="form-control form-control-lg mb-3" type="text" placeholder="Shourya" aria-label="">
-                    <label for="" class="form-label">Last Name</label>
-                    <input required class="form-control form-control-lg mb-3" type="text" placeholder="Bairathi" aria-label="">
-                    <label for="" class="form-label"><i class="fas fa-birthday-cake"></i> Date of Birth</label>
-                    <input required class="form-control form-control-lg mb-3" type="text" placeholder="mm/dd/yyyy" onfocus="(this.type='date')" aria-label="">
-                    <label for="" class="form-label"><i class="fas fa-industry"></i> Workshop ID</label>
-                    <input required class="form-control form-control-lg mb-3" type="number" placeholder="1234 xxxx 5678" aria-label="">
-                    <label for="" class="form-label"><i class="fas fa-industry"></i> Employee ID</label>
-                    <input required class="form-control form-control-lg mb-3" type="number" placeholder="1234 xxxx 5678" aria-label="">
-                    <label for="" class="form-label"><i class="fas fa-mobile-alt"></i> Contact Number</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">+91</span>
-                        <input type="number" class="form-control" placeholder="9876543210" aria-label="" aria-describedby="">
+                  <!-- item pictures -->
+                  <div class="itempictures">
+                  
+                  </div>
+                  <!-- item data -->
+                  <div class="itemdata">
+                    <div> <h6 id="info-tool"> Thurst Plate (VG 3074/1) </h6> 
+                      <span class="badge badgeavailable"><i class="fas fa-check"></i><span class="btnref"> Available</span></span>
+                      <button type="button" class="btn bg-dark bg-gradient downloadbtn" title="Download Inspection Sheet"><i class="fas fa-tasks"></i><span class="btnref"> Inspection checklist</span></button>
                     </div>
-                    <label for="" class="form-label"><i class="fas fa-envelope"></i> e-mail</label>
-                    <input required class="form-control form-control-lg mb-3" type="email" placeholder="user@example.com" aria-label="">
-                    <label for="" class="form-label"><i class="fas fa-key"></i> Password</label>
-                    <input required class="form-control form-control-lg mb-3" type="password" placeholder="****************" aria-label="">
-                    <label for="" class="form-label"><i class="fas fa-key"></i> Confirm Password</label>
-                    <input required class="form-control form-control-lg mb-3" type="password" placeholder="****************" aria-label="">
-                   <div class="itemdescription mb-3">
-                     <label for="message-text" class="col-form-label"><i class="fas fa-comment"></i> Message</label>
-                     <textarea class="form-control" id="message-text"></textarea>
-                   </div>
-                   <div>
-                    <input class="form-check-input" type="checkbox" value="" id="t&c-check">
-                    <label class="form-check-label" for="t&c-check">
-                      I agree to all the <a href="#">terms and conditions</a>
-                    </label>
-                 </div>
-                  </form>
+                    <p id="info-tooldescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley</p>
+                    <div class="itemdatatables"> 
+                      <div class="itemgeneralinfo">
+                        <div class="table-responsive">
+                          <table class="table table-borderless table-striped">
+                            <thead class="table-dark bg-dark bg-gradient align-middle ">
+                              <tr>
+                                <th colspan="2" scope="col">General Details</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>Item Name</th>
+                                <td id="info-toolname">NA</td>
+                              </tr>
+                              <tr>
+                                <th>Item Code</th>
+                                <td id="info-toolcode">NA</td>
+                              </tr>
+                              <tr>
+                                <th>Item Brand/Specification</th>
+                                <td id="info-toolspec">NA</td>
+                              </tr>
+                              <tr>
+                                <th>Item Type</th>
+                                <td id="info-tooltype">Hand Tool|Special Tool|Hand Toolkit|Special Toolkit|Equipment|Material</td>
+                              </tr>
+                              <tr>
+                                <th>Item Cost</th>
+                                <td id="info-toolcost">NA</td>
+                              </tr>
+                              <tr>
+                                <th>Date of Purchase</th>
+                                <td id="info-tooldop">NA</td>
+                              </tr>
+                              <tr>
+                                <th>Quantity Available</th>
+                                <td id="info-toolquantity">NA</td>
+                              </tr>
+                              <tr>
+                                <th>Location</th>
+                                <td id="info-toollocation"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="childpartstableinfo">
+                        <div class="table-responsive childtablehide">
+                          <table class="table table-borderless table-striped">
+                            <thead class="table-dark bg-dark bg-gradient align-middle ">
+                              <tr>
+                                <th colspan="3" scope="col">Kit Parts</th>
+                              </tr>
+                              <tr>
+                                <th>#</th>
+                                <th>Code</th>
+                                <th>Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                             <tr>
+                             <td>1</td>
+                             <td>WD32/1</td>
+                             <td>NAME1</td>
+                            </tr>
+                             <tr>
+                               <td>2</td>
+                               <td>WD32/2</td>
+                               <td>NAME2</td>
+                            </tr>
+                             <tr>
+                               <td>3</td>
+                               <td>WD32/3</td>
+                               <td>NAME3</td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class = "nochildrendiv"></div>
+                      </div>
+                      <div class="maintenanceinfo">
+                        <div class="table-responsive maintenanceTableHide">
+                          <table class="table table-borderless table-striped">
+                            <thead class="table-dark bg-dark bg-gradient align-middle ">
+                              <tr>
+                                <th colspan="2" scope="col">Maintenance Details<button type="button" class="btn bg-dark bg-gradient newmtnplanbtn" title="New Maintenance-Plan"><i class="fas fa-file-alt"></i><span class="btnref"> New Plan</span></button>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>Company</th>
+                                <td id="maintenance-company">Firm 1</td>
+                              </tr>
+                              <tr>
+                                <th>Company Contact</th>
+                                <td id="maintenance-contact">0141-2552557</td>
+                              </tr>
+                              <tr>
+                                <th>Service person</th>
+                                <td id="maintenance-man">Thop Singh</td>
+                              </tr>
+                              <tr>
+                                <th>Service Person Contact</th>
+                                <td id="maintenance-mobile">9914173314</td>
+                              </tr>
+                              <tr>
+                                <th>Maintenance-Plan Cost</th>
+                                <td id="maintenance-cost">6000 $</td>
+                              </tr>
+                              <tr>
+                                <th>Last Maintenance Date</th>
+                                <td id="last-maintenance-date">6000 $</td>
+                              </tr>
+                              <tr>
+                                <th>Maintenance Frequency</th>
+                                <td id="maintenance-frequency">6000 $</td>
+                              </tr>
+                              <tr>
+                                <th>Maintenance Period</th>
+                                <td id="maintenance-period">16 Mar 2021<span> <b>to</b> </span>16 Mar 2022</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div id="maintenance-inspection-sheet">Tool Inspection Sheet: <b>Not Found</b></div>
+                        <div class = "noMaintenanceDiv"></div>
+                      </div>
+                    </div>    
+                  </div>
               </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-secondary submitbtn" data-bs-dismiss="modal">Submit</button>
+              <div class="modal-footer bg-dark bg-gradient">
+        
               </div>
+            </div>
           </div>
-      </div>
-  </div>
-  <div class="modal fade" id="forgot-password-req" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog mdoal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-unlock-alt"></i> Reset password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        </div>
+
+          <div class="modal reportmodal modal-dialog-scrollable" id="report-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header bg-dark bg-gradient">
+              <h5 class="modal-title"><i class="fas fa-skull-crossbones"></i> Report</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <span>You will recieve yoour password details on ypur registered e-mail ID</span>
-                <label for="" class="form-label"><i class="fas fa-envelope"></i> e-mail</label>
-                <input required class="form-control form-control-lg mb-3" type="email" placeholder="user@example.com" aria-label="">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-secondary submitbtn" data-bs-dismiss="modal">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
+              <!-- write command " checked " for default! -->
+              <div class="btn-group-vertical reportbtngrp" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="damaged-nf" autocomplete="off"> 
+                <label class="btn btn-outline-danger" for="damaged-nf"><i class="fas fa-times"></i> Damage</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="damaged-functional" autocomplete="off">
+                <label class="btn btn-outline-danger" for="damaged-functional"><i class="fas fa-exclamation"></i> Partially damaged</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="missing" autocomplete="off">
+                <label class="btn btn-outline-danger" for="missing"><i class="fas fa-question"></i> Missing</label>
 
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <!-- <script src="bootstrap-5.0.0-beta2-dist/js/bootstrap.bundle.js"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" 
-    integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" 
-    crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
-     integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" 
-     crossorigin="anonymous"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
-    <script src="bootstrap-5.0.0-beta2-dist/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</body>
-<style>
-    body{
-        width: 100%;
-        height: 100%;
-        background-size: 200% 200%;
-        animation: gradient 20s ease infinite;
-        overflow-y: hidden;
+                <input type="radio" class="btn-check" name="btnradio" id="missing-bf" autocomplete="off">
+                <label class="btn btn-outline-danger" id="missing-bf-text" for="missing-bf"><i class="fas fa-question-circle"></i> incomplete kit</label>
+              </div>
+              <label id="child-text"> Select the parts of the kit that have been damaged : </label><br>
+              <table id="child-part-table" class="table is-bordered is-striped is-hoverable">
+                <thead>
+                  <tr>
+  
+                    <th> Part Name </th>
+                    <th> Missing </th>
+                    <th> Damaged </th>
+                    <th> Broken </th>
+                  </tr>
+                </thead>
+  
+                <tbody id="report-child-parts-tbody"></tbody>
+              </table>
+              <!-- <label> Write the report below (Please include the cause of action ) : </label><br>
+                <textarea id="report-text" name="txt_comments" rows="10" cols="70"></textarea>
+                <br> -->
+            </div>
+            <div class="reportcmt mb-3">
+              <label for="report-text" class="col-form-label"><i class="far fa-comment"></i> Comment: <span style="color:#ff0000; font-size:smaller">(optional)</label>
+              <textarea class="form-control" id="report-text"></textarea>
+            </div>
+            <div class="modal-footer bg-gradient bg-dark">
+              <button type="button" class="btn submitreportbtn" id="submit-report-button"><i class="far fa-flag"></i> Report</button>
+              <button type="button" class="btn cancelbtn" data-bs-dismiss="modal"> <i class="fa fa-times"></i> Cancel</button>
+            </div>
+          </div>
+        </div>
+          </div>
+
+          <div class="modal fade" id="alert-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                      <div class="modal-header bg-gradient bg-dark">
+                          <h5 class="modal-title" id="staticBackdropLabel">Alert</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                        <div class="modal-body" id="alert-modal-text">
+                            
+                        <div id="no-record-div"></div>
+                      </div> 
+                    </div>    
+                      <div class="modal-footer bg-gradient bg-dark">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+        </div>
+
+      <!-- ############################################### Indivisual records ####################################### -->
+
+        <div class="modal fade individualrecord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+              aria-labelledby="staticBackdropLabel" aria-hidden="false">
+              <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                      <div class="modal-header bg-gradient bg-dark">
+                          <h5 class="modal-title" id="staticBackdropLabel">Repair Records</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                        <div class="modal-body">
+                        <div class="table-responsive ">  
+                          <table class="table" id="record-table">
+                          <thead class="table-dark align-middle">
+                            <tr>
+                              <th scope="col">Employee (ID)</th>
+                              <th scope="col">Cause</th>
+                              <th scope="col">Comments</th>
+                              <th scope="col">Report time</th>
+                              <th scope="col">Resolve time</th>
+                              <th scope="col">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody id="record-tbody">
+                          </tbody>
+                          </table>
+                        </div>    
+                        <div id="no-record-div" class="collapse in">No Records Found</div>
+                      </div> 
+                    </div>    
+                      <div class="modal-footer bg-gradient bg-dark">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- ############################################### Issuer Profile ####################################### -->
+            <div class="issuerprofile"> 
+              <div class="modal fade" id="issuerprofile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen-md-down">
+                  <div class="modal-content">
+                    <div class="modal-header bg-dark bg-gradient">
+                      <h5 class="modal-title"><i class="fa fa-user-alt"></i> Profile</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="profilepicsection">
+                        <img class="img-thumbnail rounded float-start profilepicture" src="https://p7.hiclipart.com/preview/417/670/507/user-profile-clip-art-analyst-thumbnail.jpg" alt="Profile Picture"> 
+                      </div>
+                      <div class="profileinfo">
+                        <div class="profilesdtls1">
+                          <ul class="unstyled-list">
+                            <li>Name</li>
+                            <li>Contact</li>
+                            <li>e-mail</li>
+                            <li>DOB</li>
+                          </ul>
+                        </div>
+          
+                      </div>
+                    </div>
+                    <div class="modal-footer bg-dark bg-gradient">
+                      <button type="button" class="btn btn-primary"><i class="fas fa-user-edit edituser"></i> Edit</i</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div> 
+
+      </div>
+
+      <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+
+  <script>
+
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCUNP_dv1qbi2QuH7_pcZbGqZ4X1Y478bk",
+      authDomain: "orcus-fb184.firebaseapp.com",
+      projectId: "orcus-fb184",
+      storageBucket: "orcus-fb184.appspot.com",
+      messagingSenderId: "132406151963",
+      appId: "1:132406151963:web:e9ca6e55052fdaa8aba1be",
+      measurementId: "G-3NXM7BB3GL"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+  </body>
+  
+    <script>
+      document.onkeydown = manageShortcuts;
+      const Store = require('electron-store');
+      const store = new Store();
+      // uncomment this for local service layer
+      var connectorClass = require("./service-layer.js");
+      var cc = new connectorClass();
+      var emp_id = store.get('Emp ID');
+      var moment = require('moment-timezone');
+      const { dialog } = require('electron').remote;
+      const { remote } = require('electron');
+      var workshop_id;
+      var defaultCurrency;
+      var allTechnicians;
+      var repairHistory = [];
+      const electron = require('electron');
+      const { ipcRenderer } = require('electron');
+
+      document.getElementById("submit-report-button").addEventListener("click", submitReport);
+      initiateSetup();
+      // document.getElementById("repair-history-submit").addEventListener("click", repairHistoryFilter);
+      // document.getElementById("Request-register-submit").addEventListener("click", requestRegisterFilter);
+      async function initiateSetup() {
+        try {
+          currentUser = await cc.getUserDetailsFromEmpID(emp_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please try again.");
+          console.log("Error in getUserDetailsFromEmpID! Please try again.");
+        }
+        workshop_id = currentUser[0]["Workshop ID"];
+        document.getElementById("workshop-id").innerHTML = "Workshop ID : " + workshop_id;
+        document.getElementById("employee-id").innerHTML = "Employee ID : " + emp_id;
+        document.getElementById("issuer-name").innerHTML = "Issuer : " + currentUser[0]["First Name"] + " " + currentUser[0]["Last Name"]; 
+        console.log(workshop_id);
+        // document.getElementById("workshop-id-button").innerHTML = "WID: " + workshop_id;
+        defaultCurrency = await cc.getDefaultCurrency(workshop_id);
+        document.getElementById("loader").removeAttribute("hidden");
+        try {
+          var request = await cc.getIssueRegister(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please n.");
+          console.log("Error in getIssueRegister ! Please try again.");
+        }
+        request.forEach(dataRow => {
+          document.getElementById("request-table").getElementsByTagName("tbody")[0].appendChild(createRowForRequestTable(dataRow));
+        });
+
+        try {
+          issueHistory = await cc.getTotalIssueHistory(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please try again.");
+          console.log("Error in getTotalIssueHistory ! Please try again.");
+        }
+        document.getElementById("pending-returns-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        pendingCount = 0;
+        issueHistory.forEach(dataRow => {
+          if (dataRow["Return DateTime"] == null) {
+            pendingCount = 1;
+            var createdElement = createRowForPendingReturnsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("pending-returns-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+        });
+        if (pendingCount == 0) {
+          document.getElementById("no-pending-div").style.display = "block";
+        }
+        document.getElementById("repair-history-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        try {
+          repairHistory = await cc.getRepairHistory(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please n.");
+          console.log("Error in C ! Please try again.");
+        }
+        repairHistory.forEach(dataRow => {
+          document.getElementById("repair-history-table").getElementsByTagName("tbody")[0].appendChild(createRowForRepairHistoryTable(dataRow));
+        });
+
+        try {
+          data = await cc.getAllTools(workshop_id);
+          cc.closeConnection();
+          allTechnicians = await cc.getAllTechnicians(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please try again.");
+          console.log("Error in getAllTools or getAllTechnicians! Please try again.");
+        }
+        var technicianNames = [];
+        var index = 0;
+        toBeShownTechnicians = allTechnicians.filter(function (technician) {
+        if(technician["Authorised"] == 0)
+        {  
+          technicianNames[index] = technician["First Name"] + " " + technician["Last Name"] + " (" + technician["Emp ID"] + ")";
+          index += 1;
+        }
+        else
+          return;
+        });
+        console.log(technicianNames);
+        autocomplete(document.getElementById("technician-input-inspection"), technicianNames);
+        data.forEach(dataRow => {
+          var createdElement = createRowForAllToolsTable(dataRow);
+          if (createdElement) {
+            document.getElementById("all-tools-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+          }
+        })
+        data.forEach(dataRow => {
+          if (dataRow["Permanent"] == '0') {
+            var createdElement = createRowForToolsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("only-tools-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+          else if (dataRow["Permanent"] == '2' || dataRow["Permanent"] == '3') {
+            var createdElement = createRowForToolsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("only-equipment-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+          else if (dataRow["Permanent"] == '5' || dataRow["Permanent"] == '6') {
+            var createdElement = createRowForToolsTable(dataRow);
+            if (createdElement) {
+              document.getElementById("only-materials-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+            }
+          }
+        })
+
+        await loadRequisitionSlips();
+        // setInterval(() => { loadRequisitionSlips(); }, 30 * 1000);
+
+
+        // openTab('Requests');
+        document.getElementById("loader").hidden = true;
+        var x = moment();
+        m = x.format("MM");
+        y = x.format("YYYY");
+        document.getElementById("month").value = m;
+        document.getElementById("year").value = y;
+      }
+    
+      // openTab('issuerrequestpage');
+      // openTab2('allTools');
+  function createDivForRequestsDiv(dataRow) {
+    // console.log(dataRow);
+    existingSlips = document.getElementById("pending-request-div").getElementsByClassName("card");
+    if (existingSlips) {
+      for (var i = 0; i < existingSlips.length; i++) {
+        if ((existingSlips[i].getElementsByClassName("requisition-slip-name")[0].title == dataRow["Emp ID"]) && (existingSlips[i].getElementsByClassName("requisition-slip-date")[0].innerHTML) == new Date(dataRow["Request Datetime"]).toLocaleString()) {
+          listItemTag = document.createElement("li");
+          listItemTag.className = "list-group-item requestitem";
+          listItemTag.innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ')';
+
+          // lidiv = document.createElement("div");
+          // lidiv.className = "columns";
+
+          toolnameColumn = document.createElement("div");
+          toolnameColumn.className = "column is-10";
+          toolnameColumn.title = dataRow["Tool Code"];
+          toolnameColumn.innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ')';
+          // timeColumn = document.createElement("td");
+          // timeColumn.innerHTML = "Time : " + new Date(dataRow["Request Datetime"]).toLocaleString();
+          // removeDiv = document.createElement("div");
+          // removeDiv.className = "column is-2 center";
+
+
+          removeIcon = document.createElement("button");
+          removeIcon.className = "btn-close btn-close-white";
+          removeIcon.onclick = async function (event) 
+          {
+            try 
+            {
+              var x = moment();
+              x = x.format("YYYY-MM-DD HH:mm:ss").toString();
+              // dataRow["Request Datetime"] = dataRow["Request Datetime"].format("YYYY-MM-DD HH:mm:ss").toString();
+              var requestTime = moment(new Date(dataRow["Request Datetime"])).format("YYYY-MM-DD HH:mm:ss");
+              console.log(requestTime);
+              var done = await cc.rejectIssueMultiple([dataRow["Tool Code"]], x, requestTime, dataRow["Emp ID"], workshop_id);
+              console.log(done);
+              if (done == 1) {
+                // console.log("abcd");
+                alert1('Rejected');
+                // console.log(event.srcElement.parentElement.parentElement.parentElement.remove());
+              }
+              else {
+                alert1("We faced an issue. Please try again later (done).");
+              }
+              return;
+            }
+            catch{
+              alert1("We faced an issue. Please try again later.");
+              return;
+            }
+          }
+    
+
+          listItemTag.appendChild(removeIcon);
+          // removeDiv.appendChild(removeIcon);
+          // lidiv.appendChild(toolnameColumn);
+          // lidiv.appendChild(removeDiv);
+          // listItemTag.appendChild(lidiv);
+
+          existingSlips[i].getElementsByTagName("ul")[0].appendChild(listItemTag);
+          return null;
+        }
+      }
     }
-    @keyframes gradient {
-        0%{
-            background-position: 0% 50%;
-        }       
-        50%{
-            background-position: 100% 0%;
-        }       
-        100%{
-            background-position: 0% 50%;
-        }      
-        150%{
-            background-position: 0% 50%;
-        }      
-        200%{
-            background-position: 100% 50%;
-        }       
+
+    reqDiv = document.createElement("div");
+    reqDiv.className = "card";
+
+    headerDiv = document.createElement("div");
+    headerDiv.className = "card-header";
+    headerDiv.innerHTML = "Request";
+    bodyDiv = document.createElement("div");
+    bodyDiv.className = "card-body";
+    titleDiv = document.createElement("div");
+    titleDiv.className = "card-title";
+    empname = document.createElement("h5");
+    empname.className = "requisition-slip-name";
+    empname.title = dataRow["Emp ID"];
+    empname.innerHTML = dataRow["First Name"] + ' ' + dataRow["Last Name"];
+
+    reqdt = document.createElement("p");
+    reqdt.className = "requisition-slip-date";
+    reqdt.innerHTML = dataRow["Request Datetime"].toLocaleString();
+
+    // requestTime = requestTime.format("YYYY-MM-DD HH:mm:ss");
+    titleDiv.appendChild(empname);
+    titleDiv.appendChild(reqdt);
+    // headerDiv.appendChild(empname);
+    // headerDiv.appendChild(reqdt);
+    bodyDiv.appendChild(titleDiv);
+
+    unorderedListTag = document.createElement("ul"); // list-group requestlist 
+    unorderedListTag.className = "list-group requestlist";
+    listItemTag = document.createElement("li");
+    listItemTag.className = "list-group-item requestitem";
+    listItemTag.innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ')';
+
+    removeIcon = document.createElement("button");
+    removeIcon.className = "btn-close btn-close-white";
+    // removeIcon.aria-label = "Close";
+    // removeIcon.style = "cursor: pointer;";
+    removeIcon.onclick = async function (event) {
+      try {
+        var x = moment();
+        x = x.format("YYYY-MM-DD HH:mm:ss").toString();
+        // dataRow["Request Datetime"] = dataRow["Request Datetime"].format("YYYY-MM-DD HH:mm:ss").toString();
+        var requestTime = moment(new Date(dataRow["Request Datetime"])).format("YYYY-MM-DD HH:mm:ss");
+        console.log(requestTime);
+        var done = await cc.rejectIssueMultiple([dataRow["Tool Code"]], x, requestTime, dataRow["Emp ID"], workshop_id);
+        console.log(done);
+        if (done == 1) {
+          console.log("abcd");
+          // alert1("Rejected");
+          initiateSetup();
+          // console.log(event.srcElement.parentElement.parentElement.parentElement.remove());
+        }
+        else {
+          alert1("We faced an issue. Please try again later (done).");
+        }
+        return;
+      }
+      catch{
+        alert1("We faced an issue. Please try again later.");
+        return;
+      }
+      
+
     }
-  </style>
+    
+
+    listItemTag.appendChild(removeIcon);
+    // lidiv.appendChild(toolnameColumn);
+    // liNode.appendChild(toolNode);
+    // liNode.appendChild(removeDiv);
+    // listNode.appendChild(liNode);
+    // listItemTag.appendChild(lidiv);
+    unorderedListTag.appendChild(listItemTag);
+    bodyDiv.appendChild(unorderedListTag);
+
+
+    footerDiv = document.createElement("div");
+    footerDiv.className = "btn_grp";
+
+    acceptAllButton = document.createElement("button");
+    acceptAllButton.className = "btn accept";
+    acceptAllButton.innerHTML = "Accept All";
+    acceptAllButton.onclick = async function (event) {
+      toolcodearray = [];
+      var displayMessage = '';
+      var x = moment();
+      x = x.format("YYYY-MM-DD HH:mm:ss").toString();
+      var y = moment();
+      //workshop closing hours
+      y.set("hours", 19);
+      y.set("minutes", 0);
+      y.set("seconds", 0);
+      y = y.format("YYYY-MM-DD HH:mm:ss").toString();
+      var reqtime = moment(new Date(dataRow["Request Datetime"]));
+      reqtime = reqtime.format("YYYY-MM-DD HH:mm:ss").toString();
+      var currentSlip = event.srcElement.parentElement.parentElement;
+      litags = currentSlip.getElementsByClassName("list-group-item requestitem");
+      for (var i = 0; i < litags.length; i++) {
+        var toolcode = litags[i].innerText;
+        var n1 = toolcode.lastIndexOf("(");
+        var n2 = toolcode.lastIndexOf(")");
+        toolcode = toolcode.substring(n1 + 1, n2);
+        var toolname = litags[i].innerText.substring(0,n1-1);
+        try {
+          var issued = await cc.getToolProfile(toolcode, workshop_id);
+          console.log(issued[0]["Allocated To"]);
+          var empdet = await cc.getUserDetailsFromEmpID(issued[0]["Allocated To"]);
+        }
+        catch {
+          alert1("Attempt unsuccessful. Please try again!");
+          return;
+        }
+        if (issued[0]["Allocated To"] != null && issued[0]["Permanent"] == 0) {
+          console.log("issued");
+          displayMessage = displayMessage + issued[0]["Tool Name"] + "(" + issued[0]["Tool Code"] + ") has already been issued by " + empdet[0]["First Name"] + " " + empdet[0]["Last Name"] + "<br>";
+        }
+        else {
+          try {
+            var result = await cc.issueTools(toolcode, toolname, dataRow["Emp ID"], x, y, dataRow["First Name"], dataRow["Last Name"], reqtime, workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("We faced an error. Some tools might not have been accepted.");
+            console.log("Error in issueTools ! Please try again.");
+            return;
+          }
+        }
+      }
+      // if(displayMessage!= ''){
+      //   alert1(displayMessage);
+      // }else{
+      //   alert1("Accepted.");
+      // }
+      initiateSetup();
+      // console.log(event.srcElement.parentElement.parentElement.remove());
+    }
+    rejectAllButton = document.createElement("button");
+    rejectAllButton.className = "btn reject";
+    rejectAllButton.innerHTML = "Reject All";
+    rejectAllButton.onclick = async function (event) {
+      toolcodearray = [];
+      var reqtime = moment(new Date(dataRow["Request Datetime"]));
+      reqtime = reqtime.format("YYYY-MM-DD HH:mm:ss").toString();
+      var currentSlip = event.srcElement.parentElement.parentElement;
+      litags = currentSlip.getElementsByClassName("list-group-item requestitem");
+      for (var i = 0; i < litags.length; i++) {
+        var toolcode = litags[i].innerText;
+        var n1 = toolcode.lastIndexOf("(");
+        var n2 = toolcode.lastIndexOf(")");
+        toolcode = toolcode.substring(n1 + 1, n2);
+        toolcodearray.push(toolcode);
+      }
+      console.log(toolcodearray);
+      try {
+        var x = moment();
+        x = x.format("YYYY-MM-DD HH:mm:ss").toString();
+        var done = await cc.rejectIssueMultiple(toolcodearray, x, reqtime, dataRow["Emp ID"], workshop_id);
+        if (done == 1) {
+          // alert1('Rejected All');
+          initiateSetup();
+          // console.log(event.srcElement.parentElement.parentElement.remove());
+        }
+        else {
+          alert1("We faced an issue. Please try again later.");
+        }
+        return;
+      }
+      catch{
+        alert1("We faced an issue. Please try again later.");
+        return;
+      }
+    }
+
+    footerDiv.appendChild(acceptAllButton);
+    footerDiv.appendChild(rejectAllButton);
+
+    reqDiv.appendChild(headerDiv);
+    reqDiv.appendChild(bodyDiv);
+    reqDiv.appendChild(footerDiv);
+
+    return reqDiv;
+
+    
+  }
+  async function loadRequisitionSlips() {
+        document.getElementById("pending-request-div").innerHTML = "";
+        try {
+          req = await cc.getPendingRequests(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching details! Please try again.");
+          console.log("Error in getAllTools! Please try again.");
+        }
+        // console.log(req);
+        noPending = req.length;
+        if(noPending === 0){
+          document.getElementById("pending-request-div").style.height = "10vh";
+          document.getElementById("pending-request-div").innerHTML = '<div class="columns is-centered" style="width: 100%;overflow: hidden"><div class="column is-centered" style="text-align: center;"><h1 class="subtitle">No Pending Requests</h1></div></div>';
+        }
+
+        req.forEach(dataRow => {
+          var createdElement = createDivForRequestsDiv(dataRow);
+          if (createdElement) {
+            document.getElementById("pending-request-div").appendChild(createdElement);
+          }
+        });
+      }
+  function createRowForRequestTable(dataRow) {
+    tableRow = document.createElement("tr");
+    // console.log(dataRow);
+    toolcodeColumn = document.createElement("td");
+    toolcodeColumn.innerHTML = dataRow["Tool Code"];
+    toolnameColumn = document.createElement("td");
+    toolnameColumn.innerHTML = dataRow["Tool Name"];
+    nameColumn = document.createElement("td");
+    nameColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"] + " (" + dataRow["Emp ID"] + ")";
+    issuedByColumn = document.createElement("td");
+    issuedByColumn.innerHTML = "";
+    requestdtColumn = document.createElement("td");
+    requestdtColumn.innerHTML = new Date(dataRow["Request Datetime"]).toLocaleString();
+    resolvedtColumn = document.createElement("td");
+    if (dataRow["Return DateTime"]) {
+      resolvedtColumn.innerHTML = new Date(dataRow["Return DateTime"]).toLocaleString();
+    }
+    else if (dataRow["Result"] == "issued") {
+      resolvedtColumn.innerHTML = "<b style='color: red;'>Pending</b>";
+    }
+    else if (dataRow["Result"] == "issue rejected") {
+      resolvedtColumn.innerHTML = "<b style='color: red;'>Not Issued</b>";
+    }
+    // requesttypeColumn = document.createElement("td");
+    // requesttypeColumn.innerHTML = dataRow["Operation"];
+    resultColumn = document.createElement("td");
+    if (dataRow["Result"]) { resultColumn.innerHTML = dataRow["Result"]; }
+    else { resultColumn.innerHTML = "<b style='color: red;'>Pending</b>"; }
+
+    //actionsColumn.appendChild(actionButton);
+    tableRow.appendChild(nameColumn);
+    tableRow.appendChild(toolnameColumn);
+    tableRow.appendChild(toolcodeColumn);
+    tableRow.appendChild(issuedByColumn);
+    tableRow.appendChild(requestdtColumn);
+    tableRow.appendChild(resolvedtColumn);
+    //tableRow.appendChild(requesttypeColumn);
+    tableRow.appendChild(resultColumn);
+    return tableRow;
+  }
+  function createRowForPendingReturnsTable(dataRow) {
+        tableRow = document.createElement("tr");
+        nameColumn = document.createElement("td");
+        nameColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"] + " (" + dataRow["Emp ID"] + ")";
+        toolcodeColumn = document.createElement("td");
+        toolcodeColumn.innerHTML = dataRow["Tool Code"];
+        toolnameColumn = document.createElement("td");
+        toolnameColumn.innerHTML = dataRow["Tool Name"];
+        issuedtColumn = document.createElement("td");
+        issuedtColumn.innerHTML = new Date(dataRow["Issue DateTime"]).toLocaleString();
+        returndtColumn = document.createElement("td");
+        if (dataRow["Return DateTime"]) {
+          returndtColumn.innerHTML = new Date(dataRow["Return DateTime"]).toLocaleString();
+        }
+        else {
+          returndtColumn.innerHTML = "<b style='color: red;'>Pending</b>"
+        }
+        // tableRow.appendChild(empidColumn);
+        tableRow.appendChild(nameColumn);
+        tableRow.appendChild(toolnameColumn);
+        tableRow.appendChild(toolcodeColumn);
+        tableRow.appendChild(issuedtColumn);
+        tableRow.appendChild(returndtColumn);
+        return tableRow;
+      }
+  function createRowForRepairHistoryTable(dataRow) {
+    tableRow = document.createElement("tr");
+    toolcodeColumn = document.createElement("td");
+    toolcodeColumn.innerHTML = dataRow["Tool Code"];
+    toolnameColumn = document.createElement("td");
+    toolnameColumn.innerHTML = dataRow["Tool Name"];
+    reportdtColumn = document.createElement("td");
+    reportdtColumn.innerHTML = new Date(dataRow["Report Datetime"]).toLocaleString();
+    resolvedtColumn = document.createElement("td");
+    if (dataRow["Resolve Datetime"]) {
+      resolvedtColumn.innerHTML = new Date(dataRow["Resolve Datetime"]).toLocaleString();
+    }
+    else {
+      resolvedtColumn.innerHTML = "<b style='color: red;'>Pending</b>"
+    }
+    empidColumn = document.createElement("td");
+    empidColumn.innerHTML = dataRow["Emp ID"];
+    nameColumn = document.createElement("td");
+    nameColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"] + " (" + dataRow["Emp ID"] + ")";
+    causeColumn = document.createElement("td");
+    causeColumn.innerHTML = dataRow["Cause"];
+    remarksColumn = document.createElement("td");
+    remarksColumn.innerHTML = dataRow["Additional Remarks"];
+    resultColumn = document.createElement("td");
+    resultColumn.innerHTML = dataRow["Action"];
+    tableRow.appendChild(toolnameColumn);
+    tableRow.appendChild(toolcodeColumn);
+    // tableRow.appendChild(empidColumn);
+    tableRow.appendChild(nameColumn);
+    tableRow.appendChild(causeColumn);
+    tableRow.appendChild(remarksColumn);
+    tableRow.appendChild(reportdtColumn);
+    tableRow.appendChild(resolvedtColumn);
+    tableRow.appendChild(resultColumn);
+    return tableRow;
+  }
+  function createRowForToolsTable(dataRow) {
+        if (dataRow["Permanent"] == "1" || dataRow["Part Of Kit"] != null) {
+          return "";
+        }
+        tableRow = document.createElement("tr");
+        toolcodeColumn = document.createElement("td");
+        toolcodeColumn.innerHTML = dataRow["Tool Code"];
+
+        toolnameColumn = document.createElement("td");
+        toolnameColumn.innerHTML = dataRow["Tool Name"];
+        qtyColumn = document.createElement("td");
+        qtyColumn.innerHTML = dataRow["Quantity"];
+
+        // toolnamespan = document.createElement("span");
+        // toolnamespan.className = "icon is-small is-right right-icon";
+
+        informationbutton = document.createElement("button");
+        informationbutton.innerHTML="<i class='fas fa-info-circle'></i><span class='btnref'> info<span>";
+        informationbutton.className = "btn btn-grp btn-secondary infobtn";
+        informationbutton.title = "View Profile";
+
+        informationbutton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("info-toolcode").innerHTML = dataRow["Tool Code"];
+          document.getElementById("info-tool").innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ")";
+          document.getElementById("info-toolname").innerHTML = dataRow["Tool Name"];
+          if(dataRow["Brand"])
+            document.getElementById("info-toolspec").innerHTML = dataRow["Brand"];
+          document.getElementById("info-tooldescription").innerHTML = dataRow["Description"];
+          if(!dataRow["Description"])
+            document.getElementById("info-tooldescription").innerHTML = "";
+          // document.getElementById("info-image").src = dataRow["Photo"];
+          var dop = moment(new Date(dataRow["Date of Purchase"])).format("DD-MM-YYYY").toString();
+          if(dop != '01-01-1970')
+            document.getElementById("info-tooldop").innerHTML = dop;
+          
+          if (dataRow["Value"]) {
+            document.getElementById("info-toolcost").innerHTML = defaultCurrency["Default Currency Symbol"] + dataRow["Value"];
+          } else {
+            document.getElementById("info-toolcost").innerHTML = "NA";
+          }
+          document.getElementById("info-toollocation").innerHTML = dataRow["Location"];
+          if (dataRow["Permanent"] != 1) {
+            document.getElementById("info-toollocation").hidden = false;
+          }
+          else {
+            document.getElementById("info-toollocation").hidden = true;
+          }
+          if (dataRow["Permanent"] == 5 || dataRow["Permanent"] == 6) {
+            document.getElementById("info-toolquantity").innerHTML = dataRow["Quantity"];
+            document.getElementById("info-tooltype").innerHTML = "Material";
+          }
+          else if(dataRow["Permanent"] == 0)
+          document.getElementById("info-tooltype").innerHTML = "Special Tool";
+          else if(dataRow["Permanent"] == 1)
+          document.getElementById("info-tooltype").innerHTML = "Hand Tool";
+          else if(dataRow["Permanent"] == 4)
+          document.getElementById("info-tooltype").innerHTML = "Asset";
+          else if(dataRow["Permanent"] == 2 || dataRow["Permanent"] == 3)
+          document.getElementById("info-tooltype").innerHTML = "Equipment";
+          // document.getElementById("modal-toolchildren").innerHTML = "Child Parts: ";
+          try {
+            var children = await cc.getChildParts(dataRow["Tool Code"]);
+          }
+          catch {
+            alert1("Error in fetching details! Please try again.");
+            console.log("Error in getChildParts! Please try again.");
+          }
+          if (children.length) {
+            k = 0;
+            document.getElementById("child-parts-profile-table").hidden = false;
+            children.forEach(dataRow => {
+              document.getElementById("child-parts-profile-tbody").insertRow(0).innerHTML = '<tr><td id="k"></td><td id="child-profile-tcode"></td><td id="child-profile-tname"></td></tr>';
+              document.getElementById("k").innerHTML = children.length - k;
+              document.getElementById("child-profile-tcode").innerHTML = dataRow["Tool Code"];
+              document.getElementById("child-profile-tname").innerHTML = dataRow["Tool Name"];
+              k = k + 1;
+            });
+          }
+          else {
+            // document.getElementById("modal-toolchildren").innerHTML += "No Child Parts";
+            $(".childtablehide").hide();
+            $(".nochildrendiv").show();
+          }
+          var storage = firebase.storage();
+          document.getElementById("maintenance-inspection-sheet").innerHTML = "Tool Inspection Sheet: <b>Not Found</b>";
+          var pathReferencePDF = storage.ref(dataRow["Tool Code"] + '.pdf');
+          pathReferencePDF.getDownloadURL().then(function (url) {
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+            a = document.createElement("a");
+            a.href = url;
+            a.innerHTML = "DOWNLOAD";
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+          }).catch(function (error) {
+            var pathReferenceDOC = storage.ref(dataRow["Tool Code"] + '.doc');
+            pathReferenceDOC.getDownloadURL().then(function (url) {
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+              a = document.createElement("a");
+              a.href = url;
+              a.innerHTML = "DOWNLOAD";
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+            }).catch(function (error) {
+              var pathReferenceDOCX = storage.ref(dataRow["Tool Code"] + '.docx');
+              pathReferenceDOCX.getDownloadURL().then(function (url) {
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+                a = document.createElement("a");
+                a.href = url;
+                a.innerHTML = "DOWNLOAD";
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+              }).catch(function (error) {
+                console.log("Tool Inspection Sheet Not Found!");
+              });
+            });
+          });
+          if (dataRow["Maintenance"] != 0) {
+            document.getElementById("maintenance-company").innerHTML = dataRow["AMC"];
+            document.getElementById("maintenance-man").innerHTML = dataRow["AMC Provider"];
+            document.getElementById("maintenance-contact").innerHTML = dataRow["AMC Contact"];
+            document.getElementById("maintenance-period").innerHTML = dataRow["AMC Period"];
+            document.getElementById("last-maintenance-date").innerHTML = (new Date(dataRow["Date of Last Maintenance"])).toDateString();
+            document.getElementById("maintenance-frequency").innerHTML = dataRow["Inspection Frequency"] + " Days";
+          }
+          else {
+            $(".noMaintenanceDiv").show();
+            $(".maintenanceTableHide").hide();
+            document.getElementById("maintenance-company").innerHTML = "";
+            document.getElementById("maintenance-man").innerHTML = "";
+            document.getElementById("maintenance-contact").innerHTML = "";
+            document.getElementById("maintenance-period").innerHTML = "";
+            document.getElementById("maintenance-frequency").innerHTML = "";
+          }
+
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("iteminfo")[0], options)
+          myModal.show();
+        }
+
+        statusColumn = document.createElement("td");
+        statusspan = document.createElement("span");
+        statusspan.className = "icon is-small is-right right-icon";
+
+        statusicon = document.createElement("i");
+        if (dataRow["Allocated To"] != null) {
+
+          statusColumn.innerHTML = "Issued";
+          statusicon.className = "fas fa-id-card-alt";
+          statusicon.style.color = "blue";
+
+          statusicon.onclick = async function (event) {
+            console.log("issued icon pressed");
+            event.stopPropagation();
+            try {
+              var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+              cc.closeConnection();
+            }
+            catch {
+              alert1("Error in fetching details! Please try again.");
+              console.log("Error in getUserDetailsFromEmpID() ! Please try again.");
+            }
+            document.getElementById("issued-to-modal-content").innerHTML = "This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".";
+            document.getElementById("issued-to-modal").className = "modal is-active";
+            document.getElementById("issued-to-modal-close").onclick = function () {
+              document.getElementById("issued-to-modal").className = "modal";
+              var fname = dataRow["First Name"];
+              var lname = dataRow["Last Name"];
+
+            }
+          }
+
+        }
+        else if (dataRow["Status"] == "0") {
+          statusColumn.innerHTML = "Available";
+          statusicon.className = "fas fa-check-circle";
+          statusicon.style.color = "green";
+        }
+        else if (dataRow["Status"] == "2") {
+          statusColumn.innerHTML = "Reported";
+          statusicon.className = "fas fa-exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+
+          statusicon.onclick = async function (event) {
+            console.log("reported button pressed");
+            event.stopPropagation();
+            isKitItems = await cc.getChildParts(dataRow["Tool Code"], workshop_id);
+            console.log(isKitItems);
+            if (isKitItems.length == 0) {
+              isKit = 0;
+            }
+            else {
+              isKit = 1;
+            }
+
+            if (isKit == 1) {
+              alertMessage = "This Kit has been reported.The following are the kit items and their conditions.\n";
+              isKitItems.forEach(item => {
+                if (item["Status"] == "0") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Available \n";
+                }
+                else if (item["Status"] == "3") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged \n";
+                }
+                else if (item["Status"] == "4") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Missing \n";
+                }
+                else if (item["Status"] == "2") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged (functional) \n";
+                }
+              })
+              document.getElementById("issued-to-modal-content").innerText = alertMessage;
+              document.getElementById("issued-to-modal").className = "modal is-active";
+              document.getElementById("issued-to-modal-close").onclick = function () {
+                document.getElementById("issued-to-modal").className = "modal";
+              }
+            }
+          }
+        }
+        else if (dataRow["Status"] == "3") {
+          statusColumn.innerHTML = "NA (Damaged)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "red";
+        }
+        else if (dataRow["Status"] == "4") {
+          statusColumn.innerHTML = "NA (Missing)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "5") {
+          statusColumn.innerHTML = "Missing (Functional)";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "6") {
+          statusColumn.innerHTML = "Under Maintenance";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+
+        statusspan.appendChild(statusicon);
+
+        statusColumn.appendChild(statusspan);
+        locationColumn = document.createElement("td");
+        locationColumn.innerHTML = dataRow["Location"];
+        if(dataRow["Location"] == `null` || dataRow["Location"]== "")
+            locationColumn.innerHTML = "NA";
+
+        brandColumn = document.createElement("td");
+        brandColumn.innerHTML = dataRow["Brand"];
+        actionsColumn = document.createElement("td");
+        recordButton = document.createElement("button");
+        recordButton.innerHTML= "<i class='fas fa-file-medical-alt'></i><span class='btnref'> Records<span>";
+        recordButton.className = "btn btn-grp btn-secondary recordsbtn";
+        recordButton.title = "View Record";
+        recordButton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("loader").hidden = false;
+          // document.getElementById("no-record-div").innerHTML = "";
+          document.getElementById("record-table").hidden = false;
+          document.getElementById("record-tbody").innerHTML = "";
+          // document.getElementById("record-modal-content").innerHTML = '<div style="background-color: white;width: 20vw;margin-left: 30%;margin-bottom: 3vh;border-radius: 1vw;"><center> All Records </center></div>';
+          try {
+            records = await cc.getAllRecordsForAToolID(dataRow["Tool Code"], workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("Error in fetching your details! Please try again.");
+            console.log("Error in getAllRecordsForAToolID ! Please try again.");
+          }
+          if (records.length == 0) {
+            console.log("no records");
+            $(".collapse").show();
+            document.getElementById("record-table").hidden = true;
+          } 
+          else 
+          {
+            $(".collapse").hide();
+          }
+          records.forEach(dataRow => {
+            document.getElementById("record-table").getElementsByTagName("tbody")[0].appendChild(createRowForRecordTable(dataRow));
+          });
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var recordModal = new bootstrap.Modal(document.getElementsByClassName("individualrecord")[0], options)
+          recordModal.show();
+          document.getElementById("loader").hidden = true;
+          
+        }
+        reportButton = document.createElement("button");
+        reportButton.innerHTML= "<i class='far fa-flag'></i><span class='btnref'> Report<span>";
+        reportButton.className = "btn btn-grp btn-secondary reportbtn";
+        reportButton.title = "Report item";
+        reportButton.onclick = async function (event) {
+        selectedToolCode = $(this).parents("tr")[0].cells[0].innerHTML;
+        currentStatus = $(this).parents("tr")[0].cells[2].innerHTML;
+        var n = currentStatus.indexOf('<');
+        currentStatus = currentStatus.substring(0,n);
+        document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        document.getElementById("damaged-functional").checked = false;
+        document.getElementById("damaged-nf").checked = false;
+        document.getElementById("missing").checked = false;
+        document.getElementById("missing-bf").checked = false;
+        document.getElementById("report-text").value = "";
+
+        if (currentStatus.includes("NA (Damaged)") || currentStatus.includes("NA (Missing)")) {
+            alert1("This tool has already been reported!");
+            return "";
+        }
+        if(dataRow["Allocated To"] != null) {
+            try {
+                var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+                cc.closeConnection();
+                alert1("This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".");
+                return;
+            }
+            catch {
+                alert1("Error in fetching your details! Please check your internet connection.");
+                console.log("Error in getUserDetailsFromEmpID ! Please try again.");
+            }
+        }
+
+        try {
+            data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+            cc.closeConnection();
+        }
+        catch {
+            alert1("Error in fetching your details! Please check your internet connection.");
+            console.log("Error in getChildParts ! Please try again.");
+        }
+
+        if (data.length == 0) {
+            document.getElementById("child-part-table").hidden = true;
+            document.getElementById("missing-bf").hidden = true;
+            document.getElementById("missing-bf-text").hidden = true;
+            document.getElementById("child-text").hidden = true;
+        }
+        else {
+            document.getElementById("child-part-table").hidden = false;
+            document.getElementById("missing-bf").hidden = false;
+            document.getElementById("missing-bf-text").hidden = false;
+            document.getElementById("child-text").hidden = false;
+        }
+        data.forEach(dataRow => {
+            document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+        })
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var reportModal = new bootstrap.Modal(document.getElementById("report-modal"), options)
+          // console.log(myModal);
+          reportModal.show();
+          document.getElementById("loader").hidden = true;
+        }
+
+
+        actionsColumn.appendChild(informationbutton);
+        actionsColumn.appendChild(recordButton);
+        actionsColumn.appendChild(reportButton);
+        tableRow.appendChild(toolcodeColumn);
+        tableRow.appendChild(toolnameColumn);
+        if(dataRow["Permanent"] == '5' || dataRow["Permanent"] == '6')
+        {
+          // console.log("material quantity" + qtyColumn.innerHTML);
+          tableRow.appendChild(qtyColumn);
+        }
+        tableRow.appendChild(statusColumn);
+        tableRow.appendChild(locationColumn);
+        tableRow.appendChild(actionsColumn);
+
+        return tableRow;
+      }
+  function createRowForAllToolsTable(dataRow) {
+        if (dataRow["Permanent"] == "1" || dataRow["Part Of Kit"] != null) {
+          return "";
+        }
+        tableRow = document.createElement("tr");
+        toolcodeColumn = document.createElement("td");
+        toolcodeColumn.innerHTML = dataRow["Tool Code"];
+
+        toolnameColumn = document.createElement("td");
+        toolnameColumn.innerHTML = dataRow["Tool Name"];
+        qtyColumn = document.createElement("td");
+        qtyColumn.innerHTML = dataRow["Quantity"];
+
+        // toolnamespan = document.createElement("span");
+        // toolnamespan.className = "icon is-small is-right right-icon";
+
+        informationbutton = document.createElement("button");
+        informationbutton.innerHTML="<i class='fas fa-info-circle'></i><span class='btnref'> info<span>";
+        informationbutton.className = "btn btn-grp btn-secondary infobtn";
+        informationbutton.title = "View Profile";
+
+        informationbutton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("info-toolcode").innerHTML = dataRow["Tool Code"];
+          document.getElementById("info-tool").innerHTML = dataRow["Tool Name"] + " (" + dataRow["Tool Code"] + ")";
+          document.getElementById("info-toolname").innerHTML = dataRow["Tool Name"];
+          if(dataRow["Brand"])
+            document.getElementById("info-toolspec").innerHTML = dataRow["Brand"];
+          document.getElementById("info-tooldescription").innerHTML = dataRow["Description"];
+          if(!dataRow["Description"])
+            document.getElementById("info-tooldescription").innerHTML = "";
+          // document.getElementById("info-image").src = dataRow["Photo"];
+          var dop = moment(new Date(dataRow["Date of Purchase"])).format("DD-MM-YYYY").toString();
+          if(dop != '01-01-1970')
+            document.getElementById("info-tooldop").innerHTML = dop;
+          
+          if (dataRow["Value"]) {
+            document.getElementById("info-toolcost").innerHTML = defaultCurrency["Default Currency Symbol"] + dataRow["Value"];
+          } else {
+            document.getElementById("info-toolcost").innerHTML = "NA";
+          }
+          document.getElementById("info-toollocation").innerHTML = dataRow["Location"];
+          if (dataRow["Permanent"] != 1) {
+            document.getElementById("info-toollocation").hidden = false;
+          }
+          else {
+            document.getElementById("info-toollocation").hidden = true;
+          }
+          if (dataRow["Permanent"] == 5 || dataRow["Permanent"] == 6) {
+            document.getElementById("info-toolquantity").innerHTML = dataRow["Quantity"];
+            document.getElementById("info-tooltype").innerHTML = "Material";
+          }
+          else if(dataRow["Permanent"] == 0)
+          document.getElementById("info-tooltype").innerHTML = "Special Tool";
+          else if(dataRow["Permanent"] == 1)
+          document.getElementById("info-tooltype").innerHTML = "Hand Tool";
+          else if(dataRow["Permanent"] == 4)
+          document.getElementById("info-tooltype").innerHTML = "Asset";
+          else if(dataRow["Permanent"] == 2 || dataRow["Permanent"] == 3)
+          document.getElementById("info-tooltype").innerHTML = "Equipment";
+          // document.getElementById("modal-toolchildren").innerHTML = "Child Parts: ";
+          try {
+            var children = await cc.getChildParts(dataRow["Tool Code"]);
+          }
+          catch {
+            alert1("Error in fetching details! Please try again.");
+            console.log("Error in getChildParts! Please try again.");
+          }
+          if (children.length) {
+            k = 0;
+            document.getElementById("child-parts-profile-table").hidden = false;
+            children.forEach(dataRow => {
+              document.getElementById("child-parts-profile-tbody").insertRow(0).innerHTML = '<tr><td id="k"></td><td id="child-profile-tcode"></td><td id="child-profile-tname"></td></tr>';
+              document.getElementById("k").innerHTML = children.length - k;
+              document.getElementById("child-profile-tcode").innerHTML = dataRow["Tool Code"];
+              document.getElementById("child-profile-tname").innerHTML = dataRow["Tool Name"];
+              k = k + 1;
+            });
+          }
+          else {
+            // document.getElementById("modal-toolchildren").innerHTML += "No Child Parts";
+            $(".childtablehide").hide();
+            $(".nochildrendiv").show();
+          }
+          var storage = firebase.storage();
+          document.getElementById("maintenance-inspection-sheet").innerHTML = "Tool Inspection Sheet: <b>Not Found</b>";
+          var pathReferencePDF = storage.ref(dataRow["Tool Code"] + '.pdf');
+          pathReferencePDF.getDownloadURL().then(function (url) {
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+            a = document.createElement("a");
+            a.href = url;
+            a.innerHTML = "DOWNLOAD";
+            document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+          }).catch(function (error) {
+            var pathReferenceDOC = storage.ref(dataRow["Tool Code"] + '.doc');
+            pathReferenceDOC.getDownloadURL().then(function (url) {
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+              a = document.createElement("a");
+              a.href = url;
+              a.innerHTML = "DOWNLOAD";
+              document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+            }).catch(function (error) {
+              var pathReferenceDOCX = storage.ref(dataRow["Tool Code"] + '.docx');
+              pathReferenceDOCX.getDownloadURL().then(function (url) {
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].innerHTML = "";
+                a = document.createElement("a");
+                a.href = url;
+                a.innerHTML = "DOWNLOAD";
+                document.getElementById("modal-toolattachment").getElementsByTagName("b")[0].appendChild(a);
+              }).catch(function (error) {
+                console.log("Tool Inspection Sheet Not Found!");
+              });
+            });
+          });
+          if (dataRow["Maintenance"] != 0) {
+            document.getElementById("maintenance-company").innerHTML = dataRow["AMC"];
+            document.getElementById("maintenance-man").innerHTML = dataRow["AMC Provider"];
+            document.getElementById("maintenance-contact").innerHTML = dataRow["AMC Contact"];
+            document.getElementById("maintenance-period").innerHTML = dataRow["AMC Period"];
+            document.getElementById("last-maintenance-date").innerHTML = (new Date(dataRow["Date of Last Maintenance"])).toDateString();
+            document.getElementById("maintenance-frequency").innerHTML = dataRow["Inspection Frequency"] + " Days";
+          }
+          else {
+            $(".noMaintenanceDiv").show();
+            $(".maintenanceTableHide").hide();
+            document.getElementById("maintenance-company").innerHTML = "";
+            document.getElementById("maintenance-man").innerHTML = "";
+            document.getElementById("maintenance-contact").innerHTML = "";
+            document.getElementById("maintenance-period").innerHTML = "";
+            document.getElementById("maintenance-frequency").innerHTML = "";
+          }
+
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("iteminfo")[0], options)
+          myModal.show();
+        }
+
+        statusColumn = document.createElement("td");
+        statusspan = document.createElement("span");
+        statusspan.className = "icon is-small is-right right-icon";
+
+        statusicon = document.createElement("i");
+        if (dataRow["Allocated To"] != null) {
+
+          statusColumn.innerHTML = "Issued";
+          statusicon.className = "fas fa-id-card-alt";
+          statusicon.style.color = "blue";
+
+          statusicon.onclick = async function (event) {
+            console.log("issued icon pressed");
+            event.stopPropagation();
+            try {
+              var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+              cc.closeConnection();
+            }
+            catch {
+              alert1("Error in fetching details! Please try again.");
+              console.log("Error in getUserDetailsFromEmpID() ! Please try again.");
+            }
+            document.getElementById("issued-to-modal-content").innerHTML = "This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".";
+            document.getElementById("issued-to-modal").className = "modal is-active";
+            document.getElementById("issued-to-modal-close").onclick = function () {
+              document.getElementById("issued-to-modal").className = "modal";
+              var fname = dataRow["First Name"];
+              var lname = dataRow["Last Name"];
+
+            }
+          }
+
+        }
+        else if (dataRow["Status"] == "0") {
+          statusColumn.innerHTML = "Available";
+          statusicon.className = "fas fa-check-circle";
+          statusicon.style.color = "green";
+        }
+        else if (dataRow["Status"] == "2") {
+          statusColumn.innerHTML = "Reported";
+          statusicon.className = "fas fa-exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+
+          statusicon.onclick = async function (event) {
+            console.log("reported button pressed");
+            event.stopPropagation();
+            isKitItems = await cc.getChildParts(dataRow["Tool Code"], workshop_id);
+            console.log(isKitItems);
+            if (isKitItems.length == 0) {
+              isKit = 0;
+            }
+            else {
+              isKit = 1;
+            }
+
+            if (isKit == 1) {
+              alertMessage = "This Kit has been reported.The following are the kit items and their conditions.\n";
+              isKitItems.forEach(item => {
+                if (item["Status"] == "0") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Available \n";
+                }
+                else if (item["Status"] == "3") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged \n";
+                }
+                else if (item["Status"] == "4") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Missing \n";
+                }
+                else if (item["Status"] == "2") {
+                  alertMessage = alertMessage + " " + item["Tool Name"] + " : " + "Damaged (functional) \n";
+                }
+              })
+              document.getElementById("issued-to-modal-content").innerText = alertMessage;
+              document.getElementById("issued-to-modal").className = "modal is-active";
+              document.getElementById("issued-to-modal-close").onclick = function () {
+                document.getElementById("issued-to-modal").className = "modal";
+              }
+            }
+          }
+        }
+        else if (dataRow["Status"] == "3") {
+          statusColumn.innerHTML = "NA (Damaged)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "red";
+        }
+        else if (dataRow["Status"] == "4") {
+          statusColumn.innerHTML = "NA (Missing)";
+          statusicon.className = "fas fa-times-circle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "5") {
+          statusColumn.innerHTML = "Missing (Functional)";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+        else if (dataRow["Status"] == "6") {
+          statusColumn.innerHTML = "Under Maintenance";
+          statusicon.className = "fas fa--exclamation-triangle";
+          statusicon.style.color = "#c2a90f";
+        }
+
+        statusspan.appendChild(statusicon);
+
+        statusColumn.appendChild(statusspan);
+        locationColumn = document.createElement("td");
+        locationColumn.innerHTML = dataRow["Location"];
+        if(dataRow["Location"] == `null` || dataRow["Location"]== "")
+            locationColumn.innerHTML = "NA";
+
+        brandColumn = document.createElement("td");
+        brandColumn.innerHTML = dataRow["Brand"];
+
+        actionsColumn = document.createElement("td");
+        recordButton = document.createElement("button");
+        recordButton.innerHTML= "<i class='fas fa-file-medical-alt'></i><span class='btnref'> Records<span>";
+        recordButton.className = "btn btn-grp btn-secondary recordsbtn";
+        recordButton.title = "View Record";
+        recordButton.onclick = async function (event) {
+          event.stopPropagation();
+          document.getElementById("loader").hidden = false;
+          // document.getElementById("no-record-div").innerHTML = "";
+          document.getElementById("record-table").hidden = false;
+          document.getElementById("record-tbody").innerHTML = "";
+          // document.getElementById("record-modal-content").innerHTML = '<div style="background-color: white;width: 20vw;margin-left: 30%;margin-bottom: 3vh;border-radius: 1vw;"><center> All Records </center></div>';
+          try {
+            records = await cc.getAllRecordsForAToolID(dataRow["Tool Code"], workshop_id);
+            cc.closeConnection();
+          }
+          catch {
+            alert1("Error in fetching your details! Please try again.");
+            console.log("Error in getAllRecordsForAToolID ! Please try again.");
+          }
+          if (records.length == 0) {
+            console.log("no records");
+            $(".collapse").show();
+            document.getElementById("record-table").hidden = true;
+          } 
+          else 
+          {
+            $(".collapse").hide();
+          }
+          records.forEach(dataRow => {
+            document.getElementById("record-table").getElementsByTagName("tbody")[0].appendChild(createRowForRecordTable(dataRow));
+          });
+          var options = { backdrop: "static", keyboard: true, focus: true };
+          var myModal = new bootstrap.Modal(document.getElementsByClassName("individualrecord")[0], options)
+          myModal.show();
+          document.getElementById("loader").hidden = true;
+          
+        }
+        
+        reportButton = document.createElement("button");
+        reportButton.innerHTML= "<i class='far fa-flag'></i><span class='btnref'> Report<span>";
+        reportButton.className = "btn btn-grp btn-secondary reportbtn";
+        reportButton.title = "Report item";
+        reportButton.onclick = async function (event) {
+        selectedToolCode = $(this).parents("tr")[0].cells[0].innerHTML;
+        currentStatus = $(this).parents("tr")[0].cells[2].innerHTML;
+        var n = currentStatus.indexOf('<');
+        currentStatus = currentStatus.substring(0,n);
+        document.getElementById("child-part-table").getElementsByTagName("tbody")[0].innerHTML = "";
+        document.getElementById("damaged-functional").checked = false;
+        document.getElementById("damaged-nf").checked = false;
+        document.getElementById("missing").checked = false;
+        document.getElementById("missing-bf").checked = false;
+        document.getElementById("report-text").value = "";
+
+        if (currentStatus.includes("NA (Damaged)") || currentStatus.includes("NA (Missing)")) {
+            alert1("This tool has already been reported!");
+            return "";
+        }
+        if(dataRow["Allocated To"] != null) {
+            try {
+                var userDetails = await cc.getUserDetailsFromEmpID(dataRow["Allocated To"]);
+                cc.closeConnection();
+                alert1("This tool is currently with " + userDetails[0]["First Name"] + " " + userDetails[0]["Last Name"] + ".");
+                return;
+            }
+            catch {
+                alert1("Error in fetching your details! Please check your internet connection.");
+                console.log("Error in getUserDetailsFromEmpID ! Please try again.");
+            }
+        }
+
+        try {
+            data = await cc.selectedToolCode(selectedToolCode, workshop_id);
+            cc.closeConnection();
+        }
+        catch {
+            alert1("Error in fetching your details! Please check your internet connection.");
+            console.log("Error in getChildParts ! Please try again.");
+        }
+
+        if (data.length == 0) {
+            document.getElementById("child-part-table").hidden = true;
+            document.getElementById("missing-bf").hidden = true;
+            document.getElementById("missing-bf-text").hidden = true;
+            document.getElementById("child-text").hidden = true;
+        }
+        else {
+            document.getElementById("child-part-table").hidden = false;
+            document.getElementById("missing-bf").hidden = false;
+            document.getElementById("missing-bf-text").hidden = false;
+            document.getElementById("child-text").hidden = false;
+        }
+        data.forEach(dataRow => {
+            document.getElementById("report-child-parts-tbody").appendChild(createRowForChildParts(dataRow));
+        })
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var reportModal = new bootstrap.Modal(document.getElementById("report-modal"), options)
+          // console.log(myModal);
+          reportModal.show();
+          document.getElementById("loader").hidden = true;
+        }
+
+        actionsColumn.appendChild(informationbutton);
+        actionsColumn.appendChild(recordButton);
+        actionsColumn.appendChild(reportButton);
+        tableRow.appendChild(toolcodeColumn);
+        tableRow.appendChild(toolnameColumn);
+        if(dataRow["Permanent"] == '5' || dataRow["Permanent"] == '6')
+        {
+          if(!dataRow["Quantity"])
+            dataRow["Quantity"] = 0;
+          statusColumn.innerHTML += " (" + dataRow["Quantity"] + ")";
+        }
+        tableRow.appendChild(statusColumn);
+        tableRow.appendChild(locationColumn);
+        tableRow.appendChild(actionsColumn);
+
+        return tableRow;
+      }
+  async function submitReport() {
+    var reportText = document.getElementById("report-text").value;
+    console.log(reportText);
+    var statusSelected = 0;
+    if (document.getElementById("damaged-functional").checked == true) {
+    var cause = "damaged but functional";
+    var status = 2;
+    var cstatus = 3;
+    statusSelected = 1;
+    }
+    else if (document.getElementById("damaged-nf").checked == true) {
+    var cause = "damaged";
+    var status = 3;
+    var cstatus = 3;
+    statusSelected = 1;
+    }
+    else if (document.getElementById("missing").checked == true) {
+    var cause = "Missing";
+    var status = 4;
+    var cstatus = 4;
+    statusSelected = 1;
+    }
+    else if (document.getElementById("missing-bf").checked == true) {
+    var cause = "Missing but functional";
+    var status = 5;
+    var cstatus = 4;
+    statusSelected = 1;
+    }
+
+    if (statusSelected != 1) {
+    alert1("Please select a status of the tool being returned.");
+    return;
+    }
+    if (reportText == '') {
+    alert1("Please write a report.");
+    return;
+    }
+
+    var childPartSelected = 0;
+    var childPartReport = [];
+    // rows = document.getElementById("child-parts-tbody").getElementsByTagName("tr");
+    // Object.keys(rows).forEach(async function (key) {
+    // if (rows[key].getElementsByTagName("td")[1].getElementsByTagName("input")[0].checked == true) {
+    //     childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 4 });
+    //     childPartSelected = 1;
+    // }
+    // else if (rows[key].getElementsByTagName("td")[2].getElementsByTagName("input")[0].checked == true) {
+    //     childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 3 });
+    //     childPartSelected = 1;
+    // }
+    // else if (rows[key].getElementsByTagName("td")[3].getElementsByTagName("input")[0].checked == true) {
+    //     childPartReport.push({ "name": rows[key].getElementsByTagName("td")[0].textContent, "status": 6 });
+    //     childPartSelected = 1;
+    // }
+    // });
+    console.log(childPartReport);
+    // console.log(damaged);
+    try {
+    var scp = await cc.setChildParts(childPartReport, selectedToolCode, workshop_id);
+
+    cc.closeConnection();
+    }
+    catch {
+    alert1("Error in fetching your details! Please check your internet connection.");
+    console.log("Error in setChildParts ! Please try again.");
+    }
+
+
+    if (childPartSelected != 1 && document.getElementById("child-part-table").hidden == false) {
+    alert1("Please select damaged part(s).");
+    return;
+    }
+
+
+    try {
+    var tooldetails = await cc.getToolProfile(selectedToolCode, workshop_id);
+    cc.closeConnection();
+    }
+    catch {
+    alert1("Error in fetching your details! Please check your internet connection.");
+    console.log("Error in getUserDetails ! Please try again.");
+    }
+    var toolname = tooldetails[0]["Tool Name"];
+    //console.log(toolname);
+    fname = currentUser[0]["First Name"];
+    lname = currentUser[0]["Last Name"];
+    try {
+    var resp2 = await cc.sendReport(selectedToolCode, emp_id, fname, lname, cause, reportText, status, toolname,workshop_id);
+    cc.closeConnection();
+    }
+    catch {
+    alert1("Error in fetching your details! Please check your internet connection.");
+    console.log("Error in sendReport ! Please try again.");
+    }
+    if (resp2 == 1) {
+    document.getElementById("report-modal").className = "modal";
+    alert1("Your report has been submitted.");
+    // document.getElementById("report-table").getElementsByTagName("tbody")[0].innerHTML = "";
+    document.getElementById("loader").hidden = false;
+    // document.getElementById("reportDM-entire-page").hidden = true;
+    
+    document.getElementById("loader").hidden = true;
+    // document.getElementById("reportDM-entire-page").hidden = false;
+    document.getElementById("report-text").defaultValue = "";
+    document.getElementById("damaged-functional").checked == false;
+    document.getElementById("damaged-nf").checked == false;
+    document.getElementById("missing").checked == false;
+    document.getElementById("missing-bf").checked == false;
+
+    initiateSetup();
+
+    return;
+    }
+    else {
+    alert1("Some error occurred. Please check your internet connection.");
+    return;
+    }
+
+    }
+
+  function createRowForRecordTable(dataRow) {
+        tableRow = document.createElement("tr");
+        reportdtColumn = document.createElement("td");
+        reportdtColumn.innerHTML = moment(new Date(dataRow["Report Datetime"])).format("DD-MMYYYY HH:mm:ss").toString();
+        // reportdtColumn.className = "tcode";
+        reseolvedtColumn = document.createElement("td");
+        reseolvedtColumn.innerHTML = moment(new Date(dataRow["Resolve Datetime"])).format("DD-MM-YYYY HH:mm:ss").toString();
+        // reseolvedtColumn.className = "tcode";
+        empColumn = document.createElement("td");
+        empColumn.innerHTML = dataRow["First Name"] + " " + dataRow["Last Name"] + " (" + dataRow["Emp ID"] + ")"; 
+        // empColumn.className = "tcode";
+        causeColumn = document.createElement("td");
+        causeColumn.innerHTML = dataRow["Cause"]; causeColumn.className = "tcode";
+        actionColumn = document.createElement("td");
+        actionColumn.innerHTML = dataRow["Action"]; actionColumn.className = "tcode";
+        remarksColumn = document.createElement("td");
+        remarksColumn.innerHTML = dataRow["Additional Remarks"]; remarksColumn.className = "tcode";
+        tableRow.appendChild(empColumn);
+        tableRow.appendChild(causeColumn);
+        tableRow.appendChild(remarksColumn);
+        tableRow.appendChild(reportdtColumn);
+        tableRow.appendChild(reseolvedtColumn);
+        tableRow.appendChild(actionColumn);
+        return tableRow;
+      }
+
+  function executeSearchRegister() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("register-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("request-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[2].innerHTML;
+      employee = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((employee.toUpperCase().indexOf(filter) > -1) || (toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchReports() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("reports-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("repair-history-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[0].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[1].innerHTML;
+      employee = tr[i].getElementsByTagName("td")[2].innerHTML;
+
+      if ((employee.toUpperCase().indexOf(filter) > -1) || (toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchTools() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("tools-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("only-tools-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchEquipment() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("equipment-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("only-equipment-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchMaterials() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("material-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("only-materials-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchAllTools() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("alltools-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("all-tools-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+  function executeSearchPendingReturns() {
+    // document.getElementById("loader").removeAttribute("hidden");
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("pending-returns-search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("pending-returns-table");
+    tr = table.getElementsByTagName("tr");
+    // console.log(tr);
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) {
+      toolname = tr[i].getElementsByTagName("td")[1].innerHTML;
+      tcode = tr[i].getElementsByTagName("td")[0].innerHTML;
+
+      if ((toolname.toUpperCase().indexOf(filter) > -1) || (tcode.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+
+    }
+    // document.getElementById("loader").hidden = true;
+  }
+
+
+  function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", async function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                selectedTechnicianID = inp.value;
+                var n1 = selectedTechnicianID.lastIndexOf("(");
+                var n2 = selectedTechnicianID.lastIndexOf(")");
+                selectedTechnicianID = selectedTechnicianID.substring(n1+1,n2);
+                // console.log(selectedTechnicianID);
+                document.getElementById("selected-technician-inspection").innerHTML = inp.value;
+                var user = await cc.getUserDetailsFromEmpID(selectedTechnicianID);
+                console.log(user);
+                document.getElementById("selected-company-inspection").innerHTML = user[0]["Company"];
+                checklistDataModal();
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+  }
+  
+
+  function technicianChangeInspection(newTechnicianValue) {
+    // technicianBox = document.getElementById("technician-box2");
+    if (newTechnicianValue) {
+      // technicianBox.getElementsByClassName("dropdown-content")[0].innerHTML = "";
+      toBeShownTechnicians = allTechnicians.filter(function (technician) {
+        if(technician["Authorised"] == 0)
+          return (technician["First Name"] + " " + technician["Last Name"] + " " + technician["Emp ID"]).toLowerCase().replace(/\s/g, '').includes(newTechnicianValue.replace(/\s/g, '').toLowerCase());
+        else
+          return;
+        });
+      toBeShownTechnicians.forEach(technician => {
+        optionNode = document.createElement("option");
+        optionNode.innerHTML = technician["First Name"] + " " + technician["Last Name"] + " (" + technician["Emp ID"] + ")";
+        optionNode.id = technician["Emp ID"];
+        optionNode.className = "dropdown-tech-option";
+        // technicianBox.getElementsByClassName("dropdown-content")[0].appendChild(optionNode);
+       
+        var inputValue = document.getElementById("technician-input-inspection");
+          inputValue.addEventListener("input", function (e) {
+          // optionNode.onclick = async () => {
+          console.log("andarrr aaa gayeeeee" + technician["Emp ID"]);
+          selectedTechnicianID = technician["Emp ID"];
+          document.getElementById("technician-input-inspection").value = technician["First Name"] + " " + technician["Last Name"] + " (" + technician["Emp ID"] + ")";
+          //  document.getElementById("inspection-selected-name").innerHTML = technician["First Name"] + " " + technician["Last Name"] + " (" + technician["Emp ID"] + ")";
+          // technicianBox.className = "dropdown";
+          console.log(technician);
+          checklistDataModal();
+        });
+        
+        document.getElementById("datalistOptions").appendChild(optionNode);
+        
+        console.log(optionNode);
+      })
+
+      // technicianBox.className = "dropdown is-active"; 
+      // document.getElementsByClassName("dropdown-content").dropdown();
+    }
+    else {
+      // technicianBox.className = "dropdown";
+    }
+  }
+  async function checklistDataModal() {
+    document.getElementById("checklist-data-table").hidden = false;
+    // document.getElementById("inspection-legend").hidden = false;
+    document.getElementById("checklist-data-tbody").innerHTML = "";
+    var e = document.getElementById("month");
+    var m = e.options[e.selectedIndex].value;
+    document.getElementById("month-year").innerHTML = e.options[e.selectedIndex].innerHTML;
+    e = document.getElementById("year"); 
+    var y = e.options[e.selectedIndex].text;
+    document.getElementById("month-year").innerHTML += " " + y;
+    if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
+      var rd = 31;
+      document.getElementById("29").hidden = false;
+      document.getElementById("30").hidden = false;
+      document.getElementById("31").hidden = false;
+    }
+    else if (m == 4 || m == 6 || m == 9 || m == 11) {
+      var rd = 30;
+      document.getElementById("29").hidden = false;
+      document.getElementById("30").hidden = false;
+      document.getElementById("31").hidden = true;
+    }
+    else if (m == 2 && y % 4 == 0 && (y % 100 != 0 || y % 400 == 0)) {
+      var rd = 29;
+      document.getElementById("29").hidden = false;
+      document.getElementById("30").hidden = true;
+      document.getElementById("31").hidden = true;
+    }
+    else if (m == 2 && y % 4 != 0) {
+      var rd = 28;
+      document.getElementById("29").hidden = true;
+      document.getElementById("30").hidden = true;
+      document.getElementById("31").hidden = true;
+    }
+    try {
+      data = await cc.getMyTools(selectedTechnicianID, workshop_id);
+      cc.closeConnection();
+    }
+    catch {
+      alert1("Error in fetching your details! Please check your internet connection.");
+      console.log("Error in getMyTools ! Please try again.");
+    }
+    // console.log(data);
+    document.getElementById("checklist-data-table").getElementsByTagName("tbody")[0].innerHTML = '';
+    data.forEach(dataRow => {
+      // console.log(dataRow);
+      var createdElement = createRowForToolInspection(dataRow, rd);
+      if (createdElement) {
+        document.getElementById("checklist-data-table").getElementsByTagName("tbody")[0].appendChild(createdElement);
+      }
+    });
+    try {
+      totalRepairHistory = await cc.getRepairHistory(workshop_id);
+          cc.closeConnection();
+        }
+        catch {
+          alert1("Error in fetching your details! Please n.");
+          // cons
+        }
+        console.log(totalRepairHistory);
+        document.getElementById("hand-tools-report").getElementsByTagName("tbody")[0].innerHTML = '';
+        for(i=0; i< totalRepairHistory.length;i++) {
+        // totalRepairHistory.forEach(dataRow => {
+        // console.log(totalRepairHistory[i]["Tool Code"]);
+        var tooldetails = await cc.getToolProfile(totalRepairHistory[i]["Tool Code"], workshop_id);
+        var permanent = tooldetails[0]["Permanent"];
+        console.log(permanent);
+        if(totalRepairHistory[i]["Emp ID"] == selectedTechnicianID && permanent == 1)
+          document.getElementById("hand-tools-report").getElementsByTagName("tbody")[0].appendChild(createRowForRepairHistoryTable(totalRepairHistory[i]));
+        }
+    var startDate = y + "-" + m + "-01";
+    var currentDate = y + "-" + m;
+    m = parseInt(m) + 1;
+    if (parseInt(m) <= 9)
+      m = "0" + m;
+    var endDate = y + "-" + m + "-01";
+    // console.log(endDate);
+    var moment = require('moment-timezone');
+    var x = moment();
+    d = x.format("DD");
+    x = x.format("YYYY-MM-DD").toString();
+    for (var i = 0; i < data.length; i++) {
+      var dofp = moment(new Date(data[i]["Date of Allotment"]));
+      z = dofp.format("DD");
+      dofp = dofp.format("YYYY-MM-DD");
+      // console.log(z);
+      // console.log(endDate);
+      // <td class="inspdata"><i class="fas fa-square" style="color:#00ff00 ;"></i></td>
+      if (endDate <= dofp) {
+        // console.log(endDate + " " + dofp);
+        for (var k = 0; k < rd; k++) {
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';
+        }
+      }
+      else if (dofp >= startDate) {
+        for (var k = 0; k < z; k++) {
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';        
+        }
+      }
+      if (x > startDate && x < endDate) {
+        // console.log(d + " " + rd);
+        for (var k = d; k < rd;) {
+          k++;
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';
+        }
+      }
+    }
+
+    if (x < startDate) {
+      for (var i = 0; i < data.length; i++) {
+
+        for (var k = 0; k < rd; k++) {
+          var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+          cell.className = "inspdata";
+          cell.innerHTML = '<i class="fas fa-square" style="color: #999966; ;"></i>';
+        }
+      }
+      return;
+    }
+    var sd = "2020-01-01";
+    var ed = "2030-01-01";
+    for (var i = 0; i < data.length; i++) {
+      var repairHistory = null;
+      try {
+        repairHistory = await cc.getRepairHistoryOfATool(data[i]["Tool Code"], sd, ed, workshop_id);
+      }
+      catch {
+        console.log("error in getRepairHistoryOfATool");
+      }
+      // console.log(repairHistory);
+      for (var j = 0; j < repairHistory.length; j++) {
+
+        var repdt = moment(new Date(repairHistory[j]["Report Datetime"]));
+        var d = repdt.format("DD");
+        repdt = repdt.format("YYYY-MM-DD");
+        var resdt = moment(new Date(repairHistory[j]["Resolve Datetime"]));
+        var resd = resdt.format("DD");
+        resdt = resdt.format("YYYY-MM-DD");
+        // console.log(repdt + " " + resdt);
+        if ((repdt > endDate) || (resdt && resdt < startDate && resdt > sd)) {
+          // console.log("not this month" + repdt + " " + endDate + " " + resdt + repairHistory[j]["Tool Name"]);
+          continue;
+        }// if(repdt < startDate && !resdt)
+        // {
+        //     for (var k = d; k < rd;) {
+        //     k++;
+        //     document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k].style.background = "grey";
+        //     } 
+        // }
+        // var d = repairHistory[j]["Report Datetime"].getDate();
+        e = document.getElementById("month");
+        m = e.options[e.selectedIndex].value;
+
+        if (resdt && resdt < endDate && resdt > sd) {
+          endreport = resd;
+        }
+        else if(endDate > x)
+        {
+          endreport = x.lastIndexOf("-");
+          endreport = x.substring(endreport+1);
+        }
+        else {
+          endreport = rd;
+        }
+        // console.log(resdt + " " + sd + " " + endreport);
+        if ((repdt < startDate)) {
+          d = 0;
+        }
+        // console.log(d + " " + rd);
+        console.log(endreport);
+        for (var k = d; k < endreport;k++) {
+          var curDate = currentDate += "-" + k;
+          // k++;
+          if (document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k].innerHTML == '<i class="fas fa-square" style="color: #999966; ;"></i>')
+            break;
+          // if(x<curDate)
+          // {
+          // console.log("report");
+          //     document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1].style.background = "grey";
+          // }
+          if (repairHistory[j]["Cause"] == "Missing")
+          {
+            var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+            cell.className = "inspdata";
+            cell.innerHTML = '<i class="fas fa-square" style="color: yellow ;"></i>';
+          }
+          else if (repairHistory[j]["Cause"] == "damaged")
+          {
+            var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+            cell.className = "inspdata";
+            cell.innerHTML = '<i class="fas fa-square" style="color: red ;"></i>';
+          }          
+          else if (repairHistory[j]["Cause"] == "damaged but functional")
+          {
+            var cell = document.getElementById("checklist-data-table").getElementsByTagName("tr")[i + 1].getElementsByTagName("td")[k + 1];
+            cell.className = "inspdata";
+            cell.innerHTML = '<i class="fas fa-square" style="color: orange ;"></i>';
+          }        
+        }
+      }
+    }
+  }
+  function createRowForToolInspection(dataRow, rd) {
+    tableRow = document.createElement("tr");
+    toolnameColumn = document.createElement("td"); 
+    // toolnameColumn.className = "tname-inspection";
+    toolnameColumn.innerHTML = dataRow["Tool Code"];
+    tableRow.appendChild(toolnameColumn);
+
+    for (var i = 0; i < rd; i++) {
+      oneColumn = document.createElement("td");
+      oneColumn.className = "inspdata";
+      oneColumn.innerHTML = '<i class="fas fa-square" style="color: #00ff00 ;"></i>';
+      tableRow.appendChild(oneColumn);
+    }
+    return tableRow;
+  }
+  function exportDivAsPDF(x) {
+    document.getElementById("loader").removeAttribute("hidden");
+    generatePDFForDiv(x);
+  }
+  function exportAsPDF(x, y) {
+    document.getElementById("loader").removeAttribute("hidden");
+    generatePDF(x, y);
+  }
+
+      function logout() {
+        document.location = 'index.html';
+        alertDisappearing("Logged Out");
+        // document.location = "https://firebasestorage.googleapis.com/v0/b/orcus-fb184.appspot.com/o/release%2Findex.html?alt=media&token=b1e83188-3026-48e0-a8ef-e99741f5c20f";
+      }
+      function manageShortcuts(e) {
+      var evtobj = window.event ? event : e
+      if (evtobj.keyCode == 82 && evtobj.ctrlKey) {
+        e.preventDefault();
+      location.reload();
+    }
+  }
+
+    function alert1(alertMessage) {
+        document.getElementById("alert-modal-text").innerHTML = alertMessage;
+        var options = { backdrop: "static", keyboard: true, focus: true };
+          var alertModal = new bootstrap.Modal(document.getElementById("alert-modal"), options)
+          alertModal.show();
+    }
+
+    function alertDisappearing(alertMessage) {
+        if (alertMessage) {
+            document.getElementById("alert-modal-text").innerHTML = alertMessage;
+        }
+        var options = { backdrop: "static", keyboard: true, focus: true };
+        var alertModal = new bootstrap.Modal(document.getElementById("alert-modal"), options)
+        alertModal.show();
+        setTimeout(() => { alertModal.hide() }, 2000);
+    }
+    
+    </script>
 </html>
